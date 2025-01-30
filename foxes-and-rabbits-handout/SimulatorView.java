@@ -16,7 +16,7 @@ import java.util.Map;
 public class SimulatorView extends JFrame
 {
     // Colors used for empty locations.
-    private static final Color EMPTY_COLOR = Color.white;
+    private static final Color EMPTY_COLOR = Color.blue;
 
     // Color used for objects that have no defined color.
     private static final Color UNKNOWN_COLOR = Color.gray;
@@ -42,7 +42,7 @@ public class SimulatorView extends JFrame
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
         setColor(Rabbit.class, Color.orange);
-        setColor(Fox.class, Color.blue);
+        setColor(Fox.class, Color.white);
 
         setTitle("Fox and Rabbit Simulation");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);

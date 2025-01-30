@@ -159,6 +159,7 @@ public class Simulator
 
     public static void main (String[] arg)
     {
-        
+        Simulator simulation = new Simulator();
+        simulation.runLongSimulation();
     }
 }
