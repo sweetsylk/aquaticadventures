@@ -57,6 +57,7 @@ public class Simulator
     /**
      * Run the simulation from its current state for a reasonably long 
      * period (4000 steps).
+     * read this
      */
     public void runLongSimulation()
     {
