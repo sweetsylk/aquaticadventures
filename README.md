@@ -64,6 +64,9 @@ angelar fish:
   breeding probability of 0.1
   max litter size 4
 
-disease slows animal down and if animal with disease is eaten then it becomes diseased itself
+disease slows animal down and if animal with disease is eaten then it becomes diseased itself + if 2 animals breed they will pass on disease
 
-warmer temperatures lead to faster processes
+warmer temperatures lead to faster processes:
+  require more food 
+  don't move as much
+  breed more often
