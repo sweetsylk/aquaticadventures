@@ -23,6 +23,7 @@ Sharks:
 
 Orcas:
   can eat shark
+  has to eat sharks every 15 steps
   live for a max of 80 years
   can breed at 9 years
   breeding probability 0.02
@@ -30,12 +31,14 @@ Orcas:
   
 Tuna:
   eat cod and salmon
+  has to eat either every 5 steps
   live for a max of 20 years
   breeding probability 0.12
   max litter size 5
   
 Whale:
   eat Tuna and cod and salmon and algae
+  has to eat any every 25 steps
   live for 100 years
   can breed at 15
   breeding probability 0.03
@@ -43,6 +46,7 @@ Whale:
   
 cod:
   eats algae
+  has to eat every 3 steps
   live for 10 years
   can breed at 2 years
   breeding probability 0.15
@@ -50,6 +54,7 @@ cod:
 
 Salmon:
   eats algae 
+  has to eat every 2 steps
   live for 8 yeears
   can breed at 1 years
   breeding probabilty 0.18
@@ -57,7 +62,8 @@ Salmon:
 
 
 angelar fish:
-  eat cod and salmon 
+  eat cod and salmon
+  has to eat every 7 steps
   they are nocturnal
   live for 40 years
   can breed at 10 years
