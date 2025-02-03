@@ -2,20 +2,20 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * A simple model of a rabbit.
- * Rabbits age, move, breed, and die.
+ * A simple model of a cod.
+ * Cods age, move, breed, and die.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Rabbit extends Animal
+public class Cod extends Animal
 {
     // Characteristics shared by all rabbits (class variables).
-    // The age at which a rabbit can start to breed.
+    // The age at which a cod can start to breed.
     private static final int BREEDING_AGE = 5;
-    // The age to which a rabbit can live.
+    // The age to which a cod can live.
     private static final int MAX_AGE = 40;
-    // The likelihood of a rabbit breeding.
+    // The likelihood of a cod breeding.
     private static final double BREEDING_PROBABILITY = 0.2;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 4;
@@ -24,17 +24,17 @@ public class Rabbit extends Animal
     
     // Individual characteristics (instance fields).
     
-    // The rabbit's age.
+    // The cod's age.
     private int age;
 
     /**
-     * Create a new rabbit. A rabbit may be created with age
+     * Create a new cod. A cod may be created with age
      * zero (a new born) or with a random age.
      * 
-     * @param randomAge If true, the rabbit will have a random age.
+     * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
      */
-    public Rabbit(boolean randomAge, Location location)
+    public Cod(boolean randomAge, Location location)
     {
         super(location);
         age = 0;
@@ -44,7 +44,7 @@ public class Rabbit extends Animal
     }
     
     /**
-     * This is what the rabbit does most of the time - it runs 
+     * This is what the cod does most of the time - it runs
      * around. Sometimes it will breed or die of old age.
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
@@ -73,7 +73,7 @@ public class Rabbit extends Animal
 
     @Override
     public String toString() {
-        return "Rabbit{" +
+        return "Cod{" +
                 "age=" + age +
                 ", alive=" + isAlive() +
                 ", location=" + getLocation() +
@@ -82,7 +82,7 @@ public class Rabbit extends Animal
 
     /**
      * Increase the age.
-     * This could result in the rabbit's death.
+     * This could result in the cod's death.
      */
     private void incrementAge()
     {
@@ -93,7 +93,7 @@ public class Rabbit extends Animal
     }
     
     /**
-     * Check whether or not this rabbit is to give birth at this step.
+     * Check whether or not this cod is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
@@ -105,7 +105,7 @@ public class Rabbit extends Animal
         if(births > 0) {
             for (int b = 0; b < births && !freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
-                Rabbit young = new Rabbit(false, loc);
+                Cod young = new Cod(false, loc);
                 nextFieldState.placeAnimal(young, loc);
             }
         }
@@ -129,8 +129,8 @@ public class Rabbit extends Animal
     }
 
     /**
-     * A rabbit can breed if it has reached the breeding age.
-     * @return true if the rabbit can breed, false otherwise.
+     * A cod can breed if it has reached the breeding age.
+     * @return true if the cod can breed, false otherwise.
      */
     private boolean canBreed()
     {

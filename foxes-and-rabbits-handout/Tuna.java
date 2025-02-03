@@ -3,44 +3,44 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * A simple model of a fox.
- * Foxes age, move, eat rabbits, and die.
+ * A simple model of a tuna.
+ * Tunas age, move, eat cod and salmon, and die.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Fox extends Animal
+public class Tuna extends Animal
 {
-    // Characteristics shared by all foxes (class variables).
-    // The age at which a fox can start to breed.
-    private static final int BREEDING_AGE = 15;
-    // The age to which a fox can live.
-    private static final int MAX_AGE = 150;
-    // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.9;
+    // Characteristics shared by all tuba (class variables).
+    // The age at which a Tuna can start to breed.
+    private static final int BREEDING_AGE = 4;
+    // The age to which a Tuna can live.
+    private static final int MAX_AGE = 20;
+    // The likelihood of a Tuna breeding.
+    private static final double BREEDING_PROBABILITY = 0.12;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 2;
-    // The food value of a single rabbit. In effect, this is the
-    // number of steps a fox can go before it has to eat again.
-    private static final int RABBIT_FOOD_VALUE = 9;
+    private static final int MAX_LITTER_SIZE = 5;
+    // The food value of a single prey. In effect, this is the
+    // number of steps a tuna can go before it has to eat again.
+    private static final int COD_FOOD_VALUE = 5;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
     // Individual characteristics (instance fields).
 
-    // The fox's age.
+    // The tuna's age.
     private int age;
-    // The fox's food level, which is increased by eating rabbits.
+    // The tuna's food level, which is increased by eating cod or salmon.
     private int foodLevel;
 
     /**
-     * Create a fox. A fox can be created as a new born (age zero
+     * Create a tuna. A tuna can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
-     * @param randomAge If true, the fox will have random age and hunger level.
+     * @param randomAge If true, the tuna will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Fox(boolean randomAge, Location location)
+    public Tuna(boolean randomAge, Location location)
     {
         super(location);
         if(randomAge) {
@@ -49,11 +49,11 @@ public class Fox extends Animal
         else {
             age = 0;
         }
-        foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
+        foodLevel = rand.nextInt(COD_FOOD_VALUE);
     }
     
     /**
-     * This is what the fox does most of the time: it hunts for
+     * This is what the tuna does most of the time: it hunts for
      * rabbits. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param currentField The field currently occupied.
@@ -91,7 +91,7 @@ public class Fox extends Animal
 
     @Override
     public String toString() {
-        return "Fox{" +
+        return "Tuna{" +
                 "age=" + age +
                 ", alive=" + isAlive() +
                 ", location=" + getLocation() +
@@ -100,7 +100,7 @@ public class Fox extends Animal
     }
 
     /**
-     * Increase the age. This could result in the fox's death.
+     * Increase the age. This could result in the tuna's death.
      */
     private void incrementAge()
     {
@@ -111,7 +111,7 @@ public class Fox extends Animal
     }
     
     /**
-     * Make this fox more hungry. This could result in the fox's death.
+     * Make this tuna more hungry. This could result in the tuna's death.
      */
     private void incrementHunger()
     {
@@ -123,7 +123,7 @@ public class Fox extends Animal
     
     /**
      * Look for rabbits adjacent to the current location.
-     * Only the first live rabbit is eaten.
+     * Only the first live cod is eaten.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
@@ -135,10 +135,10 @@ public class Fox extends Animal
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
             Animal animal = field.getAnimalAt(loc);
-            if(animal instanceof Rabbit rabbit) {
-                if(rabbit.isAlive()) {
-                    rabbit.setDead();
-                    foodLevel = RABBIT_FOOD_VALUE;
+            if(animal instanceof Cod cod) {
+                if(cod.isAlive()) {
+                    cod.setDead();
+                    foodLevel = COD_FOOD_VALUE;
                     foodLocation = loc;
                 }
             }
@@ -147,7 +147,7 @@ public class Fox extends Animal
     }
     
     /**
-     * Check whether this fox is to give birth at this step.
+     * Check whether this tuna is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
@@ -159,7 +159,7 @@ public class Fox extends Animal
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
-                Fox young = new Fox(false, loc);
+                Tuna young = new Tuna(false, loc);
                 nextFieldState.placeAnimal(young, loc);
             }
         }
@@ -183,7 +183,7 @@ public class Fox extends Animal
     }
 
     /**
-     * A fox can breed if it has reached the breeding age.
+     * A tuna can breed if it has reached the breeding age.
      */
     private boolean canBreed()
     {

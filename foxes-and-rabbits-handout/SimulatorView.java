@@ -41,10 +41,10 @@ public class SimulatorView extends JFrame
     {
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
-        setColor(Rabbit.class, Color.orange);
-        setColor(Fox.class, Color.white);
+        setColor(Cod.class, Color.orange);
+        setColor(Tuna.class, Color.white);
 
-        setTitle("Fox and Rabbit Simulation");
+        setTitle("Aquatic Adventures");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
         

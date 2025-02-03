@@ -114,25 +114,25 @@ public class Field
     }
 
     /**
-     * Print out the number of foxes and rabbits in the field.
+     * Print out the number of tunas and cods in the field.
      */
     public void fieldStats()
     {
-        int numFoxes = 0, numRabbits = 0;
+        int numTunas = 0, numCods = 0;
         for(Animal anAnimal : field.values()) {
-            if(anAnimal instanceof Fox fox) {
-                if(fox.isAlive()) {
-                    numFoxes++;
+            if(anAnimal instanceof Tuna tuna) {
+                if(tuna.isAlive()) {
+                    numTunas++;
                 }
             }
-            else if(anAnimal instanceof Rabbit rabbit) {
-                if(rabbit.isAlive()) {
-                    numRabbits++;
+            else if(anAnimal instanceof Cod cod) {
+                if(cod.isAlive()) {
+                    numCods++;
                 }
             }
         }
-        System.out.println("Rabbits: " + numRabbits +
-                           " Foxes: " + numFoxes);
+        System.out.println("Cods: " + numCods +
+                           " Tunas: " + numTunas);
     }
 
     /**
@@ -144,28 +144,28 @@ public class Field
     }
 
     /**
-     * Return whether there is at least one rabbit and one fox in the field.
-     * @return true if there is at least one rabbit and one fox in the field.
+     * Return whether there is at least one cod and one tuna in the field.
+     * @return true if there is at least one cod and one tuna in the field.
      */
     public boolean isViable()
     {
-        boolean rabbitFound = false;
-        boolean foxFound = false;
+        boolean codFound = false;
+        boolean tunaFound = false;
         Iterator<Animal> it = animals.iterator();
-        while(it.hasNext() && ! (rabbitFound && foxFound)) {
+        while(it.hasNext() && ! (codFound && tunaFound)) {
             Animal anAnimal = it.next();
-            if(anAnimal instanceof Rabbit rabbit) {
-                if(rabbit.isAlive()) {
-                    rabbitFound = true;
+            if(anAnimal instanceof Cod cod) {
+                if(cod.isAlive()) {
+                    codFound = true;
                 }
             }
-            else if(anAnimal instanceof Fox fox) {
-                if(fox.isAlive()) {
-                    foxFound = true;
+            else if(anAnimal instanceof Tuna tuna) {
+                if(tuna.isAlive()) {
+                    tunaFound = true;
                 }
             }
         }
-        return rabbitFound && foxFound;
+        return codFound && tunaFound;
     }
     
     /**

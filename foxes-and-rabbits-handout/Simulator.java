@@ -14,10 +14,10 @@ public class Simulator
     private static final int DEFAULT_WIDTH = 120;
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
-    // The probability that a fox will be created in any given grid position.
-    private static final double FOX_CREATION_PROBABILITY = 0.02;
-    // The probability that a rabbit will be created in any given position.
-    private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
+    // The probability that a tuna will be created in any given grid position.
+    private static final double TUNA_CREATION_PROBABILITY = 0.02;
+    // The probability that a cod will be created in any given position.
+    private static final double COD_CREATION_PROBABILITY = 0.08;
 
     // The current state of the field.
     private Field field;
@@ -80,7 +80,7 @@ public class Simulator
     
     /**
      * Run the simulation from its current state for a single step.
-     * Iterate over the whole field updating the state of each fox and rabbit.
+     * Iterate over the whole field updating the state of each tuna and cod.
      */
     public void simulateOneStep()
     {
@@ -120,15 +120,15 @@ public class Simulator
         field.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
+                if(rand.nextDouble() <= TUNA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Fox fox = new Fox(true, location);
-                    field.placeAnimal(fox, location);
+                    Tuna tuna = new Tuna(true, location);
+                    field.placeAnimal(tuna, location);
                 }
-                else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
+                else if(rand.nextDouble() <= COD_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Rabbit rabbit = new Rabbit(true, location);
-                    field.placeAnimal(rabbit, location);
+                    Cod cod = new Cod(true, location);
+                    field.placeAnimal(cod, location);
                 }
                 // else leave the location empty.
             }
