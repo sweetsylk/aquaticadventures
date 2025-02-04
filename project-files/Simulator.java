@@ -19,6 +19,7 @@ public class Simulator
     // The probability that a cod will be created in any given position.
     private static final double COD_CREATION_PROBABILITY = 0.1;
     private static final double SHARK_CREATION_PROBABILITY = 0.02;
+    private static final double ORCA_CREATION_PROBABILITY = 0.015;
 
     // The current state of the field.
     private Field field;
@@ -122,7 +123,14 @@ public class Simulator
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
 
-                if(rand.nextDouble() <= SHARK_CREATION_PROBABILITY) {
+                if(rand.nextDouble() <= ORCA_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Orca orca = new Orca(true, location);
+                    field.placeAnimal(orca, location);
+
+                }
+
+                else if(rand.nextDouble() <= SHARK_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Shark shark = new Shark(true, location);
                     field.placeAnimal(shark, location);

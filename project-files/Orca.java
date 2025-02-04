@@ -3,44 +3,44 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * A SHARK!!!
- * Shark's age, move, eat cod and salmon, and die.
+ * A KILLER SHARKKKK!!!
+ * Orca's age, move, eat SHARKS, and die.
  *
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Shark extends Animal
+public class Orca extends Animal
 {
     // Characteristics shared by all tuba (class variables).
-    // The age at which a Shark can start to breed.
-    private static final int BREEDING_AGE = 5;
-    // The age to which a Shark can live.
-    private static final int MAX_AGE = 85;
-    // The likelihood of a Shark breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    // The age at which a Orca can start to breed.
+    private static final int BREEDING_AGE = 12;
+    // The age to which a Orca can live.
+    private static final int MAX_AGE = 100;
+    // The likelihood of a Orca breeding.
+    private static final double BREEDING_PROBABILITY = 0.05;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single prey. In effect, this is the
-    // number of steps a Shark can go before it has to eat again.
-    private static final int TUNA_FOOD_VALUE = 23;
+    // number of steps a Orca can go before it has to eat again.
+    private static final int SHARK_FOOD_VALUE = 30;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
     // Individual characteristics (instance fields).
 
-    // The shark's age.
+    // The orca's age.
     private int age;
-    // The shark's food level, which is increased by eating a shark.
+    // The orca's food level, which is increased by eating a shark.
     private int foodLevel;
 
     /**
-     * Create a sharj. A shark can be created as a new born (age zero
+     * Create an orca. an orca can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      *
-     * @param randomAge If true, the shark will have random age and hunger level.
+     * @param randomAge If true, the orca will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Shark(boolean randomAge, Location location)
+    public Orca(boolean randomAge, Location location)
     {
         super(location);
         if(randomAge) {
@@ -49,12 +49,12 @@ public class Shark extends Animal
         else {
             age = 0;
         }
-        foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
+        foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }
 
     /**
-     * This is what the Shark does most of the time: it hunts for
-     * Tuna. In the process, it might breed, die of hunger,
+     * This is what the Orca does most of the time: it hunts for
+     * Sharks. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
@@ -91,7 +91,7 @@ public class Shark extends Animal
 
     @Override
     public String toString() {
-        return "Shark{" +
+        return "Orca{" +
                 "age=" + age +
                 ", alive=" + isAlive() +
                 ", location=" + getLocation() +
@@ -100,7 +100,7 @@ public class Shark extends Animal
     }
 
     /**
-     * Increase the age. This could result in the Shark's death.
+     * Increase the age. This could result in the Orca's death.
      */
     private void incrementAge()
     {
@@ -111,7 +111,7 @@ public class Shark extends Animal
     }
 
     /**
-     * Make this Shark more hungry. This could result in the Shark's death.
+     * Make this Orca more hungry. This could result in the Orca's death.
      */
     private void incrementHunger()
     {
@@ -123,7 +123,7 @@ public class Shark extends Animal
 
     /**
      * Look for animals adjacent to the current location.
-     * Only the first live tuna is eaten.
+     * Only the first live shark is eaten.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
@@ -135,10 +135,10 @@ public class Shark extends Animal
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
             Animal animal = field.getAnimalAt(loc);
-            if(animal instanceof Tuna tuna) {
-                if(tuna.isAlive()) {
-                    tuna.setDead();
-                    foodLevel += TUNA_FOOD_VALUE;
+            if(animal instanceof Shark shark) {
+                if(shark.isAlive()) {
+                    shark.setDead();
+                    foodLevel += SHARK_FOOD_VALUE;
                     foodLocation = loc;
                 }
             }
@@ -147,7 +147,7 @@ public class Shark extends Animal
     }
 
     /**
-     * Check whether this Shark is to give birth at this step.
+     * Check whether this Orca is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
@@ -159,7 +159,7 @@ public class Shark extends Animal
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
-                Shark young = new Shark(false, loc);
+                Orca young = new Orca(false, loc);
                 nextFieldState.placeAnimal(young, loc);
             }
         }
@@ -183,7 +183,7 @@ public class Shark extends Animal
     }
 
     /**
-     * A Shark can breed if it has reached the breeding age.
+     * A Orca can breed if it has reached the breeding age.
      */
     private boolean canBreed()
     {

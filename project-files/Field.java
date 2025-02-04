@@ -118,7 +118,7 @@ public class Field
      */
     public void fieldStats()
     {
-        int numTunas = 0, numCods = 0, numSharks = 0;
+        int numTunas = 0, numCods = 0, numSharks = 0, numOrcas = 0;
         for(Animal anAnimal : field.values()) {
             if(anAnimal instanceof Tuna tuna) {
                 if(tuna.isAlive()) {
@@ -135,14 +135,15 @@ public class Field
                     numSharks++;
                 }
             }
+            else if(anAnimal instanceof Orca orca) {
+                if(orca.isAlive()) {
+                    numOrcas++;
+                }
         }
         System.out.println("Cods: " + numCods +
-                           " Tunas: " + numTunas + " Sharks: " + numSharks);
-    }
+                           " Tunas: " + numTunas + " Sharks: " + numSharks + " Orcas: " + numOrcas);
+    }}
 
-    /**
-     * Empty the field.
-     */
     public void clear()
     {
         field.clear();
@@ -157,8 +158,9 @@ public class Field
         boolean codFound = false;
         boolean tunaFound = false;
         boolean sharkFound = false;
+        boolean orcaFound = false;
         Iterator<Animal> it = animals.iterator();
-        while(it.hasNext() && ! (codFound && tunaFound && sharkFound)) {
+        while(it.hasNext() && ! (codFound && tunaFound && sharkFound && orcaFound)) {
             Animal anAnimal = it.next();
             if(anAnimal instanceof Cod cod) {
                 if(cod.isAlive()) {
@@ -175,8 +177,13 @@ public class Field
                     sharkFound = true;
                 }
             }
+            else if(anAnimal instanceof Orca orca) {
+                if(orca.isAlive()) {
+                    orcaFound = true;
+                }
+            }
         }
-        return codFound && tunaFound && sharkFound;
+        return codFound && tunaFound && sharkFound && orcaFound;
     }
     
     /**
