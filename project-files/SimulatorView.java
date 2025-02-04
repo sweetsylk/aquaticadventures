@@ -16,7 +16,7 @@ import java.util.Map;
 public class SimulatorView extends JFrame
 {
     // Colors used for empty locations.
-    private static final Color EMPTY_COLOR = Color.blue;
+    private static final Color EMPTY_COLOR = new Color(32, 230, 230);
 
     // Color used for objects that have no defined color.
     private static final Color UNKNOWN_COLOR = Color.gray;
@@ -39,10 +39,15 @@ public class SimulatorView extends JFrame
      */
     public SimulatorView(int height, int width)
     {
+        Color sharkColor = new Color(122,121,111);
+        Color waterColor = new Color(32, 230, 230);
+        Color tunaColor = new Color(234, 111, 111);
+        Color codColor = new Color(61, 190, 98);
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
-        setColor(Cod.class, Color.orange);
-        setColor(Tuna.class, Color.white);
+        setColor(Cod.class, codColor);
+        setColor(Tuna.class, tunaColor);
+        setColor(Shark.class, sharkColor);
 
         setTitle("Aquatic Adventures");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);

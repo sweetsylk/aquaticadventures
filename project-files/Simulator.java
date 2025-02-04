@@ -15,9 +15,10 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a tuna will be created in any given grid position.
-    private static final double TUNA_CREATION_PROBABILITY = 0.02;
+    private static final double TUNA_CREATION_PROBABILITY = 0.03;
     // The probability that a cod will be created in any given position.
-    private static final double COD_CREATION_PROBABILITY = 0.08;
+    private static final double COD_CREATION_PROBABILITY = 0.1;
+    private static final double SHARK_CREATION_PROBABILITY = 0.02;
 
     // The current state of the field.
     private Field field;
@@ -120,7 +121,14 @@ public class Simulator
         field.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                if(rand.nextDouble() <= TUNA_CREATION_PROBABILITY) {
+
+                if(rand.nextDouble() <= SHARK_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Shark shark = new Shark(true, location);
+                    field.placeAnimal(shark, location);
+
+                }
+                else if(rand.nextDouble() <= TUNA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Tuna tuna = new Tuna(true, location);
                     field.placeAnimal(tuna, location);

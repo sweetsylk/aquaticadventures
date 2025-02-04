@@ -3,44 +3,44 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * A simple model of a tuna.
- * Tunas age, move, eat cod and salmon, and die.
- * 
+ * A SHARK!!!
+ * Shark's age, move, eat cod and salmon, and die.
+ *
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Tuna extends Animal
+public class Shark extends Animal
 {
     // Characteristics shared by all tuba (class variables).
-    // The age at which a Tuna can start to breed.
-    private static final int BREEDING_AGE = 4;
-    // The age to which a Tuna can live.
-    private static final int MAX_AGE = 25;
-    // The likelihood of a Tuna breeding.
-    private static final double BREEDING_PROBABILITY = 0.2;
+    // The age at which a Shark can start to breed.
+    private static final int BREEDING_AGE = 5;
+    // The age to which a Shark can live.
+    private static final int MAX_AGE = 85;
+    // The likelihood of a Shark breeding.
+    private static final double BREEDING_PROBABILITY = 0.075;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 6;
+    private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single prey. In effect, this is the
-    // number of steps a tuna can go before it has to eat again.
-    private static final int COD_FOOD_VALUE = 10;
+    // number of steps a Shark can go before it has to eat again.
+    private static final int TUNA_FOOD_VALUE = 15;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
-    
+
     // Individual characteristics (instance fields).
 
-    // The tuna's age.
+    // The shark's age.
     private int age;
-    // The tuna's food level, which is increased by eating cod or salmon.
+    // The shark's food level, which is increased by eating a shark.
     private int foodLevel;
 
     /**
-     * Create a tuna. A tuna can be created as a new born (age zero
+     * Create a sharj. A shark can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
-     * 
-     * @param randomAge If true, the tuna will have random age and hunger level.
+     *
+     * @param randomAge If true, the shark will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Tuna(boolean randomAge, Location location)
+    public Shark(boolean randomAge, Location location)
     {
         super(location);
         if(randomAge) {
@@ -49,12 +49,12 @@ public class Tuna extends Animal
         else {
             age = 0;
         }
-        foodLevel = rand.nextInt(COD_FOOD_VALUE);
+        foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
     }
-    
+
     /**
-     * This is what the tuna does most of the time: it hunts for
-     * rabbits. In the process, it might breed, die of hunger,
+     * This is what the Shark does most of the time: it hunts for
+     * Tuna. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
@@ -91,7 +91,7 @@ public class Tuna extends Animal
 
     @Override
     public String toString() {
-        return "Tuna{" +
+        return "Shark{" +
                 "age=" + age +
                 ", alive=" + isAlive() +
                 ", location=" + getLocation() +
@@ -100,7 +100,7 @@ public class Tuna extends Animal
     }
 
     /**
-     * Increase the age. This could result in the tuna's death.
+     * Increase the age. This could result in the Shark's death.
      */
     private void incrementAge()
     {
@@ -109,9 +109,9 @@ public class Tuna extends Animal
             setDead();
         }
     }
-    
+
     /**
-     * Make this tuna more hungry. This could result in the tuna's death.
+     * Make this Shark more hungry. This could result in the Shark's death.
      */
     private void incrementHunger()
     {
@@ -120,10 +120,10 @@ public class Tuna extends Animal
             setDead();
         }
     }
-    
+
     /**
-     * Look for rabbits adjacent to the current location.
-     * Only the first live cod is eaten.
+     * Look for animals adjacent to the current location.
+     * Only the first live tuna is eaten.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
@@ -135,19 +135,19 @@ public class Tuna extends Animal
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
             Animal animal = field.getAnimalAt(loc);
-            if(animal instanceof Cod cod) {
-                if(cod.isAlive()) {
-                    cod.setDead();
-                    foodLevel += COD_FOOD_VALUE;
+            if(animal instanceof Tuna tuna) {
+                if(tuna.isAlive()) {
+                    tuna.setDead();
+                    foodLevel += TUNA_FOOD_VALUE;
                     foodLocation = loc;
                 }
             }
         }
         return foodLocation;
     }
-    
+
     /**
-     * Check whether this tuna is to give birth at this step.
+     * Check whether this Shark is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
@@ -159,12 +159,12 @@ public class Tuna extends Animal
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
-                Tuna young = new Tuna(false, loc);
+                Shark young = new Shark(false, loc);
                 nextFieldState.placeAnimal(young, loc);
             }
         }
     }
-        
+
     /**
      * Generate a number representing the number of births,
      * if it can breed.
@@ -183,7 +183,7 @@ public class Tuna extends Animal
     }
 
     /**
-     * A tuna can breed if it has reached the breeding age.
+     * A Shark can breed if it has reached the breeding age.
      */
     private boolean canBreed()
     {

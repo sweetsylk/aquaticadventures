@@ -118,7 +118,7 @@ public class Field
      */
     public void fieldStats()
     {
-        int numTunas = 0, numCods = 0;
+        int numTunas = 0, numCods = 0, numSharks = 0;
         for(Animal anAnimal : field.values()) {
             if(anAnimal instanceof Tuna tuna) {
                 if(tuna.isAlive()) {
@@ -130,9 +130,14 @@ public class Field
                     numCods++;
                 }
             }
+            else if(anAnimal instanceof Shark shark) {
+                if(shark.isAlive()) {
+                    numSharks++;
+                }
+            }
         }
         System.out.println("Cods: " + numCods +
-                           " Tunas: " + numTunas);
+                           " Tunas: " + numTunas + " Sharks: " + numSharks);
     }
 
     /**
@@ -151,8 +156,9 @@ public class Field
     {
         boolean codFound = false;
         boolean tunaFound = false;
+        boolean sharkFound = false;
         Iterator<Animal> it = animals.iterator();
-        while(it.hasNext() && ! (codFound && tunaFound)) {
+        while(it.hasNext() && ! (codFound && tunaFound && sharkFound)) {
             Animal anAnimal = it.next();
             if(anAnimal instanceof Cod cod) {
                 if(cod.isAlive()) {
@@ -164,8 +170,13 @@ public class Field
                     tunaFound = true;
                 }
             }
+            else if(anAnimal instanceof Shark shark) {
+                if(shark.isAlive()) {
+                    sharkFound = true;
+                }
+            }
         }
-        return codFound && tunaFound;
+        return codFound && tunaFound && sharkFound;
     }
     
     /**
