@@ -16,9 +16,9 @@ public class Cod extends Animal
     // The age to which a cod can live.
     private static final int MAX_AGE = 15;
     // The likelihood of a cod breeding.
-    private static final double BREEDING_PROBABILITY = 0.35;
+    private static final double BREEDING_PROBABILITY = 0.3;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 9;
+    private static final int MAX_LITTER_SIZE = 8;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
