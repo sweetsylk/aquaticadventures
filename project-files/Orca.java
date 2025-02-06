@@ -15,9 +15,9 @@ public class Orca extends Animal
     // The age at which a Orca can start to breed.
     private static final int BREEDING_AGE = 12;
     // The age to which a Orca can live.
-    private static final int MAX_AGE = 100;
+    private static final int MAX_AGE = 105;
     // The likelihood of a Orca breeding.
-    private static final double BREEDING_PROBABILITY = 0.05;
+    private static final double BREEDING_PROBABILITY = 0.07;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single prey. In effect, this is the

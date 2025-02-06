@@ -21,7 +21,7 @@ public class SimulatorView extends JFrame
     // Color used for objects that have no defined color.
     private static final Color UNKNOWN_COLOR = Color.gray;
 
-    private final String STEP_PREFIX = "Step: ";
+    private final String STEP_PREFIX = "Day: ";
     private final String POPULATION_PREFIX = "Population: ";
     private final JLabel stepLabel;
     private final JLabel population;
@@ -101,8 +101,15 @@ public class SimulatorView extends JFrame
         if(!isVisible()) {
             setVisible(true);
         }
-            
-        stepLabel.setText(STEP_PREFIX + step);
+        StringBuilder time = new StringBuilder("");
+        time.append(step / 24);
+        time.append(" ");
+        time.append((step % 24));
+        time.append(":");
+        time.append("00");
+
+
+        stepLabel.setText(STEP_PREFIX + (time));
         stats.reset();
         
         fieldView.preparePaint();

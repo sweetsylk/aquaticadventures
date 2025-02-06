@@ -120,29 +120,28 @@ public class Field
     {
         int numTunas = 0, numCods = 0, numSharks = 0, numOrcas = 0;
         for(Animal anAnimal : field.values()) {
-            if(anAnimal instanceof Tuna tuna) {
-                if(tuna.isAlive()) {
+            if (anAnimal instanceof Tuna tuna) {
+                if (tuna.isAlive()) {
                     numTunas++;
                 }
-            }
-            else if(anAnimal instanceof Cod cod) {
-                if(cod.isAlive()) {
+            } else if (anAnimal instanceof Cod cod) {
+                if (cod.isAlive()) {
                     numCods++;
                 }
-            }
-            else if(anAnimal instanceof Shark shark) {
-                if(shark.isAlive()) {
+            } else if (anAnimal instanceof Shark shark) {
+                if (shark.isAlive()) {
                     numSharks++;
                 }
-            }
-            else if(anAnimal instanceof Orca orca) {
-                if(orca.isAlive()) {
+            } else if (anAnimal instanceof Orca orca) {
+                if (orca.isAlive()) {
                     numOrcas++;
                 }
+            }
         }
         System.out.println("Cods: " + numCods +
                            " Tunas: " + numTunas + " Sharks: " + numSharks + " Orcas: " + numOrcas);
-    }}
+
+    }
 
     public void clear()
     {

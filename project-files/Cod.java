@@ -12,11 +12,11 @@ public class Cod extends Animal
 {
     // Characteristics shared by all rabbits (class variables).
     // The age at which a cod can start to breed.
-    private static final int BREEDING_AGE = 5;
+    private static final int BREEDING_AGE = 4;
     // The age to which a cod can live.
-    private static final int MAX_AGE = 15;
+    private static final int MAX_AGE = 20;
     // The likelihood of a cod breeding.
-    private static final double BREEDING_PROBABILITY = 0.35;
+    private static final double BREEDING_PROBABILITY = 0.36;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 9;
     // A shared random number generator to control breeding.

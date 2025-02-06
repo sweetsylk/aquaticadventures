@@ -22,7 +22,7 @@ public class Shark extends Animal
     private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single prey. In effect, this is the
     // number of steps a Shark can go before it has to eat again.
-    private static final int TUNA_FOOD_VALUE = 23;
+    private static final int TUNA_FOOD_VALUE = 24;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 

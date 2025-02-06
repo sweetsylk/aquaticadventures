@@ -23,7 +23,7 @@ public class Simulator
 
     // The current state of the field.
     private Field field;
-    // The current step of the simulation.
+    // The current step of the simulation (each step is equivilant to an hour).
     private int step;
     // A graphical view of the simulation.
     private final SimulatorView view;
@@ -63,7 +63,7 @@ public class Simulator
      */
     public void runLongSimulation()
     {
-        simulate(700);
+        simulate(720);
     }
     
     /**
