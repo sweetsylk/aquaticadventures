@@ -91,9 +91,9 @@ public class Simulator
         // the next step.
         Field nextFieldState = new Field(field.getDepth(), field.getWidth());
 
-        List<Animal> animals = field.getAnimals();
-        for (Animal anAnimal : animals) {
-            anAnimal.act(field, nextFieldState);
+        List<Organism> Organisms = field.getOrganisms();
+        for (Organism anOrganism : Organisms) {
+            anOrganism.act(field, nextFieldState);
         }
         
         // Replace the old state with the new one.
@@ -126,25 +126,25 @@ public class Simulator
                 if(rand.nextDouble() <= ORCA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Orca orca = new Orca(true, location);
-                    field.placeAnimal(orca, location);
+                    field.placeOrganism(orca, location);
 
                 }
 
                 else if(rand.nextDouble() <= SHARK_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Shark shark = new Shark(true, location);
-                    field.placeAnimal(shark, location);
+                    field.placeOrganism(shark, location);
 
                 }
                 else if(rand.nextDouble() <= TUNA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Tuna tuna = new Tuna(true, location);
-                    field.placeAnimal(tuna, location);
+                    field.placeOrganism(tuna, location);
                 }
                 else if(rand.nextDouble() <= COD_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Cod cod = new Cod(true, location);
-                    field.placeAnimal(cod, location);
+                    field.placeOrganism(cod, location);
                 }
                 // else leave the location empty.
             }
@@ -152,7 +152,7 @@ public class Simulator
     }
 
     /**
-     * Report on the number of each type of animal in the field.
+     * Report on the number of each type of Organism in the field.
      */
     public void reportStats()
     {

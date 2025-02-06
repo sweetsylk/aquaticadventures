@@ -8,7 +8,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Cod extends Animal
+public class Cod extends Organism
 {
     // Characteristics shared by all rabbits (class variables).
     // The age at which a cod can start to breed.
@@ -62,7 +62,7 @@ public class Cod extends Animal
             if(! freeLocations.isEmpty()) {
                 Location nextLocation = freeLocations.get(0);
                 setLocation(nextLocation);
-                nextFieldState.placeAnimal(this, nextLocation);
+                nextFieldState.placeOrganism(this, nextLocation);
             }
             else {
                 // Overcrowding.
@@ -106,7 +106,7 @@ public class Cod extends Animal
             for (int b = 0; b < births && !freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 Cod young = new Cod(false, loc);
-                nextFieldState.placeAnimal(young, loc);
+                nextFieldState.placeOrganism(young, loc);
             }
         }
     }

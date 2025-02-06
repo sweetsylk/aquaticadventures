@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * Represent a rectangular grid of field positions.
- * Each position is able to store a single animal/object.
+ * Each position is able to store a single Organism/object.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 7.0
@@ -14,10 +14,10 @@ public class Field
     
     // The dimensions of the field.
     private final int depth, width;
-    // Animals mapped by location.
-    private final Map<Location, Animal> field = new HashMap<>();
-    // The animals.
-    private final List<Animal> animals = new ArrayList<>();
+    // Organisms mapped by location.
+    private final Map<Location, Organism> field = new HashMap<>();
+    // The Organisms.
+    private final List<Organism> Organisms = new ArrayList<>();
 
     /**
      * Represent a field of the given dimensions.
@@ -31,29 +31,29 @@ public class Field
     }
 
     /**
-     * Place an animal at the given location.
-     * If there is already an animal at the location it will
+     * Place an Organism at the given location.
+     * If there is already an Organism at the location it will
      * be lost.
-     * @param anAnimal The animal to be placed.
-     * @param location Where to place the animal.
+     * @param anOrganism The Organism to be placed.
+     * @param location Where to place the Organism.
      */
-    public void placeAnimal(Animal anAnimal, Location location)
+    public void placeOrganism(Organism anOrganism, Location location)
     {
         assert location != null;
         Object other = field.get(location);
         if(other != null) {
-            animals.remove(other);
+            Organisms.remove(other);
         }
-        field.put(location, anAnimal);
-        animals.add(anAnimal);
+        field.put(location, anOrganism);
+        Organisms.add(anOrganism);
     }
     
     /**
-     * Return the animal at the given location, if any.
+     * Return the Organism at the given location, if any.
      * @param location Where in the field.
-     * @return The animal at the given location, or null if there is none.
+     * @return The Organism at the given location, or null if there is none.
      */
-    public Animal getAnimalAt(Location location)
+    public Organism getOrganismAt(Location location)
     {
         return field.get(location);
     }
@@ -68,11 +68,11 @@ public class Field
         List<Location> free = new LinkedList<>();
         List<Location> adjacent = getAdjacentLocations(location);
         for(Location next : adjacent) {
-            Animal anAnimal = field.get(next);
-            if(anAnimal == null) {
+            Organism anOrganism = field.get(next);
+            if(anOrganism == null) {
                 free.add(next);
             }
-            else if(!anAnimal.isAlive()) {
+            else if(!anOrganism.isAlive()) {
                 free.add(next);
             }
         }
@@ -119,20 +119,20 @@ public class Field
     public void fieldStats()
     {
         int numTunas = 0, numCods = 0, numSharks = 0, numOrcas = 0;
-        for(Animal anAnimal : field.values()) {
-            if (anAnimal instanceof Tuna tuna) {
+        for(Organism anOrganism : field.values()) {
+            if (anOrganism instanceof Tuna tuna) {
                 if (tuna.isAlive()) {
                     numTunas++;
                 }
-            } else if (anAnimal instanceof Cod cod) {
+            } else if (anOrganism instanceof Cod cod) {
                 if (cod.isAlive()) {
                     numCods++;
                 }
-            } else if (anAnimal instanceof Shark shark) {
+            } else if (anOrganism instanceof Shark shark) {
                 if (shark.isAlive()) {
                     numSharks++;
                 }
-            } else if (anAnimal instanceof Orca orca) {
+            } else if (anOrganism instanceof Orca orca) {
                 if (orca.isAlive()) {
                     numOrcas++;
                 }
@@ -158,25 +158,25 @@ public class Field
         boolean tunaFound = false;
         boolean sharkFound = false;
         boolean orcaFound = false;
-        Iterator<Animal> it = animals.iterator();
+        Iterator<Organism> it = Organisms.iterator();
         while(it.hasNext() && ! (codFound && tunaFound && sharkFound && orcaFound)) {
-            Animal anAnimal = it.next();
-            if(anAnimal instanceof Cod cod) {
+            Organism anOrganism = it.next();
+            if(anOrganism instanceof Cod cod) {
                 if(cod.isAlive()) {
                     codFound = true;
                 }
             }
-            else if(anAnimal instanceof Tuna tuna) {
+            else if(anOrganism instanceof Tuna tuna) {
                 if(tuna.isAlive()) {
                     tunaFound = true;
                 }
             }
-            else if(anAnimal instanceof Shark shark) {
+            else if(anOrganism instanceof Shark shark) {
                 if(shark.isAlive()) {
                     sharkFound = true;
                 }
             }
-            else if(anAnimal instanceof Orca orca) {
+            else if(anOrganism instanceof Orca orca) {
                 if(orca.isAlive()) {
                     orcaFound = true;
                 }
@@ -186,11 +186,11 @@ public class Field
     }
     
     /**
-     * Get the list of animals.
+     * Get the list of Organisms.
      */
-    public List<Animal> getAnimals()
+    public List<Organism> getOrganisms()
     {
-        return animals;
+        return Organisms;
     }
 
     /**

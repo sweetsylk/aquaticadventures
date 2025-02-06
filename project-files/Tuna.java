@@ -9,7 +9,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Tuna extends Animal
+public class Tuna extends Organism
 {
     // Characteristics shared by all tuba (class variables).
     // The age at which a Tuna can start to breed.
@@ -78,7 +78,7 @@ public class Tuna extends Animal
             // See if it was possible to move.
             if(nextLocation != null) {
                 setLocation(nextLocation);
-                nextFieldState.placeAnimal(this, nextLocation);
+                nextFieldState.placeOrganism(this, nextLocation);
             }
             else {
                 // Overcrowding.
@@ -134,8 +134,8 @@ public class Tuna extends Animal
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
-            Animal animal = field.getAnimalAt(loc);
-            if(animal instanceof Cod cod) {
+            Organism Organism = field.getOrganismAt(loc);
+            if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
                     cod.setDead();
                     foodLevel += COD_FOOD_VALUE;
@@ -160,7 +160,7 @@ public class Tuna extends Animal
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 Tuna young = new Tuna(false, loc);
-                nextFieldState.placeAnimal(young, loc);
+                nextFieldState.placeOrganism(young, loc);
             }
         }
     }

@@ -67,21 +67,21 @@ public class SimulatorView extends JFrame
     }
     
     /**
-     * Define a color to be used for a given class of animal.
-     * @param animalClass The animal's Class object.
+     * Define a color to be used for a given class of Organism.
+     * @param OrganismClass The Organism's Class object.
      * @param color The color to be used for the given class.
      */
-    public void setColor(Class<?> animalClass, Color color)
+    public void setColor(Class<?> OrganismClass, Color color)
     {
-        colors.put(animalClass, color);
+        colors.put(OrganismClass, color);
     }
 
     /**
-     * @return The color to be used for a given class of animal.
+     * @return The color to be used for a given class of Organism.
      */
-    private Color getColor(Class<?> animalClass)
+    private Color getColor(Class<?> OrganismClass)
     {
-        Color col = colors.get(animalClass);
+        Color col = colors.get(OrganismClass);
         if(col == null) {
             // no color defined for this class
             return UNKNOWN_COLOR;
@@ -116,10 +116,10 @@ public class SimulatorView extends JFrame
 
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                Object animal = field.getAnimalAt(new Location(row, col));
-                if(animal != null) {
-                    stats.incrementCount(animal.getClass());
-                    fieldView.drawMark(col, row, getColor(animal.getClass()));
+                Object Organism = field.getOrganismAt(new Location(row, col));
+                if(Organism != null) {
+                    stats.incrementCount(Organism.getClass());
+                    fieldView.drawMark(col, row, getColor(Organism.getClass()));
                 }
                 else {
                     fieldView.drawMark(col, row, EMPTY_COLOR);

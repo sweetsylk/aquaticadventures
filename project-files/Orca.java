@@ -9,7 +9,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Orca extends Animal
+public class Orca extends Organism
 {
     // Characteristics shared by all tuba (class variables).
     // The age at which a Orca can start to breed.
@@ -78,7 +78,7 @@ public class Orca extends Animal
             // See if it was possible to move.
             if(nextLocation != null) {
                 setLocation(nextLocation);
-                nextFieldState.placeAnimal(this, nextLocation);
+                nextFieldState.placeOrganism(this, nextLocation);
             }
             else {
                 // Overcrowding.
@@ -122,7 +122,7 @@ public class Orca extends Animal
     }
 
     /**
-     * Look for animals adjacent to the current location.
+     * Look for Organisms adjacent to the current location.
      * Only the first live shark is eaten.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
@@ -134,8 +134,8 @@ public class Orca extends Animal
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
-            Animal animal = field.getAnimalAt(loc);
-            if(animal instanceof Shark shark) {
+            Organism Organism = field.getOrganismAt(loc);
+            if(Organism instanceof Shark shark) {
                 if(shark.isAlive()) {
                     shark.setDead();
                     foodLevel += SHARK_FOOD_VALUE;
@@ -160,7 +160,7 @@ public class Orca extends Animal
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 Orca young = new Orca(false, loc);
-                nextFieldState.placeAnimal(young, loc);
+                nextFieldState.placeOrganism(young, loc);
             }
         }
     }
