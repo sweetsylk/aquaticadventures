@@ -15,13 +15,9 @@ public class Tuna extends Animal
     // The age at which a Tuna can start to breed.
     private static final int BREEDING_AGE = 5;
     // The age to which a Tuna can live.
-    private static final int MAX_AGE = 30;
+    private static final int MAX_AGE = 25;
     // The likelihood of a Tuna breeding.
-<<<<<<< HEAD
-    private static final double BREEDING_PROBABILITY = 0.23;
-=======
     private static final double BREEDING_PROBABILITY = 0.25;
->>>>>>> 492a036a13acefb0c60aef2baed1e2ef823974e8
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 7;
     // The food value of a single prey. In effect, this is the
