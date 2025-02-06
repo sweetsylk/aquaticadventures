@@ -1,9 +1,10 @@
+import java.util.Random;
 
 /**
- * Common elements of foxes and rabbits.
+ * Common elements of cod, tuna, sharks and orcas.
  *
- * @author David J. Barnes and Michael Kölling
- * @version 7.0
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq
+ * @version 8.0
  */
 public abstract class Animal
 {
@@ -11,7 +12,9 @@ public abstract class Animal
     private boolean alive;
     // The animal's position.
     private Location location;
-
+    // Whether the animal is male or not (female)
+    private Boolean isMale;
+    
     /**
      * Constructor for objects of class Animal.
      * @param location The animal's location.
@@ -20,6 +23,7 @@ public abstract class Animal
     {
         this.alive = true;
         this.location = location;
+        this.isMale = new Random().nextBoolean();
     }
     
     /**
@@ -36,6 +40,15 @@ public abstract class Animal
     public boolean isAlive()
     {
         return alive;
+    }
+
+    /**
+     * Check whether the animal is male or not (female).
+     * @return true if the animal is male.
+     */
+    public Boolean isMale()
+    {
+        return isMale;
     }
 
     /**
