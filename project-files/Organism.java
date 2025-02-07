@@ -31,8 +31,9 @@ public abstract class Organism
      * Act.
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
+     * @param step The current step (hour) the simulation is at
      */
-    abstract public void act(Field currentField, Field nextFieldState);
+    abstract public void act(int step, Field currentField, Field nextFieldState);
     
     /**
      * Check whether the Organism is alive or not.

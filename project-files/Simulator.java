@@ -15,11 +15,12 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a tuna will be created in any given grid position.
-    private static final double TUNA_CREATION_PROBABILITY = 0.03;
+    private static final double TUNA_CREATION_PROBABILITY = 0.05;
     // The probability that a cod will be created in any given position.
-    private static final double COD_CREATION_PROBABILITY = 0.1;
-    private static final double SHARK_CREATION_PROBABILITY = 0.02;
-    private static final double ORCA_CREATION_PROBABILITY = 0.015;
+    private static final double COD_CREATION_PROBABILITY = 0.12;
+    private static final double SHARK_CREATION_PROBABILITY = 0.03;
+    private static final double ORCA_CREATION_PROBABILITY = 0.014;
+    private static final double WHALE_CREATION_PROBABILITY = 0.01;
 
     // The current state of the field.
     private Field field;
@@ -76,7 +77,7 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps && field.isViable(); n++) {
             simulateOneStep();
-            delay(50);         // adjust this to change execution speed
+            delay(25);         // adjust this to change execution speed
         }
     }
     
@@ -93,7 +94,7 @@ public class Simulator
 
         List<Organism> Organisms = field.getOrganisms();
         for (Organism anOrganism : Organisms) {
-            anOrganism.act(field, nextFieldState);
+            anOrganism.act(step, field, nextFieldState);
         }
         
         // Replace the old state with the new one.
@@ -123,7 +124,15 @@ public class Simulator
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
 
-                if(rand.nextDouble() <= ORCA_CREATION_PROBABILITY) {
+                if(rand.nextDouble() <= WHALE_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Boolean isMale = rand.nextBoolean();
+                    Whale whale = new Whale(true, location, isMale);
+                    field.placeOrganism(whale, location);
+
+                }
+
+                else if(rand.nextDouble() <= ORCA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     Boolean isMale = rand.nextBoolean();
                     Orca orca = new Orca(true, location, isMale);

@@ -17,12 +17,12 @@ public class Tuna extends Organism
     // The age to which a Tuna can live.
     private static final int MAX_AGE = 60;
     // The likelihood of a Tuna breeding.
-    private static final double BREEDING_PROBABILITY = 0.33;
+    private static final double BREEDING_PROBABILITY = 0.4;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 5;
+    private static final int MAX_LITTER_SIZE = 8;
     // The food value of a single prey. In effect, this is the
     // number of steps a tuna can go before it has to eat again.
-    private static final int COD_FOOD_VALUE = 25;
+    private static final int COD_FOOD_VALUE = 30;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -53,19 +53,24 @@ public class Tuna extends Organism
     }
     
     /**
-     * This is what the tuna does most of the time: it hunts for
-     * rabbits. In the process, it might breed, die of hunger,
+     * This is what the tuna does most of the time: it hunts for cod.
+     * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
+     * Tunas are awake from 5am to 10pm
+     * @param step the current step in the simulation
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
-    public void act(Field currentField, Field nextFieldState)
+    public void act(int step, Field currentField, Field nextFieldState)
     {
         incrementAge();
         incrementHunger();
-        if(isAlive()) {
+        if(isAlive())
+        {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
+            if ((step % 24) >= 3 && (step % 24) <= 21)
+            {
             if(! freeLocations.isEmpty()) {
                 giveBirth(nextFieldState, freeLocations);
             }
@@ -83,6 +88,10 @@ public class Tuna extends Organism
             else {
                 // Overcrowding.
                 setDead();
+            }
+        }
+        else {
+            nextFieldState.placeOrganism(this, getLocation());
             }
         }
     }
@@ -129,7 +138,7 @@ public class Tuna extends Organism
      */
     private Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {

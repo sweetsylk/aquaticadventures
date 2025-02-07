@@ -15,14 +15,15 @@ public class Shark extends Organism
     // The age at which a Shark can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a Shark can live.
-    private static final int MAX_AGE = 150;
+    private static final int MAX_AGE = 120;
     // The likelihood of a Shark breeding.
-    private static final double BREEDING_PROBABILITY = 0.31;
+    private static final double BREEDING_PROBABILITY = 0.38;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single prey. In effect, this is the
     // number of steps a Shark can go before it has to eat again.
     private static final int TUNA_FOOD_VALUE = 40;
+    private static final int COD_FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -54,36 +55,47 @@ public class Shark extends Organism
 
     /**
      * This is what the Shark does most of the time: it hunts for
-     * Tuna. In the process, it might breed, die of hunger,
+     * Tuna and cod. In the process, it might breed, sleep or die of hunger,
      * or die of old age.
+     * Sharks are awake from 9am to 5pm and 10pm to 4am
+     * @param step the current step in the simulation
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
-    public void act(Field currentField, Field nextFieldState)
+    public void act(int step, Field currentField, Field nextFieldState)
     {
         incrementAge();
         incrementHunger();
-        if(isAlive()) {
-            List<Location> freeLocations =
-                    nextFieldState.getFreeAdjacentLocations(getLocation());
-            if(! freeLocations.isEmpty()) {
-                giveBirth(nextFieldState, freeLocations);
-            }
-            // Move towards a source of food if found.
-            Location nextLocation = findFood(currentField);
-            if(nextLocation == null && ! freeLocations.isEmpty()) {
-                // No food found - try to move to a free location.
-                nextLocation = freeLocations.remove(0);
-            }
-            // See if it was possible to move.
-            if(nextLocation != null) {
-                setLocation(nextLocation);
-                nextFieldState.placeOrganism(this, nextLocation);
+        if(isAlive())
+        {
+            if (((step % 24) >= 9 && (step % 24) <= 17) || ((step % 24) >= 23 || (step % 24) <= 3))
+
+            {
+                List<Location> freeLocations =
+                        nextFieldState.getFreeAdjacentLocations(getLocation());
+                if(! freeLocations.isEmpty()) {
+                    giveBirth(nextFieldState, freeLocations);
+                }
+                // Move towards a source of food if found.
+                Location nextLocation = findFood(currentField);
+                if(nextLocation == null && ! freeLocations.isEmpty()) {
+                    // No food found - try to move to a free location.
+                    nextLocation = freeLocations.remove(0);
+                }
+                // See if it was possible to move.
+                if(nextLocation != null) {
+                    setLocation(nextLocation);
+                    nextFieldState.placeOrganism(this, nextLocation);
+                }
+                else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
             else {
-                // Overcrowding.
-                setDead();
+                nextFieldState.placeOrganism(this, getLocation());
             }
+
         }
     }
 
@@ -129,7 +141,7 @@ public class Shark extends Organism
      */
     private Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {

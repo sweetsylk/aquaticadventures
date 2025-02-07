@@ -12,7 +12,7 @@ public class Cod extends Organism
 {
     // Characteristics shared by all rabbits (class variables).
     // The age at which a cod can start to breed.
-    private static final int BREEDING_AGE = 12;
+    private static final int BREEDING_AGE = 10;
     // The age to which a cod can live.
     private static final int MAX_AGE = 36;
     // The likelihood of a cod breeding.
@@ -45,28 +45,34 @@ public class Cod extends Organism
     
     /**
      * This is what the cod does most of the time - it runs
-     * around. Sometimes it will breed or die of old age.
+     * around. Sometimes it will breed or die of old age or sleep even
+     * cod are awake from 4am to 11pm and can give birth while sleeping
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
      */
-    public void act(Field currentField, Field nextFieldState)
+    public void act(int step, Field currentField, Field nextFieldState)
     {
         incrementAge();
         if(isAlive()) {
-            List<Location> freeLocations = 
-                nextFieldState.getFreeAdjacentLocations(getLocation());
-            if(!freeLocations.isEmpty()) {
-                giveBirth(nextFieldState, freeLocations);
-            }
-            // Try to move into a free location.
-            if(! freeLocations.isEmpty()) {
-                Location nextLocation = freeLocations.get(0);
-                setLocation(nextLocation);
-                nextFieldState.placeOrganism(this, nextLocation);
+            List<Location> freeLocations =
+                    nextFieldState.getFreeAdjacentLocations(getLocation());
+            if ((step % 24) > 4 && (step % 24) <= 23) {
+                if (!freeLocations.isEmpty()) {
+                    giveBirth(nextFieldState, freeLocations);
+                }
+                // Try to move into a free location.
+                if (!freeLocations.isEmpty()) {
+                    Location nextLocation = freeLocations.get(0);
+                    setLocation(nextLocation);
+                    nextFieldState.placeOrganism(this, nextLocation);
+                } else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
             else {
-                // Overcrowding.
-                setDead();
+                nextFieldState.placeOrganism(this, getLocation());
+
             }
         }
     }
@@ -135,7 +141,7 @@ public class Cod extends Organism
      */
     private boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 2);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

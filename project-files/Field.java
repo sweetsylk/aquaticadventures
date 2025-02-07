@@ -118,28 +118,36 @@ public class Field
      */
     public void fieldStats()
     {
-        int numTunas = 0, numCods = 0, numSharks = 0, numOrcas = 0;
+        int numTunas = 0, numCods = 0, numSharks = 0, numOrcas = 0, numWhales = 0;
         for(Organism anOrganism : field.values()) {
             if (anOrganism instanceof Tuna tuna) {
                 if (tuna.isAlive()) {
                     numTunas++;
                 }
-            } else if (anOrganism instanceof Cod cod) {
+            }
+            else if (anOrganism instanceof Cod cod) {
                 if (cod.isAlive()) {
                     numCods++;
                 }
-            } else if (anOrganism instanceof Shark shark) {
+            }
+            else if (anOrganism instanceof Shark shark) {
                 if (shark.isAlive()) {
                     numSharks++;
                 }
-            } else if (anOrganism instanceof Orca orca) {
+            }
+            else if (anOrganism instanceof Orca orca) {
                 if (orca.isAlive()) {
                     numOrcas++;
                 }
             }
+            else if (anOrganism instanceof Whale whale) {
+                if (whale.isAlive()) {
+                    numWhales++;
+                }
+            }
         }
         System.out.println("Cods: " + numCods +
-                           " Tunas: " + numTunas + " Sharks: " + numSharks + " Orcas: " + numOrcas);
+                           " Tunas: " + numTunas + " Sharks: " + numSharks + " Orcas: " + numOrcas + " Whales: " + numWhales);
 
     }
 
@@ -158,8 +166,9 @@ public class Field
         boolean tunaFound = false;
         boolean sharkFound = false;
         boolean orcaFound = false;
+        boolean whaleFound = false;
         Iterator<Organism> it = Organisms.iterator();
-        while(it.hasNext() && ! (codFound && tunaFound && sharkFound && orcaFound)) {
+        while(it.hasNext() && ! (codFound && tunaFound && sharkFound && orcaFound && whaleFound)) {
             Organism anOrganism = it.next();
             if(anOrganism instanceof Cod cod) {
                 if(cod.isAlive()) {
@@ -181,8 +190,13 @@ public class Field
                     orcaFound = true;
                 }
             }
+            else if(anOrganism instanceof Whale whale) {
+                if (whale.isAlive()) {
+                    whaleFound = true;
+                }
+            }
         }
-        return codFound && tunaFound && sharkFound && orcaFound;
+        return codFound && tunaFound && sharkFound && orcaFound && whaleFound;
     }
     
     /**

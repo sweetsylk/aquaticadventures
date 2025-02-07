@@ -43,12 +43,14 @@ public class SimulatorView extends JFrame
         Color waterColor = new Color(32, 230, 230);
         Color tunaColor = new Color(234, 111, 111);
         Color codColor = new Color(61, 190, 98);
+        Color whaleColor = new Color(75, 0, 120);
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
         setColor(Cod.class, codColor);
         setColor(Tuna.class, tunaColor);
         setColor(Shark.class, sharkColor);
         setColor(Orca.class, Color.black);
+        setColor(Whale.class, whaleColor);
 
         setTitle("Aquatic Adventures");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
