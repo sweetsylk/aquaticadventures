@@ -13,11 +13,11 @@ public class Orca extends Organism
 {
     // Characteristics shared by all tuba (class variables).
     // The age at which a Orca can start to breed.
-    private static final int BREEDING_AGE = 12;
+    private static final int BREEDING_AGE = 25;
     // The age to which a Orca can live.
-    private static final int MAX_AGE = 105;
+    private static final int MAX_AGE = 150;
     // The likelihood of a Orca breeding.
-    private static final double BREEDING_PROBABILITY = 0.07;
+    private static final double BREEDING_PROBABILITY = 0.12;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single prey. In effect, this is the
@@ -40,9 +40,9 @@ public class Orca extends Organism
      * @param randomAge If true, the orca will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Orca(boolean randomAge, Location location)
+    public Orca(boolean randomAge, Location location, Boolean isMale)
     {
-        super(location);
+        super(location, isMale);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -129,7 +129,7 @@ public class Orca extends Organism
      */
     private Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation());
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
@@ -155,11 +155,12 @@ public class Orca extends Organism
     {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
-        int births = breed();
+        int births = breed(nextFieldState);
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
-                Orca young = new Orca(false, loc);
+                boolean babyGender = rand.nextBoolean();
+                Orca young = new Orca(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -170,16 +171,38 @@ public class Orca extends Organism
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    private int breed(Field field)
     {
         int births;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
+        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY && canMate(field)) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         else {
             births = 0;
         }
         return births;
+    }
+
+    private boolean canMate(Field field)
+    {
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 18);
+        boolean foundMale = this.isMale();
+        boolean foundFemale = !this.isMale();
+
+        for (Location loc : adjacent) {
+            Organism organism = field.getOrganismAt(loc);
+            if (organism instanceof Orca orca) {
+                if (orca.isMale()) {
+                    foundMale = true;
+                } else {
+                    foundFemale = true;
+                }
+                if (foundMale && foundFemale) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

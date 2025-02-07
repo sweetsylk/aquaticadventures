@@ -13,16 +13,16 @@ public class Shark extends Organism
 {
     // Characteristics shared by all tuba (class variables).
     // The age at which a Shark can start to breed.
-    private static final int BREEDING_AGE = 5;
+    private static final int BREEDING_AGE = 10;
     // The age to which a Shark can live.
-    private static final int MAX_AGE = 85;
+    private static final int MAX_AGE = 150;
     // The likelihood of a Shark breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    private static final double BREEDING_PROBABILITY = 0.31;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 3;
+    private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single prey. In effect, this is the
     // number of steps a Shark can go before it has to eat again.
-    private static final int TUNA_FOOD_VALUE = 22;
+    private static final int TUNA_FOOD_VALUE = 40;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -34,15 +34,15 @@ public class Shark extends Organism
     private int foodLevel;
 
     /**
-     * Create a sharj. A shark can be created as a new born (age zero
+     * Create a shark. A shark can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      *
      * @param randomAge If true, the shark will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Shark(boolean randomAge, Location location)
+    public Shark(boolean randomAge, Location location, Boolean isMale)
     {
-        super(location);
+        super(location, isMale);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -129,7 +129,7 @@ public class Shark extends Organism
      */
     private Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation());
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
@@ -155,11 +155,12 @@ public class Shark extends Organism
     {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
-        int births = breed();
+        int births = breed(nextFieldState);
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
-                Shark young = new Shark(false, loc);
+                boolean babyGender = rand.nextBoolean();
+                Shark young = new Shark(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -170,16 +171,42 @@ public class Shark extends Organism
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    private int breed(Field field)
     {
         int births;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
+        if(canBreed() && (rand.nextDouble() <= BREEDING_PROBABILITY) && canMate(field)) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         else {
             births = 0;
         }
         return births;
+    }
+    /**
+     * Checks if there is a mating pair (male and female) of sharks nearby.
+     * @param field The field currently occupied.
+     * @return true if there is a male and female shark nearby.
+     */
+    private boolean canMate(Field field)
+    {
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 15);
+        boolean foundMale = this.isMale();
+        boolean foundFemale = !this.isMale();
+
+        for (Location loc : adjacent) {
+            Organism organism = field.getOrganismAt(loc);
+            if (organism instanceof Shark shark) {
+                if (shark.isMale()) {
+                    foundMale = true;
+                } else {
+                    foundFemale = true;
+                }
+                if (foundMale && foundFemale) {
+                    return true;
+                }
+            }
+        }
+        return false; // No valid pair
     }
 
     /**

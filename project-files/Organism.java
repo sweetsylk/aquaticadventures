@@ -13,17 +13,18 @@ public abstract class Organism
     // The Organism's position.
     private Location location;
     // Whether the Organism is male or not (female)
-    private Boolean isMale;
+    private final Boolean isMale;
     
     /**
      * Constructor for objects of class Organism.
      * @param location The Organism's location.
+     * @param isMale Whether the creature is male or not
      */
-    public Organism(Location location)
+    public Organism(Location location, Boolean isMale)
     {
         this.alive = true;
         this.location = location;
-        this.isMale = new Random().nextBoolean();
+        this.isMale = isMale;
     }
     
     /**

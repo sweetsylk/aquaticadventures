@@ -13,16 +13,16 @@ public class Tuna extends Organism
 {
     // Characteristics shared by all tuba (class variables).
     // The age at which a Tuna can start to breed.
-    private static final int BREEDING_AGE = 5;
+    private static final int BREEDING_AGE = 15;
     // The age to which a Tuna can live.
-    private static final int MAX_AGE = 25;
+    private static final int MAX_AGE = 60;
     // The likelihood of a Tuna breeding.
-    private static final double BREEDING_PROBABILITY = 0.25;
+    private static final double BREEDING_PROBABILITY = 0.33;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 7;
+    private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single prey. In effect, this is the
     // number of steps a tuna can go before it has to eat again.
-    private static final int COD_FOOD_VALUE = 8;
+    private static final int COD_FOOD_VALUE = 25;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -40,9 +40,9 @@ public class Tuna extends Organism
      * @param randomAge If true, the tuna will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Tuna(boolean randomAge, Location location)
+    public Tuna(boolean randomAge, Location location, Boolean isMale)
     {
-        super(location);
+        super(location, isMale);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -129,7 +129,7 @@ public class Tuna extends Organism
      */
     private Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation());
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
@@ -155,11 +155,12 @@ public class Tuna extends Organism
     {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
-        int births = breed();
+        int births = breed(nextFieldState);
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
-                Tuna young = new Tuna(false, loc);
+                boolean babyGender = rand.nextBoolean();
+                Tuna young = new Tuna(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -170,16 +171,38 @@ public class Tuna extends Organism
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    private int breed(Field field)
     {
         int births;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
+        if(canBreed() && (rand.nextDouble() <= BREEDING_PROBABILITY) && canMate(field)) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         else {
             births = 0;
         }
         return births;
+    }
+
+    private boolean canMate(Field field)
+    {
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 12);
+        boolean foundMale = this.isMale();
+        boolean foundFemale = !this.isMale();
+
+        for (Location loc : adjacent) {
+            Organism organism = field.getOrganismAt(loc);
+            if (organism instanceof Tuna tuna) {
+                if (tuna.isMale()) {
+                    foundMale = true;
+                } else {
+                    foundFemale = true;
+                }
+                if (foundMale && foundFemale) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

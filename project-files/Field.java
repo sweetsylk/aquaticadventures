@@ -66,7 +66,7 @@ public class Field
     public List<Location> getFreeAdjacentLocations(Location location)
     {
         List<Location> free = new LinkedList<>();
-        List<Location> adjacent = getAdjacentLocations(location);
+        List<Location> adjacent = getAdjacentLocations(location, 1);
         for(Location next : adjacent) {
             Organism anOrganism = field.get(next);
             if(anOrganism == null) {
@@ -86,14 +86,14 @@ public class Field
      * @param location The location from which to generate adjacencies.
      * @return A list of locations adjacent to that given.
      */
-    public List<Location> getAdjacentLocations(Location location)
+    public List<Location> getAdjacentLocations(Location location, int radius)
     {
         // The list of locations to be returned.
         List<Location> locations = new ArrayList<>();
         if(location != null) {
             int row = location.row();
             int col = location.col();
-            for(int roffset = -1; roffset <= 1; roffset++) {
+            for(int roffset = -(radius); roffset <= radius; roffset++) {
                 int nextRow = row + roffset;
                 if(nextRow >= 0 && nextRow < depth) {
                     for(int coffset = -1; coffset <= 1; coffset++) {

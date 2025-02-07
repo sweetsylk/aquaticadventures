@@ -125,25 +125,29 @@ public class Simulator
 
                 if(rand.nextDouble() <= ORCA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Orca orca = new Orca(true, location);
+                    Boolean isMale = rand.nextBoolean();
+                    Orca orca = new Orca(true, location, isMale);
                     field.placeOrganism(orca, location);
 
                 }
 
                 else if(rand.nextDouble() <= SHARK_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Shark shark = new Shark(true, location);
+                    Boolean isMale = rand.nextBoolean();
+                    Shark shark = new Shark(true, location, isMale);
                     field.placeOrganism(shark, location);
 
                 }
                 else if(rand.nextDouble() <= TUNA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Tuna tuna = new Tuna(true, location);
+                    Boolean isMale = rand.nextBoolean();
+                    Tuna tuna = new Tuna(true, location, isMale);
                     field.placeOrganism(tuna, location);
                 }
                 else if(rand.nextDouble() <= COD_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Cod cod = new Cod(true, location);
+                    Boolean isMale = rand.nextBoolean();
+                    Cod cod = new Cod(true, location, isMale);
                     field.placeOrganism(cod, location);
                 }
                 // else leave the location empty.

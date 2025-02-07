@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public abstract class Animal
 {
-    // Whether the animal is alive or not.
+    // Whether the animal is alive or not.git
     private boolean alive;
     // The animal's position.
     private Location location;
