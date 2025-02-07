@@ -12,13 +12,13 @@ public class Cod extends Organism
 {
     // Characteristics shared by all rabbits (class variables).
     // The age at which a cod can start to breed.
-    private static final int BREEDING_AGE = 5;
+    private static final int BREEDING_AGE = 10;
     // The age to which a cod can live.
-    private static final int MAX_AGE = 15;
+    private static final int MAX_AGE = 36;
     // The likelihood of a cod breeding.
-    private static final double BREEDING_PROBABILITY = 0.3;
+    private static final double BREEDING_PROBABILITY = 0.28;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 8;
+    private static final int MAX_LITTER_SIZE = 6;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -34,9 +34,9 @@ public class Cod extends Organism
      * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
      */
-    public Cod(boolean randomAge, Location location)
+    public Cod(boolean randomAge, Location location, Boolean isMale)
     {
-        super(location);
+        super(location, isMale);
         age = 0;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
@@ -45,28 +45,34 @@ public class Cod extends Organism
     
     /**
      * This is what the cod does most of the time - it runs
-     * around. Sometimes it will breed or die of old age.
+     * around. Sometimes it will breed or die of old age or sleep even
+     * cod are awake from 4am to 11pm and can give birth while sleeping
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
      */
-    public void act(Field currentField, Field nextFieldState)
+    public void act(int step, Field currentField, Field nextFieldState)
     {
         incrementAge();
         if(isAlive()) {
-            List<Location> freeLocations = 
-                nextFieldState.getFreeAdjacentLocations(getLocation());
-            if(!freeLocations.isEmpty()) {
-                giveBirth(nextFieldState, freeLocations);
-            }
-            // Try to move into a free location.
-            if(! freeLocations.isEmpty()) {
-                Location nextLocation = freeLocations.get(0);
-                setLocation(nextLocation);
-                nextFieldState.placeOrganism(this, nextLocation);
+            List<Location> freeLocations =
+                    nextFieldState.getFreeAdjacentLocations(getLocation());
+            if ((step % 24) > 4 && (step % 24) <= 23) {
+                if (!freeLocations.isEmpty()) {
+                    giveBirth(nextFieldState, freeLocations);
+                }
+                // Try to move into a free location.
+                if (!freeLocations.isEmpty()) {
+                    Location nextLocation = freeLocations.get(0);
+                    setLocation(nextLocation);
+                    nextFieldState.placeOrganism(this, nextLocation);
+                } else {
+                    // Overcrowding.
+                    setDead();
+                }
             }
             else {
-                // Overcrowding.
-                setDead();
+                nextFieldState.placeOrganism(this, getLocation());
+
             }
         }
     }
@@ -101,11 +107,12 @@ public class Cod extends Organism
     {
         // New rabbits are born into adjacent locations.
         // Get a list of adjacent free locations.
-        int births = breed();
+        int births = breed(nextFieldState);
         if(births > 0) {
             for (int b = 0; b < births && !freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
-                Cod young = new Cod(false, loc);
+                boolean babyGender = rand.nextBoolean();
+                Cod young = new Cod(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -116,10 +123,10 @@ public class Cod extends Organism
      * if it can breed.
      * @return The number of births (may be zero).
      */
-    private int breed()
+    private int breed(Field field)
     {
         int births;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
+        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY && canMate(field)) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         else {
@@ -127,7 +134,32 @@ public class Cod extends Organism
         }
         return births;
     }
+    /**
+     * Checks if there is a mating pair (male and female) of cods nearby.
+     * @param field The field currently occupied.
+     * @return true if there is a male and female cod nearby.
+     */
+    private boolean canMate(Field field)
+    {
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
+        boolean foundMale = this.isMale();
+        boolean foundFemale = !this.isMale();
 
+        for (Location loc : adjacent) {
+            Organism organism = field.getOrganismAt(loc);
+            if (organism instanceof Cod cod) {
+                if (cod.isMale()) {
+                    foundMale = true;
+                } else {
+                    foundFemale = true;
+                }
+                if (foundMale && foundFemale) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     /**
      * A cod can breed if it has reached the breeding age.
      * @return true if the cod can breed, false otherwise.

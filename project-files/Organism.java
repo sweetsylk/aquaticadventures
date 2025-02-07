@@ -13,25 +13,27 @@ public abstract class Organism
     // The Organism's position.
     private Location location;
     // Whether the Organism is male or not (female)
-    private Boolean isMale;
+    private final Boolean isMale;
     
     /**
      * Constructor for objects of class Organism.
      * @param location The Organism's location.
+     * @param isMale Whether the creature is male or not
      */
-    public Organism(Location location)
+    public Organism(Location location, Boolean isMale)
     {
         this.alive = true;
         this.location = location;
-        this.isMale = new Random().nextBoolean();
+        this.isMale = isMale;
     }
     
     /**
      * Act.
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
+     * @param step The current step (hour) the simulation is at
      */
-    abstract public void act(Field currentField, Field nextFieldState);
+    abstract public void act(int step, Field currentField, Field nextFieldState);
     
     /**
      * Check whether the Organism is alive or not.
