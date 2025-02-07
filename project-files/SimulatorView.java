@@ -16,7 +16,9 @@ import java.util.Map;
 public class SimulatorView extends JFrame
 {
     // Colors used for empty locations.
-    private static final Color EMPTY_COLOR = new Color(32, 230, 230);
+    private static Color EMPTY_COLOR_DAY = new Color(32, 230, 230);
+    private static Color EMPTY_COLOR_NIGHT = new Color(8, 60, 100);
+
 
     // Color used for objects that have no defined color.
     private static final Color UNKNOWN_COLOR = Color.gray;
@@ -39,18 +41,21 @@ public class SimulatorView extends JFrame
      */
     public SimulatorView(int height, int width)
     {
-        Color sharkColor = new Color(122,121,111);
+        Color sharkColor = new Color(150,120,130);
         Color waterColor = new Color(32, 230, 230);
-        Color tunaColor = new Color(234, 111, 111);
+        Color tunaColor = new Color(234, 60, 73);
         Color codColor = new Color(61, 190, 98);
-        Color whaleColor = new Color(75, 0, 120);
+        Color orcaColor = new Color(49,37,32);
+        Color whaleColor = new Color(140, 0, 150);
+        Color anglerfishColor = new Color(212, 150, 0);
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
         setColor(Cod.class, codColor);
         setColor(Tuna.class, tunaColor);
         setColor(Shark.class, sharkColor);
-        setColor(Orca.class, Color.black);
+        setColor(Orca.class, orcaColor);
         setColor(Whale.class, whaleColor);
+        setColor(Anglerfish.class, anglerfishColor);
 
         setTitle("Aquatic Adventures");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
@@ -124,7 +129,14 @@ public class SimulatorView extends JFrame
                     fieldView.drawMark(col, row, getColor(Organism.getClass()));
                 }
                 else {
-                    fieldView.drawMark(col, row, EMPTY_COLOR);
+                    if ((step % 24) >= 6 && (step % 24) <= 19)
+                    {
+                        fieldView.drawMark(col, row, EMPTY_COLOR_DAY);
+                    }
+                    else
+                    {
+                        fieldView.drawMark(col, row, EMPTY_COLOR_NIGHT);
+                    }
                 }
             }
         }
@@ -208,7 +220,8 @@ public class SimulatorView extends JFrame
         public void drawMark(int x, int y, Color color)
         {
             g.setColor(color);
-            g.fillRect(x * xScale, y * yScale, xScale-1, yScale-1);
+
+            g.fillRect(x * xScale, y * yScale, xScale, yScale);
         }
 
         /**
@@ -229,4 +242,5 @@ public class SimulatorView extends JFrame
             }
         }
     }
+
 }

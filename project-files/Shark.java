@@ -15,15 +15,15 @@ public class Shark extends Organism
     // The age at which a Shark can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a Shark can live.
-    private static final int MAX_AGE = 118;
+    private static final int MAX_AGE = 100;
     // The likelihood of a Shark breeding.
-    private static final double BREEDING_PROBABILITY = 0.37;
+    private static final double BREEDING_PROBABILITY = 0.32;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 5;
+    private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single prey. In effect, this is the
     // number of steps a Shark can go before it has to eat again.
     private static final int TUNA_FOOD_VALUE = 40;
-    private static final int COD_FOOD_VALUE = 20;
+    private static final int ANGLERFISH_FOOD_VALUE = 40;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
@@ -33,6 +33,10 @@ public class Shark extends Organism
     private int age;
     // The shark's food level, which is increased by eating a shark.
     private int foodLevel;
+
+    private static int starvation;
+    private static int consumed;
+    private static int naturalDeath;
 
     /**
      * Create a shark. A shark can be created as a new born (age zero
@@ -68,7 +72,7 @@ public class Shark extends Organism
         incrementHunger();
         if(isAlive())
         {
-            if (((step % 24) >= 9 && (step % 24) <= 17) || ((step % 24) >= 23 || (step % 24) <= 3))
+            if (((step % 24) >= 9 && (step % 24) <= 17))
 
             {
                 List<Location> freeLocations =
@@ -118,6 +122,7 @@ public class Shark extends Organism
     {
         age++;
         if(age > MAX_AGE) {
+            incrementNaturalDeath();
             setDead();
         }
     }
@@ -129,6 +134,7 @@ public class Shark extends Organism
     {
         foodLevel--;
         if(foodLevel <= 0) {
+            incrementStarvationDeath();
             setDead();
         }
     }
@@ -141,7 +147,7 @@ public class Shark extends Organism
      */
     private Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 4);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
@@ -150,7 +156,16 @@ public class Shark extends Organism
             if(Organism instanceof Tuna tuna) {
                 if(tuna.isAlive()) {
                     tuna.setDead();
+                    Tuna.incrementConsumeDeath();
                     foodLevel += TUNA_FOOD_VALUE;
+                    foodLocation = loc;
+                }
+            }
+            if(Organism instanceof Anglerfish anglerfish) {
+                if(anglerfish.isAlive()) {
+                    anglerfish.setDead();
+                    anglerfish.incrementConsumeDeath();
+                    foodLevel += ANGLERFISH_FOOD_VALUE;
                     foodLocation = loc;
                 }
             }
@@ -201,7 +216,7 @@ public class Shark extends Organism
      */
     private boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 15);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 13);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 
@@ -227,5 +242,36 @@ public class Shark extends Organism
     private boolean canBreed()
     {
         return age >= BREEDING_AGE;
+    }
+
+    private static void incrementStarvationDeath()
+    {
+        starvation += 1;
+
+    }
+    public static void incrementConsumeDeath()
+    {
+        consumed += 1;
+
+    }
+    public static void incrementNaturalDeath()
+    {
+        naturalDeath += 1;
+
+    }
+    public static int getStarvation()
+    {
+        return starvation;
+
+    }
+    public static int getConsumed()
+    {
+        return consumed;
+
+    }
+    public static int getNaturalDeath()
+    {
+        return naturalDeath;
+
     }
 }

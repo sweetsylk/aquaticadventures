@@ -16,9 +16,9 @@ public class Cod extends Organism
     // The age to which a cod can live.
     private static final int MAX_AGE = 30;
     // The likelihood of a cod breeding.
-    private static final double BREEDING_PROBABILITY = 0.3;
+    private static final double BREEDING_PROBABILITY = 0.8;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 6;
+    private static final int MAX_LITTER_SIZE = 9;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -26,6 +26,8 @@ public class Cod extends Organism
     
     // The cod's age.
     private int age;
+    private static int consumed;
+    private static int naturalDeath;
 
     /**
      * Create a new cod. A cod may be created with age
@@ -56,7 +58,7 @@ public class Cod extends Organism
         if(isAlive()) {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            if ((step % 24) > 4 && (step % 24) <= 23) {
+            if ((step % 24) > 9 && (step % 24) <= 17) {
                 if (!freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
                 }
@@ -141,7 +143,7 @@ public class Cod extends Organism
      */
     private boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 4);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 
@@ -167,5 +169,30 @@ public class Cod extends Organism
     private boolean canBreed()
     {
         return age >= BREEDING_AGE;
+    }
+
+
+    public static void incrementConsumeDeath()
+    {
+        consumed += 1;
+
+    }
+
+    public static void incrementNaturalDeath()
+    {
+        naturalDeath += 1;
+
+    }
+
+    public static int getConsumed()
+    {
+        return consumed;
+
+    }
+
+    public static int getNaturalDeath()
+    {
+        return naturalDeath;
+
     }
 }

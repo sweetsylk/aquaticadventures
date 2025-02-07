@@ -118,7 +118,7 @@ public class Field
      */
     public void fieldStats()
     {
-        int numTunas = 0, numCods = 0, numSharks = 0, numOrcas = 0, numWhales = 0;
+        int numTunas = 0, numCods = 0, numSharks = 0, numOrcas = 0, numWhales = 0, numAnglerfish = 0;
         for(Organism anOrganism : field.values()) {
             if (anOrganism instanceof Tuna tuna) {
                 if (tuna.isAlive()) {
@@ -145,9 +145,14 @@ public class Field
                     numWhales++;
                 }
             }
+            else if (anOrganism instanceof Anglerfish anglerfish) {
+                if (anglerfish.isAlive()) {
+                    numAnglerfish++;
+                }
+            }
         }
         System.out.println("Cods: " + numCods +
-                           " Tunas: " + numTunas + " Sharks: " + numSharks + " Orcas: " + numOrcas + " Whales: " + numWhales);
+                           " Tunas: " + numTunas + " Sharks: " + numSharks + " Orcas: " + numOrcas + " Whales: " + numWhales + " Anglerfish: " + numAnglerfish);
 
     }
 
@@ -167,8 +172,9 @@ public class Field
         boolean sharkFound = false;
         boolean orcaFound = false;
         boolean whaleFound = false;
+        boolean anglerfishFound = false;
         Iterator<Organism> it = Organisms.iterator();
-        while(it.hasNext() && ! (codFound && tunaFound && sharkFound && orcaFound && whaleFound)) {
+        while(it.hasNext() && ! (codFound && tunaFound && sharkFound && orcaFound && whaleFound && anglerfishFound)) {
             Organism anOrganism = it.next();
             if(anOrganism instanceof Cod cod) {
                 if(cod.isAlive()) {
@@ -195,8 +201,13 @@ public class Field
                     whaleFound = true;
                 }
             }
+            else if(anOrganism instanceof Anglerfish anglerfish) {
+                if (anglerfish.isAlive()) {
+                    anglerfishFound = true;
+                }
+            }
         }
-        return codFound && tunaFound && sharkFound && orcaFound && whaleFound;
+        return codFound && tunaFound && sharkFound && orcaFound && whaleFound && anglerfishFound;
     }
     
     /**

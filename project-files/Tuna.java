@@ -17,12 +17,12 @@ public class Tuna extends Organism
     // The age to which a Tuna can live.
     private static final int MAX_AGE = 55;
     // The likelihood of a Tuna breeding.
-    private static final double BREEDING_PROBABILITY = 0.42;
+    private static final double BREEDING_PROBABILITY = 0.35;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 8;
+    private static final int MAX_LITTER_SIZE = 6;
     // The food value of a single prey. In effect, this is the
     // number of steps a tuna can go before it has to eat again.
-    private static final int COD_FOOD_VALUE = 30;
+    private static final int COD_FOOD_VALUE = 41;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -32,6 +32,9 @@ public class Tuna extends Organism
     private int age;
     // The tuna's food level, which is increased by eating cod or salmon.
     private int foodLevel;
+    private static int starvation;
+    private static int consumed;
+    private static int naturalDeath;
 
     /**
      * Create a tuna. A tuna can be created as a new born (age zero
@@ -69,7 +72,7 @@ public class Tuna extends Organism
         {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            if ((step % 24) >= 3 && (step % 24) <= 21)
+            if ((step % 24) >= 9 && (step % 24) <= 17)
             {
             if(! freeLocations.isEmpty()) {
                 giveBirth(nextFieldState, freeLocations);
@@ -115,6 +118,7 @@ public class Tuna extends Organism
     {
         age++;
         if(age > MAX_AGE) {
+            incrementNaturalDeath();
             setDead();
         }
     }
@@ -126,6 +130,7 @@ public class Tuna extends Organism
     {
         foodLevel--;
         if(foodLevel <= 0) {
+            incrementStarvationDeath();
             setDead();
         }
     }
@@ -138,7 +143,7 @@ public class Tuna extends Organism
      */
     private Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
@@ -147,6 +152,7 @@ public class Tuna extends Organism
             if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
                     cod.setDead();
+                    Cod.incrementConsumeDeath();
                     foodLevel += COD_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -194,7 +200,7 @@ public class Tuna extends Organism
 
     private boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 12);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 15);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 
@@ -221,4 +227,39 @@ public class Tuna extends Organism
     {
         return age >= BREEDING_AGE;
     }
+
+    private static void incrementStarvationDeath()
+    {
+        starvation += 1;
+
+    }
+    public static void incrementConsumeDeath()
+    {
+        consumed += 1;
+
+    }
+    public static void incrementNaturalDeath()
+    {
+        naturalDeath += 1;
+
+    }
+
+    public static int getStarvation()
+    {
+        return starvation;
+
+    }
+    public static int getConsumed()
+    {
+        return consumed;
+
+    }
+
+    public static int getNaturalDeath()
+    {
+        return naturalDeath;
+
+    }
+
+
 }

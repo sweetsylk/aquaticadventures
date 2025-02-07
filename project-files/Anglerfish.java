@@ -3,48 +3,48 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * A KILLER SHARKKKK!!!
- * Orca's age, move, eat SHARKS, and die.
+ * This is an anglerfish - a nocturnal creature.
+ * they can age, move, eat cod and salmon, and die.
  *
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Orca extends Organism
+public class Anglerfish extends Organism
 {
     // Characteristics shared by all tuba (class variables).
-    // The age at which a Orca can start to breed.
-    private static final int BREEDING_AGE = 25;
-    // The age to which a Orca can live.
-    private static final int MAX_AGE = 150;
-    // The likelihood of a Orca breeding.
-    private static final double BREEDING_PROBABILITY = 0.018;
+    // The age at which they can start to breed.
+    private static final int BREEDING_AGE = 15;
+    // The age to which they can live.
+    private static final int MAX_AGE = 90;
+    // The likelihood of an anglerfish breeding.
+    private static final double BREEDING_PROBABILITY = 0.3;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single prey. In effect, this is the
-    // number of steps a Orca can go before it has to eat again.
-    private static final int SHARK_FOOD_VALUE = 30;
-    private static final int WHALE_FOOD_VALUE = 50;
-
+    // number of steps the fish can go before it has to eat again.
+    private static final int COD_FOOD_VALUE = 40;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
     // Individual characteristics (instance fields).
 
-    // The orca's age.
+    // The fish's age.
     private int age;
-    // The orca's food level, which is increased by eating a shark.
+    // The fish's food level, which is increased by eating cod or salmon.
     private int foodLevel;
+
     private static int starvation;
+    private static int consumed;
     private static int naturalDeath;
 
     /**
-     * Create an orca. an orca can be created as a new born (age zero
+     * Create an Anglerfish. they can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      *
-     * @param randomAge If true, the orca will have random age and hunger level.
+     * @param randomAge If true, the fish will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Orca(boolean randomAge, Location location, Boolean isMale)
+    public Anglerfish(boolean randomAge, Location location, Boolean isMale)
     {
         super(location, isMale);
         if(randomAge) {
@@ -53,15 +53,16 @@ public class Orca extends Organism
         else {
             age = 0;
         }
-        foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
+        foodLevel = rand.nextInt(COD_FOOD_VALUE);
+
     }
 
     /**
-     * This is what the Orca does most of the time: it hunts for
-     * Sharks. In the process, it might breed, die of hunger,
+     * This is what the Anglerfish does most of the time: it hunts for cod.
+     * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
-     * Orcas are awake from 5am to 6pm
-     * @param step the step the simulation is at currently
+     * Tunas are awake from 5am to 10pm
+     * @param step the current step in the simulation
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
@@ -71,10 +72,10 @@ public class Orca extends Organism
         incrementHunger();
         if(isAlive())
         {
-            if ((step % 24) >= 9 && (step % 24) <= 17)
+            List<Location> freeLocations =
+                    nextFieldState.getFreeAdjacentLocations(getLocation());
+            if (((step % 24) >= 20) || ((step % 24) <= 5))
             {
-                List<Location> freeLocations =
-                        nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
                 }
@@ -97,7 +98,6 @@ public class Orca extends Organism
             else {
                 nextFieldState.placeOrganism(this, getLocation());
             }
-
         }
     }
 
@@ -105,7 +105,7 @@ public class Orca extends Organism
 
     @Override
     public String toString() {
-        return "Orca{" +
+        return "Anglerfish{" +
                 "age=" + age +
                 ", alive=" + isAlive() +
                 ", location=" + getLocation() +
@@ -114,7 +114,7 @@ public class Orca extends Organism
     }
 
     /**
-     * Increase the age. This could result in the Orca's death.
+     * Increase the age. This could result in the fish's death.
      */
     private void incrementAge()
     {
@@ -126,7 +126,7 @@ public class Orca extends Organism
     }
 
     /**
-     * Make this Orca more hungry. This could result in the Orca's death.
+     * Make this fish more hungry. This could result in the fish's death.
      */
     private void incrementHunger()
     {
@@ -138,46 +138,33 @@ public class Orca extends Organism
     }
 
     /**
-     * Look for Organisms adjacent to the current location.
-     * Only the first live shark is eaten.
+     * Look for rabbits adjacent to the current location.
+     * Only the first live cod is eaten.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 8);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 3);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
             Organism Organism = field.getOrganismAt(loc);
-            if(Organism instanceof Shark shark) {
-                if(shark.isAlive()) {
-                    shark.setDead();
-                    Shark.incrementConsumeDeath();
-                    foodLevel += SHARK_FOOD_VALUE;
+            if(Organism instanceof Cod cod) {
+                if(cod.isAlive()) {
+                    cod.setDead();
+                    Cod.incrementConsumeDeath();
+                    foodLevel += COD_FOOD_VALUE;
                     foodLocation = loc;
                 }
             }
-
-            else if(Organism instanceof Whale whale) {
-                if(whale.isAlive()) {
-                    System.out.println("ORCA EATS SHARK");
-                    whale.setDead();
-                    Whale.incrementConsumeDeath();
-                    foodLevel += WHALE_FOOD_VALUE;
-                    foodLocation = loc;
-                }
-            }
-
-
-
         }
         return foodLocation;
     }
 
     /**
-     * Check whether this Orca is to give birth at this step.
+     * Check whether this fish should give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
@@ -190,7 +177,7 @@ public class Orca extends Organism
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Orca young = new Orca(false, loc, babyGender);
+                Anglerfish young = new Anglerfish(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -204,7 +191,7 @@ public class Orca extends Organism
     private int breed(Field field)
     {
         int births;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY && canMate(field)) {
+        if(canBreed() && (rand.nextDouble() <= BREEDING_PROBABILITY) && canMate(field)) {
             births = rand.nextInt(MAX_LITTER_SIZE) + 1;
         }
         else {
@@ -215,14 +202,14 @@ public class Orca extends Organism
 
     private boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 27);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 
         for (Location loc : adjacent) {
             Organism organism = field.getOrganismAt(loc);
-            if (organism instanceof Orca orca) {
-                if (orca.isMale()) {
+            if (organism instanceof Anglerfish anglerfish) {
+                if (anglerfish.isMale()) {
                     foundMale = true;
                 } else {
                     foundFemale = true;
@@ -236,7 +223,7 @@ public class Orca extends Organism
     }
 
     /**
-     * A Orca can breed if it has reached the breeding age.
+     * An Anglerfish can breed if it has reached the breeding age.
      */
     private boolean canBreed()
     {
@@ -248,22 +235,32 @@ public class Orca extends Organism
         starvation += 1;
 
     }
+    public static void incrementConsumeDeath()
+    {
+        consumed += 1;
+
+    }
 
     private static void incrementNaturalDeath()
     {
         naturalDeath += 1;
 
     }
+
     public static int getStarvation()
     {
         return starvation;
 
     }
+    public static int getConsumed()
+    {
+        return consumed;
 
+    }
     public static int getNaturalDeath()
     {
         return naturalDeath;
 
     }
-
 }
+
