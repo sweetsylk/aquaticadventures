@@ -114,7 +114,7 @@ public class Field
     }
 
     /**
-     * Print out the number of tunas and cods in the field.
+     * Print out the number of tunas, cods, orcas, sharks, and whales in the field.
      */
     public void fieldStats()
     {

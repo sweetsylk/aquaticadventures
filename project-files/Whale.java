@@ -1,5 +1,5 @@
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,9 +16,9 @@ public class Whale extends Organism
     // The age at which a Whale can start to breed.
     private static final int BREEDING_AGE = 24;
     // The age to which a Whale can live.
-    private static final int MAX_AGE = 360;
+    private static final int MAX_AGE = 385;
     // The likelihood of a Whale breeding.
-    private static final double BREEDING_PROBABILITY = 0.1;
+    private static final double BREEDING_PROBABILITY = 0.10;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single prey. In effect, this is the

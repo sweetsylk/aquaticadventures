@@ -1,5 +1,5 @@
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -15,9 +15,9 @@ public class Shark extends Organism
     // The age at which a Shark can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a Shark can live.
-    private static final int MAX_AGE = 120;
+    private static final int MAX_AGE = 118;
     // The likelihood of a Shark breeding.
-    private static final double BREEDING_PROBABILITY = 0.38;
+    private static final double BREEDING_PROBABILITY = 0.37;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single prey. In effect, this is the

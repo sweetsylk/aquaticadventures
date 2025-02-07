@@ -1,5 +1,5 @@
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -17,7 +17,7 @@ public class Orca extends Organism
     // The age to which a Orca can live.
     private static final int MAX_AGE = 150;
     // The likelihood of a Orca breeding.
-    private static final double BREEDING_PROBABILITY = 0.065;
+    private static final double BREEDING_PROBABILITY = 0.07;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single prey. In effect, this is the

@@ -11,7 +11,7 @@ A predator-prey simulation involving foxes and rabbits in
 an enclosed rectangular field.
 
 This is the second version of the simulation. This version
-makes use of inheritance for the animals.
+makes use of inheritance for the Organisms.
 
 How to start:
     Create a Simulator object.

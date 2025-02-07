@@ -1,5 +1,5 @@
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -15,9 +15,9 @@ public class Tuna extends Organism
     // The age at which a Tuna can start to breed.
     private static final int BREEDING_AGE = 15;
     // The age to which a Tuna can live.
-    private static final int MAX_AGE = 60;
+    private static final int MAX_AGE = 55;
     // The likelihood of a Tuna breeding.
-    private static final double BREEDING_PROBABILITY = 0.4;
+    private static final double BREEDING_PROBABILITY = 0.42;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 8;
     // The food value of a single prey. In effect, this is the

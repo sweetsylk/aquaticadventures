@@ -14,9 +14,9 @@ public class Cod extends Organism
     // The age at which a cod can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a cod can live.
-    private static final int MAX_AGE = 36;
+    private static final int MAX_AGE = 30;
     // The likelihood of a cod breeding.
-    private static final double BREEDING_PROBABILITY = 0.28;
+    private static final double BREEDING_PROBABILITY = 0.3;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 6;
     // A shared random number generator to control breeding.

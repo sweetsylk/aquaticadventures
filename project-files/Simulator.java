@@ -1,10 +1,10 @@
 import java.util.*;
 
 /**
- * A simple predator-prey simulator, based on a rectangular field containing 
- * rabbits and foxes.
+ * A predator-prey simulator, based on a rectangular field containing 
+ * tuna, cod, sharks, orcas, and whales.
  * 
- * @author David J. Barnes and Michael Kölling
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq
  * @version 7.1
  */
 public class Simulator
@@ -14,9 +14,8 @@ public class Simulator
     private static final int DEFAULT_WIDTH = 120;
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
-    // The probability that a tuna will be created in any given grid position.
+    // The probabilities that each organism will be created in any given grid position.
     private static final double TUNA_CREATION_PROBABILITY = 0.05;
-    // The probability that a cod will be created in any given position.
     private static final double COD_CREATION_PROBABILITY = 0.12;
     private static final double SHARK_CREATION_PROBABILITY = 0.03;
     private static final double ORCA_CREATION_PROBABILITY = 0.014;

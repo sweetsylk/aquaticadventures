@@ -1,4 +1,3 @@
-import java.util.Random;
 
 /**
  * Common elements of cod, tuna, sharks and orcas.
