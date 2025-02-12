@@ -9,22 +9,17 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Anglerfish extends Organism
+public class Anglerfish extends Animal
 {
     // Characteristics shared by all tuba (class variables).
     // The age at which they can start to breed.
-    private static final int BREEDING_AGE = 15;
-    // The age to which they can live.
-    private static final int MAX_AGE = 90;
-    // The likelihood of an anglerfish breeding.
-    private static final double BREEDING_PROBABILITY = 0.3;
-    // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single prey. In effect, this is the
     // number of steps the fish can go before it has to eat again.
     private static final int COD_FOOD_VALUE = 40;
+    private static final int ALGAE_FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
+
 
     // Individual characteristics (instance fields).
 
@@ -44,16 +39,12 @@ public class Anglerfish extends Organism
      * @param randomAge If true, the fish will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Anglerfish(boolean randomAge, Location location, Boolean isMale)
+    public Anglerfish(Boolean randomAge, Location location, Boolean isMale)
     {
-        super(location, isMale);
-        if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-        }
-        else {
-            age = 0;
-        }
+        super(randomAge, location, 60, isMale, 12, 0.65, 7);
+
         foodLevel = rand.nextInt(COD_FOOD_VALUE);
+
 
     }
 
@@ -113,29 +104,8 @@ public class Anglerfish extends Organism
                 '}';
     }
 
-    /**
-     * Increase the age. This could result in the fish's death.
-     */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            incrementNaturalDeath();
-            setDead();
-        }
-    }
 
-    /**
-     * Make this fish more hungry. This could result in the fish's death.
-     */
-    private void incrementHunger()
-    {
-        foodLevel--;
-        if(foodLevel <= 0) {
-            incrementStarvationDeath();
-            setDead();
-        }
-    }
+
 
     /**
      * Look for rabbits adjacent to the current location.
@@ -143,7 +113,7 @@ public class Anglerfish extends Organism
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
-    private Location findFood(Field field)
+    public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 3);
         Iterator<Location> it = adjacent.iterator();
@@ -159,6 +129,15 @@ public class Anglerfish extends Organism
                     foodLocation = loc;
                 }
             }
+            else if(Organism instanceof Algae algae) {
+                if(algae.isAlive()) {
+                    algae.setDead();
+                    Algae.incrementConsumeDeath();
+                    foodLevel += ALGAE_FOOD_VALUE;
+                    foodLocation = loc;
+                }
+
+            }
         }
         return foodLocation;
     }
@@ -168,9 +147,9 @@ public class Anglerfish extends Organism
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
-    private void giveBirth(Field nextFieldState, List<Location> freeLocations)
+    public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
-        // New foxes are born into adjacent locations.
+        // New Anglerfish are born into adjacent locations.
         // Get a list of adjacent free locations.
         int births = breed(nextFieldState);
         if(births > 0) {
@@ -183,24 +162,9 @@ public class Anglerfish extends Organism
         }
     }
 
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-    private int breed(Field field)
-    {
-        int births;
-        if(canBreed() && (rand.nextDouble() <= BREEDING_PROBABILITY) && canMate(field)) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        else {
-            births = 0;
-        }
-        return births;
-    }
 
-    private boolean canMate(Field field)
+
+    public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);
         boolean foundMale = this.isMale();
@@ -222,13 +186,7 @@ public class Anglerfish extends Organism
         return false;
     }
 
-    /**
-     * An Anglerfish can breed if it has reached the breeding age.
-     */
-    private boolean canBreed()
-    {
-        return age >= BREEDING_AGE;
-    }
+
 
     private static void incrementStarvationDeath()
     {

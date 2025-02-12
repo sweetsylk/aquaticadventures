@@ -118,7 +118,7 @@ public class Field
      */
     public void fieldStats()
     {
-        int numTunas = 0, numCods = 0, numSharks = 0, numOrcas = 0, numWhales = 0, numAnglerfish = 0;
+        int numTunas = 0, numCods = 0, numSharks = 0, numOrcas = 0, numWhales = 0, numAnglerfish = 0, numAlgae = 0;
         for(Organism anOrganism : field.values()) {
             if (anOrganism instanceof Tuna tuna) {
                 if (tuna.isAlive()) {
@@ -150,9 +150,14 @@ public class Field
                     numAnglerfish++;
                 }
             }
+            else if (anOrganism instanceof Algae algae) {
+                if (algae.isAlive()) {
+                    numAlgae++;
+                }
+            }
         }
         System.out.println("Cods: " + numCods +
-                           " Tunas: " + numTunas + " Sharks: " + numSharks + " Orcas: " + numOrcas + " Whales: " + numWhales + " Anglerfish: " + numAnglerfish);
+                           " Tunas: " + numTunas + " Sharks: " + numSharks + " Orcas: " + numOrcas + " Whales: " + numWhales + " Anglerfish: " + numAnglerfish + " Algaes: " + numAlgae);
 
     }
 
@@ -173,8 +178,9 @@ public class Field
         boolean orcaFound = false;
         boolean whaleFound = false;
         boolean anglerfishFound = false;
+        boolean algaeFound = false;
         Iterator<Organism> it = Organisms.iterator();
-        while(it.hasNext() && ! (codFound && tunaFound && sharkFound && orcaFound && whaleFound && anglerfishFound)) {
+        while(it.hasNext() && ! (codFound && tunaFound && sharkFound && orcaFound && whaleFound && anglerfishFound && algaeFound)) {
             Organism anOrganism = it.next();
             if(anOrganism instanceof Cod cod) {
                 if(cod.isAlive()) {
@@ -206,8 +212,13 @@ public class Field
                     anglerfishFound = true;
                 }
             }
+            else if(anOrganism instanceof Algae algae) {
+                if (algae.isAlive()) {
+                    algaeFound = true;
+                }
+            }
         }
-        return codFound && tunaFound && sharkFound && orcaFound && whaleFound && anglerfishFound;
+        return codFound && tunaFound && sharkFound && orcaFound && whaleFound && anglerfishFound && algaeFound ;
     }
     
     /**

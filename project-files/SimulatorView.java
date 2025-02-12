@@ -48,6 +48,7 @@ public class SimulatorView extends JFrame
         Color orcaColor = new Color(49,37,32);
         Color whaleColor = new Color(140, 0, 150);
         Color anglerfishColor = new Color(212, 150, 0);
+        Color algaeColor = new Color(12,92,12 );
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
         setColor(Cod.class, codColor);
@@ -56,6 +57,7 @@ public class SimulatorView extends JFrame
         setColor(Orca.class, orcaColor);
         setColor(Whale.class, whaleColor);
         setColor(Anglerfish.class, anglerfishColor);
+        setColor(Algae.class, algaeColor);
 
         setTitle("Aquatic Adventures");
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);

@@ -1,3 +1,5 @@
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -8,17 +10,8 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Cod extends Organism
+public class Cod extends Animal
 {
-    // Characteristics shared by all rabbits (class variables).
-    // The age at which a cod can start to breed.
-    private static final int BREEDING_AGE = 10;
-    // The age to which a cod can live.
-    private static final int MAX_AGE = 30;
-    // The likelihood of a cod breeding.
-    private static final double BREEDING_PROBABILITY = 0.8;
-    // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 9;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -28,6 +21,7 @@ public class Cod extends Organism
     private int age;
     private static int consumed;
     private static int naturalDeath;
+    private static final int ALGAE_FOOD_VALUE = 20;
 
     /**
      * Create a new cod. A cod may be created with age
@@ -36,15 +30,12 @@ public class Cod extends Organism
      * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
      */
-    public Cod(boolean randomAge, Location location, Boolean isMale)
+    public Cod(Boolean randomAge, Location location, Boolean isMale)
     {
-        super(location, isMale);
-        age = 0;
-        if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-        }
+        super(randomAge, location, 20, isMale, 10, 0.75, 12);
     }
-    
+
+
     /**
      * This is what the cod does most of the time - it runs
      * around. Sometimes it will breed or die of old age or sleep even
@@ -88,24 +79,31 @@ public class Cod extends Organism
                 '}';
     }
 
-    /**
-     * Increase the age.
-     * This could result in the cod's death.
-     */
-    private void incrementAge()
+    public Location findFood(Field field)
     {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
+        Iterator<Location> it = adjacent.iterator();
+        Location foodLocation = null;
+        while(foodLocation == null && it.hasNext()) {
+            Location loc = it.next();
+            Organism Organism = field.getOrganismAt(loc);
+            if(Organism instanceof Algae algae) {
+                if(algae.isAlive()) {
+                    algae.setDead();
+                    Algae.incrementConsumeDeath();
+                    foodLevel += ALGAE_FOOD_VALUE;
+                    foodLocation = loc;
+                }
+            }
         }
+        return foodLocation;
     }
-    
     /**
      * Check whether or not this cod is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
-    private void giveBirth(Field nextFieldState, List<Location> freeLocations)
+    public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New rabbits are born into adjacent locations.
         // Get a list of adjacent free locations.
@@ -120,28 +118,13 @@ public class Cod extends Organism
         }
     }
         
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-    private int breed(Field field)
-    {
-        int births;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY && canMate(field)) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        else {
-            births = 0;
-        }
-        return births;
-    }
+
     /**
      * Checks if there is a mating pair (male and female) of cods nearby.
      * @param field The field currently occupied.
      * @return true if there is a male and female cod nearby.
      */
-    private boolean canMate(Field field)
+    public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 4);
         boolean foundMale = this.isMale();
@@ -161,14 +144,6 @@ public class Cod extends Organism
             }
         }
         return false;
-    }
-    /**
-     * A cod can breed if it has reached the breeding age.
-     * @return true if the cod can breed, false otherwise.
-     */
-    private boolean canBreed()
-    {
-        return age >= BREEDING_AGE;
     }
 
 

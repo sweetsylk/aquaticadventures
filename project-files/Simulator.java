@@ -15,9 +15,10 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probabilities that each organism will be created in any given grid position.
+    private static final double ALGAE_CREATION_PROBABILITY = 0.21;
+    private static final double COD_CREATION_PROBABILITY = 0.13;
     private static final double TUNA_CREATION_PROBABILITY = 0.08;
     private static final double ANGLERFISH_CREATION_PROBABILITY = 0.024;
-    private static final double COD_CREATION_PROBABILITY = 0.13;
     private static final double SHARK_CREATION_PROBABILITY = 0.03;
     private static final double ORCA_CREATION_PROBABILITY = 0.014;
     private static final double WHALE_CREATION_PROBABILITY = 0.012;
@@ -77,7 +78,7 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps && field.isViable(); n++) {
             simulateOneStep();
-            delay(300);         // adjust this to change execution speed
+            delay(12);         // adjust this to change execution speed
         }
         finalReport();
 
@@ -167,6 +168,11 @@ public class Simulator
                     Cod cod = new Cod(true, location, isMale);
                     field.placeOrganism(cod, location);
                 }
+                else if(rand.nextDouble() <= ALGAE_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Algae algae = new Algae(true, location);
+                    field.placeOrganism(algae, location);
+                }
                 // else leave the location empty.
             }
         }
@@ -202,12 +208,6 @@ public class Simulator
     }
     private void finalReport()
     {
-        System.out.println("Cods dead via Consumption: " + Cod.getConsumed() + " OLD ass cods " + Cod.getNaturalDeath()
-            + "\nTunas dead via Consumption: " + Tuna.getConsumed() + " Tunas Starved: " + Tuna.getStarvation() + " OLD ass Tunas " + Tuna.getNaturalDeath()
-            + "\nSharks dead via Consumption: " + Shark.getConsumed() + " Sharks Starved: " + Shark.getStarvation() + " OLD ass Sharks " + Shark.getNaturalDeath()
-            + "\nWhales dead via Consumption: " + Whale.getConsumed() + " Whales Starved: " + Whale.getStarvation() + " OLD ass Whales " + Whale.getNaturalDeath()
-            + "\nAnglerfishes dead via Consumption: " + Anglerfish.getConsumed() + " Anglerfishes Starved: " + Anglerfish.getStarvation() + " OLD ass Anglerfish " + Anglerfish.getNaturalDeath()
-            + "\nOrcas Starved: " + Orca.getStarvation() + " OLD ass Orcas " + Orca.getNaturalDeath());
 
 
     }

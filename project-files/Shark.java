@@ -9,28 +9,19 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
-public class Shark extends Organism
+public class Shark extends Animal
 {
     // Characteristics shared by all tuba (class variables).
     // The age at which a Shark can start to breed.
-    private static final int BREEDING_AGE = 10;
-    // The age to which a Shark can live.
-    private static final int MAX_AGE = 100;
-    // The likelihood of a Shark breeding.
-    private static final double BREEDING_PROBABILITY = 0.32;
-    // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
     // The food value of a single prey. In effect, this is the
     // number of steps a Shark can go before it has to eat again.
-    private static final int TUNA_FOOD_VALUE = 40;
-    private static final int ANGLERFISH_FOOD_VALUE = 40;
+    private static final int TUNA_FOOD_VALUE = 60;
+    private static final int ANGLERFISH_FOOD_VALUE = 75;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
 
     // Individual characteristics (instance fields).
 
-    // The shark's age.
-    private int age;
     // The shark's food level, which is increased by eating a shark.
     private int foodLevel;
 
@@ -42,18 +33,11 @@ public class Shark extends Organism
      * Create a shark. A shark can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      *
-     * @param randomAge If true, the shark will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Shark(boolean randomAge, Location location, Boolean isMale)
+    public Shark(Boolean randomAge, Location location, Boolean isMale)
     {
-        super(location, isMale);
-        if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-        }
-        else {
-            age = 0;
-        }
+        super(randomAge, location, 95, isMale, 15, 0.6, 5);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
     }
 
@@ -115,29 +99,6 @@ public class Shark extends Organism
                 '}';
     }
 
-    /**
-     * Increase the age. This could result in the Shark's death.
-     */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            incrementNaturalDeath();
-            setDead();
-        }
-    }
-
-    /**
-     * Make this Shark more hungry. This could result in the Shark's death.
-     */
-    private void incrementHunger()
-    {
-        foodLevel--;
-        if(foodLevel <= 0) {
-            incrementStarvationDeath();
-            setDead();
-        }
-    }
 
     /**
      * Look for Organisms adjacent to the current location.
@@ -145,7 +106,7 @@ public class Shark extends Organism
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
-    private Location findFood(Field field)
+    public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 4);
         Iterator<Location> it = adjacent.iterator();
@@ -178,9 +139,9 @@ public class Shark extends Organism
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
-    private void giveBirth(Field nextFieldState, List<Location> freeLocations)
+    public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
-        // New foxes are born into adjacent locations.
+        // New animals are born into adjacent locations.
         // Get a list of adjacent free locations.
         int births = breed(nextFieldState);
         if(births > 0) {
@@ -194,29 +155,13 @@ public class Shark extends Organism
     }
 
     /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-    private int breed(Field field)
-    {
-        int births;
-        if(canBreed() && (rand.nextDouble() <= BREEDING_PROBABILITY) && canMate(field)) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        else {
-            births = 0;
-        }
-        return births;
-    }
-    /**
      * Checks if there is a mating pair (male and female) of sharks nearby.
      * @param field The field currently occupied.
      * @return true if there is a male and female shark nearby.
      */
-    private boolean canMate(Field field)
+    public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 13);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 15);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 
@@ -236,15 +181,8 @@ public class Shark extends Organism
         return false; // No valid pair
     }
 
-    /**
-     * A Shark can breed if it has reached the breeding age.
-     */
-    private boolean canBreed()
-    {
-        return age >= BREEDING_AGE;
-    }
 
-    private static void incrementStarvationDeath()
+    public static void incrementStarvationDeath()
     {
         starvation += 1;
 

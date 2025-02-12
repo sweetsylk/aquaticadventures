@@ -10,17 +10,10 @@ import java.util.Random;
  * @author Ridwan Adam - made the whale!
  * @version 7.1
  */
-public class Whale extends Organism
+public class Whale extends Animal
 {
-    // Characteristics shared by all tuba (class variables).
-    // The age at which a Whale can start to breed.
-    private static final int BREEDING_AGE = 24;
-    // The age to which a Whale can live.
-    private static final int MAX_AGE = 385;
-    // The likelihood of a Whale breeding.
-    private static final double BREEDING_PROBABILITY = 0.12;
-    // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 3;
+    // Characteristics shared by all Whales (class variables).
+
     // The food value of a single prey. In effect, this is the
     // number of steps a Whale can go before it has to eat again.
     private static final int TUNA_FOOD_VALUE = 120;
@@ -31,8 +24,6 @@ public class Whale extends Organism
 
     // Individual characteristics (instance fields).
 
-    // The Whale's age.
-    private int age;
     // The Whale's food level, which is increased by eating a Whale.
     private int foodLevel;
 
@@ -48,15 +39,9 @@ public class Whale extends Organism
      * @param location The location within the field.
      * @param isMale whether the whale is male or not
      */
-    public Whale(boolean randomAge, Location location, Boolean isMale)
+    public Whale(Boolean randomAge, Location location, Boolean isMale)
     {
-        super(location, isMale);
-        if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-        }
-        else {
-            age = 0;
-        }
+        super(randomAge, location, 200, isMale, 20, 0.5, 3);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
     }
 
@@ -117,29 +102,7 @@ public class Whale extends Organism
                 '}';
     }
 
-    /**
-     * Increase the age. This could result in the Shark's death.
-     */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            incrementNaturalDeath();
-            setDead();
-        }
-    }
 
-    /**
-     * Make this Shark more hungry. This could result in the Shark's death.
-     */
-    private void incrementHunger()
-    {
-        foodLevel--;
-        if(foodLevel <= 0) {
-            incrementStarvationDeath();
-            setDead();
-        }
-    }
 
     /**
      * Look for Organisms adjacent to the current location.
@@ -147,7 +110,7 @@ public class Whale extends Organism
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
-    private Location findFood(Field field) {
+    public Location findFood(Field field) {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
@@ -188,7 +151,7 @@ public class Whale extends Organism
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
-    private void giveBirth(Field nextFieldState, List<Location> freeLocations)
+    public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New foxes are born into adjacent locations.
         // Get a list of adjacent free locations.
@@ -204,26 +167,11 @@ public class Whale extends Organism
     }
 
     /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-    private int breed(Field field)
-    {
-        int births;
-        if(canBreed() && (rand.nextDouble() <= BREEDING_PROBABILITY) && canMate(field)) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }  else {
-            births = 0;
-        }
-        return births;
-    }
-    /**
      * Checks if there is a mating pair (male and female) of sharks nearby.
      * @param field The field currently occupied.
      * @return true if there is a male and female Whale nearby.
      */
-    private boolean canMate(Field field)
+    public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 25);
         boolean foundMale = this.isMale();
@@ -245,15 +193,9 @@ public class Whale extends Organism
         return false; // No valid pair
     }
 
-    /**
-     * A Whale can breed if it has reached the breeding age.
-     */
-    private boolean canBreed()
-    {
-        return age >= BREEDING_AGE;
-    }
 
-    private static void incrementStarvationDeath()
+
+    public static void incrementStarvationDeath()
     {
         starvation += 1;
 
