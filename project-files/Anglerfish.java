@@ -40,7 +40,7 @@ public class Anglerfish extends Animal
      */
     public Anglerfish(Boolean randomAge, Location location, Boolean isMale)
     {
-        super(randomAge, location, 60, isMale, 12, 0.65, 7);
+        super(randomAge, location, 60, isMale, 12, 0.6, 7);
 
         foodLevel = rand.nextInt(COD_FOOD_VALUE);
 
@@ -58,14 +58,14 @@ public class Anglerfish extends Animal
      */
     public void act(int step, Field currentField, Field nextFieldState)
     {
-        incrementAge();
-        incrementHunger();
         if(isAlive())
         {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
             if (((step % 24) >= 20) || ((step % 24) <= 5))
             {
+                incrementAge();
+                incrementHunger();
                 if(! freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
                 }

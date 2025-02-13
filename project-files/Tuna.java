@@ -15,7 +15,7 @@ public class Tuna extends Animal
     // The food value of a single prey. In effect, this is the
     // number of steps a tuna can go before it has to eat again.
     private static final int COD_FOOD_VALUE = 50;
-    private static final int ALGAE_FOOD_VALUE = 10;
+    private static final int ALGAE_FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
     
     
@@ -38,7 +38,7 @@ public class Tuna extends Animal
      */
     public Tuna(Boolean randomAge, Location location, Boolean isMale)
     {
-        super(randomAge, location, 54, isMale, 15, 0.8, 8);
+        super(randomAge, location, 120, isMale, 10, 0.7, 10);
         foodLevel = rand.nextInt(COD_FOOD_VALUE);
     }
     
@@ -53,10 +53,10 @@ public class Tuna extends Animal
      */
     public void act(int step, Field currentField, Field nextFieldState)
     {
-        incrementAge();
-        incrementHunger();
         if(isAlive())
         {
+            incrementAge();
+            incrementHunger();
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
             if ((step % 24) >= 9 && (step % 24) <= 17)
@@ -142,9 +142,13 @@ public class Tuna extends Animal
      */
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
-        // New foxes are born into adjacent locations.
+        // New Tunas are born into adjacent locations.
         // Get a list of adjacent free locations.
         int births = breed(nextFieldState);
+        if (Field.tunaCount() <= 100)
+        {
+            births += 5;
+        }
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);

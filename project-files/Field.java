@@ -15,7 +15,7 @@ public class Field
     // The dimensions of the field.
     private final int depth, width;
     // Organisms mapped by location.
-    private final Map<Location, Organism> field = new HashMap<>();
+    private static final Map<Location, Organism> field = new HashMap<>();
     // The Organisms.
     private final List<Organism> Organisms = new ArrayList<>();
 
@@ -53,7 +53,7 @@ public class Field
      * @param location Where in the field.
      * @return The Organism at the given location, or null if there is none.
      */
-    public Organism getOrganismAt(Location location)
+    public static Organism getOrganismAt(Location location)
     {
         return field.get(location);
     }
@@ -72,12 +72,13 @@ public class Field
             if(anOrganism == null) {
                 free.add(next);
             }
-            else if(!anOrganism.isAlive()) {
+            else if(anOrganism.isAlive()) {
                 free.add(next);
             }
         }
         return free;
     }
+
 
     /**
      * Return a shuffled list of locations adjacent to the given one.
@@ -161,6 +162,103 @@ public class Field
 
     }
 
+    public static int codCount()
+    {
+        int numCods = 0;
+
+        for(Organism anOrganism : field.values()) {
+            if (anOrganism instanceof Cod cod) {
+                if (cod.isAlive()) {
+                    numCods++;
+                }
+            }
+        }
+        return numCods;
+
+    }
+
+    public static int tunaCount()
+    {
+        int numTunas = 0;
+
+        for(Organism anOrganism : field.values()) {
+            if (anOrganism instanceof Tuna tuna) {
+                if (tuna.isAlive()) {
+                    numTunas++;
+                }
+            }
+        }
+        return numTunas;
+
+    }
+
+    public static int sharkCount()
+    {
+        int numSharks = 0;
+
+        for(Organism anOrganism : field.values()) {
+            if (anOrganism instanceof Shark shark) {
+                if (shark.isAlive()) {
+                    numSharks++;
+                }
+            }
+        }
+        return numSharks;
+    }
+    public static int orcaCount()
+    {
+        int numOrcas = 0;
+
+        for(Organism anOrganism : field.values()) {
+            if (anOrganism instanceof Orca orca) {
+                if (orca.isAlive()) {
+                    numOrcas++;
+                }
+            }
+        }
+        return numOrcas;
+    }
+    public static int whaleCount()
+    {
+        int numWhales = 0;
+
+        for(Organism anOrganism : field.values()) {
+            if (anOrganism instanceof Whale whale) {
+                if (whale.isAlive()) {
+                    numWhales++;
+                }
+            }
+        }
+        return numWhales;
+    }
+
+    public static int anglerfishCount()
+    {
+        int numAnglerfish = 0;
+
+        for(Organism anOrganism : field.values()) {
+            if (anOrganism instanceof Anglerfish anglerfish) {
+                if (anglerfish.isAlive()) {
+                    numAnglerfish++;
+                }
+            }
+        }
+        return numAnglerfish;
+    }
+    public static int algaeCount()
+    {
+        int numAlgaes = 0;
+
+        for(Organism anOrganism : field.values()) {
+            if (anOrganism instanceof Algae algae) {
+                if (algae.isAlive()) {
+                    numAlgaes++;
+                }
+            }
+        }
+        return numAlgaes;
+    }
+
     public void clear()
     {
         field.clear();
@@ -228,6 +326,8 @@ public class Field
     {
         return Organisms;
     }
+
+
 
     /**
      * Return the depth of the field.

@@ -37,7 +37,7 @@ public class Orca extends Animal
      */
     public Orca(Boolean randomAge, Location location, Boolean isMale)
     {
-        super(randomAge, location, 180, isMale, 20, 0.45, 4);
+        super(randomAge, location, 180, isMale, 20, 0.45, 2);
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }
 
@@ -52,12 +52,13 @@ public class Orca extends Animal
      */
     public void act(int step, Field currentField, Field nextFieldState)
     {
-        incrementAge();
-        incrementHunger();
+
         if(isAlive())
         {
             if ((step % 24) >= 9 && (step % 24) <= 17)
             {
+                incrementAge();
+                incrementHunger();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {

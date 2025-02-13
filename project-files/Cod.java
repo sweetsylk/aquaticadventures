@@ -44,11 +44,11 @@ public class Cod extends Animal
      */
     public void act(int step, Field currentField, Field nextFieldState)
     {
-        incrementAge();
         if(isAlive()) {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
             if ((step % 24) > 9 && (step % 24) <= 17) {
+                incrementAge();
                 if (!freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
                 }

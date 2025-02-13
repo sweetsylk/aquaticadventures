@@ -36,7 +36,7 @@ public class Shark extends Animal
      */
     public Shark(Boolean randomAge, Location location, Boolean isMale)
     {
-        super(randomAge, location, 95, isMale, 15, 0.6, 5);
+        super(randomAge, location, 95, isMale, 15, 0.63, 5);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
     }
 
@@ -51,13 +51,13 @@ public class Shark extends Animal
      */
     public void act(int step, Field currentField, Field nextFieldState)
     {
-        incrementAge();
-        incrementHunger();
         if(isAlive())
         {
             if (((step % 24) >= 9 && (step % 24) <= 17))
 
             {
+                incrementAge();
+                incrementHunger();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {
