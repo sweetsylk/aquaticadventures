@@ -76,3 +76,9 @@ warmer temperatures lead to faster processes:
   require more food 
   don't move as much
   breed more often
+
+
+
+bug: 
+there was a bug in the SimulatoeView class in which the dead animals were being shown as alive and taking up space causing discrpencies between the real simulation and the GUI
+this was fixed by a .isAlive() check on the showStatus() method in simulator view

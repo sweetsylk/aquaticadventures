@@ -1,18 +1,16 @@
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * A simple model of an Algae
  *
  *
- * @author David J. Barnes and Michael Kölling
- * @version 7.1
+ * @author Ridwan Adam
+ * @version 1.0
  */
 public class Algae extends Plant
 {
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    
 
     // Individual characteristics (instance fields).
 
@@ -35,9 +33,8 @@ public class Algae extends Plant
 
 
     /**
-     * This is what the cod does most of the time - it runs
-     * around. Sometimes it will breed or die of old age or sleep even
-     * cod are awake from 4am to 11pm and can give birth while sleeping
+     * This is what the algae does most of the time - it grows
+     * Sometimes it will breed or die of old age
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
      */
@@ -59,7 +56,7 @@ public class Algae extends Plant
 
     @Override
     public String toString() {
-        return "Cod{" +
+        return "Algae{" +
                 "age=" + age +
                 ", alive=" + isAlive() +
                 ", location=" + getLocation() +
@@ -67,7 +64,7 @@ public class Algae extends Plant
     }
 
     /**
-     * Check whether or not this cod is to give birth at this step.
+     * Check whether or not this algae is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */

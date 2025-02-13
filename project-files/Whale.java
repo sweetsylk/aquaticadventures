@@ -1,6 +1,5 @@
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A Whale!!!
@@ -20,7 +19,7 @@ public class Whale extends Animal
     private static final int ANGLERFISH_FOOD_VALUE = 120;
     private static final int COD_FOOD_VALUE = 95;
     // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    
 
     // Individual characteristics (instance fields).
 

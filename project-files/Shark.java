@@ -1,6 +1,5 @@
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A SHARK!!!
@@ -18,7 +17,7 @@ public class Shark extends Animal
     private static final int TUNA_FOOD_VALUE = 60;
     private static final int ANGLERFISH_FOOD_VALUE = 75;
     // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    
 
     // Individual characteristics (instance fields).
 

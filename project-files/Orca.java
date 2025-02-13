@@ -1,6 +1,5 @@
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A KILLER SHARKKKK!!!
@@ -18,7 +17,7 @@ public class Orca extends Animal
     private static final int WHALE_FOOD_VALUE = 50;
 
     // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    
 
     // Individual characteristics (instance fields).
 

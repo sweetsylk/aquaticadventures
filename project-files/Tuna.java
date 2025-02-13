@@ -1,6 +1,5 @@
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A simple model of a tuna.
@@ -18,7 +17,7 @@ public class Tuna extends Animal
     private static final int COD_FOOD_VALUE = 50;
     private static final int ALGAE_FOOD_VALUE = 10;
     // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    
     
     // Individual characteristics (instance fields).
 

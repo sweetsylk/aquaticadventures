@@ -1,7 +1,6 @@
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A simple model of a cod.
@@ -13,7 +12,7 @@ import java.util.Random;
 public class Cod extends Animal
 {
     // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    
     
     // Individual characteristics (instance fields).
     

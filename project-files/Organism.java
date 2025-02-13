@@ -1,32 +1,41 @@
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 /**
- * Common elements of cod, tuna, sharks and orcas.
+ * Common elements of plants (algae) and animals (orca, shark, whale, tuna, cod, anglefish).
  *
- * @author David J. Barnes and Michael Kölling and Areeb Rafiq
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 8.0
  */
 public abstract class Organism
 {
-    private static final Random rand = new Random();
+    // The Organism's probability of breeding
+    protected final double BREEDING_PROBABILITY;
+    // The maximum number of offspring.
+    protected final int MAX_LITTER_SIZE;
+    // Random number generator object to be used for random operations
+    protected static final Random rand = new Random();
     // Whether the Organism is alive or not.
     private boolean alive;
     // The Organism's position.
     private Location location;
-
+    // The maximum age the Organism can reach.
     protected int MAX_AGE;
+    // The Organism's age.
     protected int age;
     
     /**
      * Constructor for objects of class Organism.
-     * @int randomAge is just random
+     * @param randomAge If true, the Organism will have a random age.
      * @param location The Organism's location.
+     * @param MAX_AGE The maximum age the Organism can reach.
+     * @param BREEDING_PROBABILITY The Organism's probability of breeding.
+     * @param MAX_LITTER_SIZE The maximum number of offspring.
      */
-    public Organism(boolean randomAge, Location location, int MAX_AGE) {
+    public Organism(boolean randomAge, Location location, int MAX_AGE, double BREEDING_PROBABILITY, int MAX_LITTER_SIZE) {
         this.alive = true;
         this.location = location;
         this.MAX_AGE = MAX_AGE;
+        this.BREEDING_PROBABILITY = BREEDING_PROBABILITY;
+        this.MAX_LITTER_SIZE = MAX_LITTER_SIZE;
 
         if (randomAge) {
             if (MAX_AGE > 0) {
@@ -86,6 +95,9 @@ public abstract class Organism
         this.location = location;
     }
 
+    /**
+     * Increment the age.
+     */
     public void incrementAge()
     {
         age++;

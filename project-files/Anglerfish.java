@@ -1,6 +1,5 @@
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
  * This is an anglerfish - a nocturnal creature.
@@ -18,7 +17,7 @@ public class Anglerfish extends Animal
     private static final int COD_FOOD_VALUE = 40;
     private static final int ALGAE_FOOD_VALUE = 20;
     // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
+    
 
 
     // Individual characteristics (instance fields).

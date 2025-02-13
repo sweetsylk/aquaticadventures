@@ -1,15 +1,10 @@
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 public abstract class Animal extends Organism {
     // Whether the Animal is male or not (female)
-    private static final Random rand = new Random();
     private final Boolean isMale;
     protected int foodLevel;
     protected final int BREEDING_AGE;
-    protected final double BREEDING_PROBABILITY;
-    protected final int MAX_LITTER_SIZE;
     /**
      * Constructor for objects of class Animal.
      *
@@ -17,11 +12,9 @@ public abstract class Animal extends Organism {
      */
     public Animal(boolean randomAge, Location location, int maxAge, boolean isMale,
                   int breedingAge, double breedingProbability, int maxLitterSize) {
-        super(randomAge, location, maxAge);
+        super(randomAge, location, maxAge, breedingProbability, maxLitterSize);
         this.isMale = isMale;
         this.BREEDING_AGE = breedingAge;
-        this.BREEDING_PROBABILITY = breedingProbability;
-        this.MAX_LITTER_SIZE = maxLitterSize;
         this.foodLevel = rand.nextInt(10) + 5; // Initialize food level randomly
 }
 
