@@ -22,6 +22,7 @@ public class SimulatorView extends JFrame
 
     // Color used for objects that have no defined color.
     private static final Color UNKNOWN_COLOR = Color.gray;
+    private static final Color UNKNOWN_COLOR_NIGHT = new Color(0,0,0);
 
     private final String STEP_PREFIX = "Day: ";
     private final String POPULATION_PREFIX = "Population: ";
@@ -34,6 +35,7 @@ public class SimulatorView extends JFrame
     // A statistics object computing and storing simulation information
     private final FieldStats stats;
 
+    private static boolean dayTime;
     /**
      * Create a view of the given width and height.
      * @param height The simulation's height.
@@ -104,7 +106,15 @@ public class SimulatorView extends JFrame
         Color col = colors.get(OrganismClass);
         if(col == null) {
             // no color defined for this class
-            return UNKNOWN_COLOR;
+            boolean daytime = SimulatorView.getdayTime();
+            if (daytime == true)
+            {
+                return UNKNOWN_COLOR;
+            }
+            else
+            {
+                return UNKNOWN_COLOR_NIGHT;
+            }
         }
         else {
             return col;
@@ -131,7 +141,11 @@ public class SimulatorView extends JFrame
 
         stepLabel.setText(STEP_PREFIX + (time));
         stats.reset();
-        
+        if ((step % 24) >= 6 && (step % 24) <= 19) {
+            dayTime = true;
+        } else {
+            dayTime = false;
+        }
         fieldView.preparePaint();
 
         for(int row = 0; row < field.getDepth(); row++) {
@@ -143,14 +157,7 @@ public class SimulatorView extends JFrame
                     fieldView.drawMark(col, row, getColor(Organism.getClass()));
                 }
                 else {
-                    if ((step % 24) >= 6 && (step % 24) <= 19)
-                    {
-                        fieldView.drawMark(col, row, EMPTY_COLOR_DAY);
-                    }
-                    else
-                    {
-                        fieldView.drawMark(col, row, EMPTY_COLOR_NIGHT);
-                    }
+                    fieldView.drawMark(col, row, dayTime ? EMPTY_COLOR_DAY : EMPTY_COLOR_NIGHT);
                 }
             }
         }
@@ -225,6 +232,9 @@ public class SimulatorView extends JFrame
                 if(yScale < 1) {
                     yScale = GRID_VIEW_SCALING_FACTOR;
                 }
+
+                g.setColor(dayTime ? EMPTY_COLOR_DAY : EMPTY_COLOR_NIGHT);
+                g.fillRect(0, 0, size.width, size.height);
             }
         }
         
@@ -235,7 +245,7 @@ public class SimulatorView extends JFrame
         {
             g.setColor(color);
 
-            g.fillRect(x * xScale, y * yScale, xScale, yScale);
+            g.fillRect(x * xScale, y * yScale, xScale-1, yScale-1);
         }
 
         /**
@@ -255,6 +265,11 @@ public class SimulatorView extends JFrame
                 }
             }
         }
+    }
+
+    public static boolean getdayTime()
+    {
+        return dayTime;
     }
 
 }

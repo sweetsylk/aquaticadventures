@@ -40,7 +40,7 @@ public class Whale extends Animal
      */
     public Whale(Boolean randomAge, Location location, Boolean isMale)
     {
-        super(randomAge, location, 200, isMale, 20, 0.5, 3);
+        super(randomAge, location, 200, isMale, 20, 0.55, 4);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
     }
 
@@ -172,7 +172,7 @@ public class Whale extends Animal
      */
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 25);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 30);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

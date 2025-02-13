@@ -26,7 +26,7 @@ public class Simulator
     // The current state of the field.
     private Field field;
     // The current step of the simulation (each step is equivilant to an hour).
-    private int step;
+    public static int step;
     // A graphical view of the simulation.
     private final SimulatorView view;
 
@@ -57,7 +57,11 @@ public class Simulator
 
         reset();
     }
-    
+
+    public static int getStep()
+    {
+        return step;
+    }
     /**
      * Run the simulation from its current state for a reasonably long 
      * period (4000 steps).
@@ -78,7 +82,7 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps; n++) {
             simulateOneStep();
-            delay(300);         // adjust this to change execution speed
+            delay(15);         // adjust this to change execution speed
         }
         finalReport();
 
