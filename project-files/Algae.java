@@ -23,7 +23,7 @@ public class Algae extends Plant
      */
     public Algae(Boolean randomAge, Location location)
     {
-        super(randomAge, location, 30, 0.2, 3);
+        super(randomAge, location, 30, 0.35, 3);
     }
 
 
