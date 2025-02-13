@@ -41,14 +41,25 @@ public class SimulatorView extends JFrame
      */
     public SimulatorView(int height, int width)
     {
+        /**
+         * Sharks are grey
+         * the water switches between light and dark blue
+         * the Tuna is pinkish
+         * the cod is yellow
+         * orcas are charcoal
+         * whales are purple
+         * anglerfish are brown
+         * algaes are green
+         *
+         */
         Color sharkColor = new Color(150,120,130);
         Color waterColor = new Color(32, 230, 230);
-        Color tunaColor = new Color(234, 60, 73);
-        Color codColor = new Color(61, 190, 98);
+        Color tunaColor = new Color(240, 60, 73);
+        Color codColor = new Color(200, 200, 12);
         Color orcaColor = new Color(49,37,32);
-        Color whaleColor = new Color(140, 0, 150);
-        Color anglerfishColor = new Color(212, 150, 0);
-        Color algaeColor = new Color(12,92,12 );
+        Color whaleColor = new Color(110, 0, 150);
+        Color anglerfishColor = new Color(150, 50, 0);
+        Color algaeColor = new Color(12,200,12 );
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
         setColor(Cod.class, codColor);
