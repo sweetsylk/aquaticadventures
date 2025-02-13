@@ -16,17 +16,12 @@ public class Shark extends Animal
     // number of steps a Shark can go before it has to eat again.
     private static final int TUNA_FOOD_VALUE = 60;
     private static final int ANGLERFISH_FOOD_VALUE = 75;
-    // A shared random number generator to control breeding.
     
-
-    // Individual characteristics (instance fields).
-
-    // The shark's food level, which is increased by eating a shark.
-    private int foodLevel;
 
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
+    
 
     /**
      * Create a shark. A shark can be created as a new born (age zero
@@ -34,7 +29,7 @@ public class Shark extends Animal
      *
      * @param location The location within the field.
      */
-    public Shark(Boolean randomAge, Location location, Boolean isMale)
+    public Shark(Boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 95, isMale, 15, 0.63, 5);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);

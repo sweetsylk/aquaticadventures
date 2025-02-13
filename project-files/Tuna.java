@@ -3,31 +3,27 @@ import java.util.List;
 
 /**
  * A simple model of a tuna.
- * Tunas age, move, eat cod and salmon, and die.
+ * Tunas age, move, eat cod and salmon, bread and die.
  * 
- * @author David J. Barnes and Michael Kölling
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Tuna extends Animal
 {
-    // Characteristics shared by all tuba (class variables).
+    // Characteristics shared by all tuna (class variables).
 
-    // The food value of a single prey. In effect, this is the
-    // number of steps a tuna can go before it has to eat again.
+    // The food value of a single cod (as food for tuna).
     private static final int COD_FOOD_VALUE = 50;
+    // The food value of a single algae (as food for tuna).
     private static final int ALGAE_FOOD_VALUE = 20;
-    // A shared random number generator to control breeding.
-    
-    
-    // Individual characteristics (instance fields).
 
-    // The tuna's age.
-    private int age;
-    // The tuna's food level, which is increased by eating cod or salmon.
-    private int foodLevel;
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
+   
+    
+    
+    
 
     /**
      * Create a tuna. A tuna can be created as a new born (age zero
@@ -36,7 +32,7 @@ public class Tuna extends Animal
      * @param randomAge If true, the tuna will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Tuna(Boolean randomAge, Location location, Boolean isMale)
+    public Tuna(Boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 120, isMale, 10, 0.7, 10);
         foodLevel = rand.nextInt(COD_FOOD_VALUE);

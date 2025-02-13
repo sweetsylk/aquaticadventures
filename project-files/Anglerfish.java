@@ -16,21 +16,16 @@ public class Anglerfish extends Animal
     // number of steps the fish can go before it has to eat again.
     private static final int COD_FOOD_VALUE = 40;
     private static final int ALGAE_FOOD_VALUE = 20;
-    // A shared random number generator to control breeding.
+    
     
 
 
-    // Individual characteristics (instance fields).
-
-    // The fish's age.
-    private int age;
-    // The fish's food level, which is increased by eating cod or salmon.
-    private int foodLevel;
+    
 
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
-
+   
     /**
      * Create an Anglerfish. they can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
@@ -38,10 +33,8 @@ public class Anglerfish extends Animal
      * @param randomAge If true, the fish will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Anglerfish(Boolean randomAge, Location location, Boolean isMale)
-    {
+    public Anglerfish(Boolean randomAge, Location location, boolean isMale){
         super(randomAge, location, 60, isMale, 12, 0.6, 7);
-
         foodLevel = rand.nextInt(COD_FOOD_VALUE);
 
 

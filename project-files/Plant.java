@@ -33,8 +33,9 @@ public abstract class Plant extends Organism {
     public abstract void act(int step, Field currentField, Field nextFieldState);
 
     /**
-     * 
-     * @return 
+     * randomise how many births will happen 
+     * @param field The current field to breed in.
+     * @return the number of births to happen 
      */
     public int breed(Field field)
     {

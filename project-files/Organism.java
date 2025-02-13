@@ -21,6 +21,10 @@ public abstract class Organism
     protected int MAX_AGE;
     // The Organism's age.
     protected int age;
+
+
+    private static int consumed;
+    private static int naturalDeath;
     
     /**
      * Constructor for objects of class Organism.

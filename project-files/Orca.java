@@ -16,18 +16,11 @@ public class Orca extends Animal
     private static final int SHARK_FOOD_VALUE = 30;
     private static final int WHALE_FOOD_VALUE = 50;
 
-    // A shared random number generator to control breeding.
-    
-
-    // Individual characteristics (instance fields).
-
-    // The orca's age.
-    private int age;
-    // The orca's food level, which is increased by eating a shark.
-    private int foodLevel;
     private static int starvation;
+    private static int consumed;
     private static int naturalDeath;
 
+   
     /**
      * Create an orca. an orca can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
@@ -35,7 +28,7 @@ public class Orca extends Animal
      * @param randomAge If true, the orca will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Orca(Boolean randomAge, Location location, Boolean isMale)
+    public Orca(Boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 180, isMale, 20, 0.45, 2);
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
@@ -207,5 +200,5 @@ public class Orca extends Animal
         return naturalDeath;
 
     }
-
+  
 }

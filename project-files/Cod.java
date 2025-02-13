@@ -4,32 +4,31 @@ import java.util.List;
 
 /**
  * A simple model of a cod.
- * Cods age, move, breed, and die.
+ * Cods age, move, eat algae, breed and die.
  * 
- * @author David J. Barnes and Michael Kölling
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Cod extends Animal
 {
-    // A shared random number generator to control breeding.
-    
-    
-    // Individual characteristics (instance fields).
-    
-    // The cod's age.
-    private int age;
-    private static int consumed;
-    private static int naturalDeath;
+    // Characteristics shared by all cod (class variables).
+
+    // The food value of a single algae (as food for cod).
     private static final int ALGAE_FOOD_VALUE = 20;
 
+    private static int starvation;
+    private static int consumed;
+    private static int naturalDeath;
+    
     /**
      * Create a new cod. A cod may be created with age
      * zero (a new born) or with a random age.
      * 
      * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
+     * @param isMale whether the cod is male or not (female)
      */
-    public Cod(Boolean randomAge, Location location, Boolean isMale)
+    public Cod(Boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 20, isMale, 10, 0.75, 12);
     }
@@ -78,6 +77,11 @@ public class Cod extends Animal
                 '}';
     }
 
+    /**
+     * find location of food source from adjacent locations
+     * @param field The field currently occupied.
+     * @return the location of next food to be eaten
+     */
     public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
@@ -97,10 +101,12 @@ public class Cod extends Animal
         }
         return foodLocation;
     }
+
     /**
      * Check whether or not this cod is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
+     * @param nextFieldState The updated field.
      */
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
@@ -167,6 +173,6 @@ public class Cod extends Animal
     public static int getNaturalDeath()
     {
         return naturalDeath;
-
+  
     }
 }

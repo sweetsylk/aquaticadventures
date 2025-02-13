@@ -2,7 +2,7 @@
 import java.util.List;
 
 /**
- * A simple model of an Algae
+ * A simple model of Algae
  *
  *
  * @author Ridwan Adam
@@ -12,10 +12,7 @@ public class Algae extends Plant
 {
     
 
-    // Individual characteristics (instance fields).
-
-    // The cod's age.
-    private int age;
+    
     private static int consumed;
     private static int naturalDeath;
 
@@ -67,6 +64,7 @@ public class Algae extends Plant
      * Check whether or not this algae is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
+     * @param nextFieldState The updated field.
      */
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {

@@ -19,16 +19,13 @@ public class Whale extends Animal
     private static final int ANGLERFISH_FOOD_VALUE = 120;
     private static final int COD_FOOD_VALUE = 95;
     // A shared random number generator to control breeding.
-    
-
-    // Individual characteristics (instance fields).
-
-    // The Whale's food level, which is increased by eating a Whale.
-    private int foodLevel;
 
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
+    
+
+  
 
     /**
      * Create a Whale. A Whale can be created as a new born (age zero
@@ -38,7 +35,7 @@ public class Whale extends Animal
      * @param location The location within the field.
      * @param isMale whether the whale is male or not
      */
-    public Whale(Boolean randomAge, Location location, Boolean isMale)
+    public Whale(Boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 200, isMale, 20, 0.5, 3);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
