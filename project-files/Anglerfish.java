@@ -2,49 +2,48 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This is an anglerfish - a nocturnal creature.
- * they can age, move, eat cod and salmon, and die.
+ * A simple model of Anglerfishes:
+ * AnglerFishes grow, breed, eats (algae and cod), gets eaten (by shark and whale) and die of starvation.
+ * Anglerfishes are also nocturnal.
  *
- * @author David J. Barnes and Michael Kölling
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Anglerfish extends Animal
 {
-    // Characteristics shared by all tuba (class variables).
-    // The age at which they can start to breed.
-    // The food value of a single prey. In effect, this is the
-    // number of steps the fish can go before it has to eat again.
+    
+    // The food values of a single cod and algae (as food for anglerfish).
     private static final int COD_FOOD_VALUE = 40;
     private static final int ALGAE_FOOD_VALUE = 20;
-    
-    
 
-
-    
-
+    // Characteristics shared by all anglerFish (class variables).
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
    
+
     /**
-     * Create an Anglerfish. they can be created as a new born (age zero
-     * and not hungry) or with a random age and food level.
+     * Constructor for objects of class Anglerfish: 
+     * They can be created as a new born (age zero and not hungry) 
+     * or with a random age and food level.
      *
-     * @param randomAge If true, the fish will have random age and hunger level.
-     * @param location The location within the field.
+     * @param randomAge If true, the fish will have random age.
+     * @param location The initial location of the anglerFish within the field.
+     * @param isMale Whether the anglerFish is male or not (female).
      */
-    public Anglerfish(Boolean randomAge, Location location, boolean isMale){
+    public Anglerfish(boolean randomAge, Location location, boolean isMale)
+    {
         super(randomAge, location, 60, isMale, 12, 0.6, 7);
         foodLevel = rand.nextInt(COD_FOOD_VALUE);
 
-
     }
 
+
     /**
-     * This is what the Anglerfish does most of the time: it hunts for cod.
+     * This is what the Anglerfish does most of the time: it hunts for cod and algae.
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
-     * Tunas are awake from 5am to 10pm
+     * Anglerfish are awake from 8pm to 5am 
      * @param step the current step in the simulation
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
@@ -85,7 +84,10 @@ public class Anglerfish extends Animal
     }
 
 
-
+    /**
+     * Returns inforrmation about the anglerFish
+     * Including its age, location, whether it is alive and its food level.
+     */
     @Override
     public String toString() {
         return "Anglerfish{" +
@@ -97,13 +99,11 @@ public class Anglerfish extends Animal
     }
 
 
-
-
     /**
-     * Look for rabbits adjacent to the current location.
-     * Only the first live cod is eaten.
+     * Look for algae and cod adjacent (of radius 3) to the current location.
+     * Then eat them and increase the food level.
      * @param field The field currently occupied.
-     * @return Where food was found, or null if it wasn't.
+     * @return Last loction of food that was eaten, or null if none were eaten.
      */
     public Location findFood(Field field)
     {

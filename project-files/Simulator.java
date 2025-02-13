@@ -136,7 +136,7 @@ public class Simulator
 
                 if(rand.nextDouble() <= WHALE_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Boolean isMale = rand.nextBoolean();
+                    boolean isMale = rand.nextBoolean();
                     Whale whale = new Whale(true, location, isMale);
                     field.placeOrganism(whale, location);
 
@@ -144,7 +144,7 @@ public class Simulator
 
                 else if(rand.nextDouble() <= ORCA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Boolean isMale = rand.nextBoolean();
+                    boolean isMale = rand.nextBoolean();
                     Orca orca = new Orca(true, location, isMale);
                     field.placeOrganism(orca, location);
 
@@ -152,26 +152,26 @@ public class Simulator
 
                 else if(rand.nextDouble() <= SHARK_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Boolean isMale = rand.nextBoolean();
+                    boolean isMale = rand.nextBoolean();
                     Shark shark = new Shark(true, location, isMale);
                     field.placeOrganism(shark, location);
 
                 }
                 else if(rand.nextDouble() <= ANGLERFISH_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Boolean isMale = rand.nextBoolean();
+                    boolean isMale = rand.nextBoolean();
                     Anglerfish anglerfish = new Anglerfish(true, location, isMale);
                     field.placeOrganism(anglerfish, location);
                 }
                 else if(rand.nextDouble() <= TUNA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Boolean isMale = rand.nextBoolean();
+                    boolean isMale = rand.nextBoolean();
                     Tuna tuna = new Tuna(true, location, isMale);
                     field.placeOrganism(tuna, location);
                 }
                 else if(rand.nextDouble() <= COD_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Boolean isMale = rand.nextBoolean();
+                    boolean isMale = rand.nextBoolean();
                     Cod cod = new Cod(true, location, isMale);
                     field.placeOrganism(cod, location);
                 }

@@ -2,32 +2,27 @@
 import java.util.List;
 
 /**
- * A simple model of Algae
- *
- *
- * @author Ridwan Adam
+ * A simple model of Algae:
+ * Algae grow, breed, gets eaten (by cod, anglerFish and tuna) and die naturally.
+ * 
+ * @author Ridwan Adam and Areeb Rafiq
  * @version 1.0
  */
 public class Algae extends Plant
 {
-    
-
-    
+    // Characteristics shared by all algae (class variables).
     private static int consumed;
     private static int naturalDeath;
 
     /**
-     *
+     * Constructor for objects of class Algae
      * @param randomAge If true, the cod will have a random age.
-     * @param location The location within the field.
+     * @param location The location of the algae within the field.
      */
-    public Algae(Boolean randomAge, Location location)
+    public Algae(boolean randomAge, Location location)
     {
         super(randomAge, location, 30, 0.35, 3);
     }
-
-
-
 
     /**
      * This is what the algae does most of the time - it grows
@@ -50,7 +45,10 @@ public class Algae extends Plant
         }
     }
 
-
+    /**
+     * Returns inforrmation about the algae
+     * Including its age, location and whether it is alive.
+     */
     @Override
     public String toString() {
         return "Algae{" +

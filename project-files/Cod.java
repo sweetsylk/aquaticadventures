@@ -28,7 +28,7 @@ public class Cod extends Animal
      * @param location The location within the field.
      * @param isMale whether the cod is male or not (female)
      */
-    public Cod(Boolean randomAge, Location location, boolean isMale)
+    public Cod(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 20, isMale, 10, 0.75, 12);
     }

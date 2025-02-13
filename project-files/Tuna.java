@@ -32,7 +32,7 @@ public class Tuna extends Animal
      * @param randomAge If true, the tuna will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Tuna(Boolean randomAge, Location location, boolean isMale)
+    public Tuna(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 120, isMale, 10, 0.7, 10);
         foodLevel = rand.nextInt(COD_FOOD_VALUE);

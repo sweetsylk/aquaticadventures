@@ -35,7 +35,7 @@ public class Whale extends Animal
      * @param location The location within the field.
      * @param isMale whether the whale is male or not
      */
-    public Whale(Boolean randomAge, Location location, boolean isMale)
+    public Whale(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 200, isMale, 20, 0.55, 4);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);

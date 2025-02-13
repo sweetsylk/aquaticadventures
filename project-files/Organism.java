@@ -22,9 +22,6 @@ public abstract class Organism
     // The Organism's age.
     protected int age;
 
-
-    private static int consumed;
-    private static int naturalDeath;
     
     /**
      * Constructor for objects of class Organism.

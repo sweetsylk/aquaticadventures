@@ -29,7 +29,7 @@ public class Shark extends Animal
      *
      * @param location The location within the field.
      */
-    public Shark(Boolean randomAge, Location location, boolean isMale)
+    public Shark(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 95, isMale, 15, 0.63, 5);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);

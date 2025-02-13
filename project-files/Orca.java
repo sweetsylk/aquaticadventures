@@ -28,7 +28,7 @@ public class Orca extends Animal
      * @param randomAge If true, the orca will have random age and hunger level.
      * @param location The location within the field.
      */
-    public Orca(Boolean randomAge, Location location, boolean isMale)
+    public Orca(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 180, isMale, 20, 0.45, 2);
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
