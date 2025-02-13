@@ -15,7 +15,7 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probabilities that each organism will be created in any given grid position.
-    private static final double ALGAE_CREATION_PROBABILITY = 0.21;
+    private static final double ALGAE_CREATION_PROBABILITY = 0.12;
     private static final double COD_CREATION_PROBABILITY = 0.13;
     private static final double TUNA_CREATION_PROBABILITY = 0.08;
     private static final double ANGLERFISH_CREATION_PROBABILITY = 0.024;
@@ -76,9 +76,9 @@ public class Simulator
     public void simulate(int numSteps)
     {
         reportStats();
-        for(int n = 1; n <= numSteps && field.isViable(); n++) {
+        for(int n = 1; n <= numSteps; n++) {
             simulateOneStep();
-            delay(12);         // adjust this to change execution speed
+            delay(300);         // adjust this to change execution speed
         }
         finalReport();
 
@@ -97,7 +97,10 @@ public class Simulator
 
         List<Organism> Organisms = field.getOrganisms();
         for (Organism anOrganism : Organisms) {
-            anOrganism.act(step, field, nextFieldState);
+            if (anOrganism.isAlive())
+            {
+                anOrganism.act(step, field, nextFieldState);
+            }
         }
         
         // Replace the old state with the new one.
@@ -208,7 +211,10 @@ public class Simulator
     }
     private void finalReport()
     {
-
-
+        System.out.println("Cods dead via Consumption: " + Cod.getConsumed()
+                + "\nTunas dead via Consumption: " + Tuna.getConsumed()
+                + "\nSharks dead via Consumption: " + Shark.getConsumed()
+                + "\nWhales dead via Consumption: " + Whale.getConsumed()
+                + "\nAnglerfishes dead via Consumption: " + Anglerfish.getConsumed());
     }
 }

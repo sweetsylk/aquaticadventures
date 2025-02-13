@@ -56,12 +56,12 @@ public class Whale extends Animal
      */
     public void act(int step, Field currentField, Field nextFieldState)
     {
-        incrementAge();
-        incrementHunger();
         if(isAlive())
         {
             if ((step % 24) > 9 && (step % 24) <= 17)
             {
+                incrementAge();
+                incrementHunger();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {
