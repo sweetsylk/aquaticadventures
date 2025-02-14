@@ -30,7 +30,7 @@ public class Orca extends Animal
      */
     public Orca(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 180, isMale, 20, 0.45, 2);
+        super(randomAge, location, 180, isMale, 20, 0.42, 2);
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }
 
@@ -102,7 +102,7 @@ public class Orca extends Animal
      */
     public Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 8);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {

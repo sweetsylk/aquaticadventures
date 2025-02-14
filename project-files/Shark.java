@@ -31,7 +31,7 @@ public class Shark extends Animal
      */
     public Shark(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 95, isMale, 15, 0.63, 5);
+        super(randomAge, location, 120, isMale, 12, 0.78, 7);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
     }
 
@@ -48,7 +48,7 @@ public class Shark extends Animal
     {
         if(isAlive())
         {
-            if (((step % 24) >= 9 && (step % 24) <= 17))
+            if (((step % 24) >= 9 && (step % 24) <= 19) && Simulator.getWeather() != WeatherType.FROZEN)
 
             {
                 incrementAge();
@@ -116,7 +116,7 @@ public class Shark extends Animal
                     foodLocation = loc;
                 }
             }
-            if(Organism instanceof Anglerfish anglerfish) {
+            else if(Organism instanceof Anglerfish anglerfish) {
                 if(anglerfish.isAlive()) {
                     anglerfish.setDead();
                     anglerfish.incrementConsumeDeath();
@@ -155,7 +155,7 @@ public class Shark extends Animal
      */
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 15);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 30);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

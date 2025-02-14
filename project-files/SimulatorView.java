@@ -17,7 +17,9 @@ public class SimulatorView extends JFrame
 {
     // Colors used for empty locations.
     private static Color EMPTY_COLOR_DAY = new Color(32, 230, 230);
+    private static Color EMPTY_COLOR_NIGHT_ACIDIC = new Color(32, 230, 60);
     private static Color EMPTY_COLOR_NIGHT = new Color(8, 60, 100);
+    private static Color EMPTY_COLOR_DAY_ACIDIC = new Color(32/2, 230/2, 60);
 
 
     // Color used for objects that have no defined color.
@@ -61,7 +63,7 @@ public class SimulatorView extends JFrame
         Color orcaColor = new Color(49,37,32);
         Color whaleColor = new Color(110, 0, 150);
         Color anglerfishColor = new Color(150, 50, 0);
-        Color algaeColor = new Color(12,200,12 );
+        Color algaeColor = new Color(12,100,12 );
         stats = new FieldStats();
         colors = new LinkedHashMap<>();
         setColor(Cod.class, codColor);
@@ -157,7 +159,15 @@ public class SimulatorView extends JFrame
                     fieldView.drawMark(col, row, getColor(Organism.getClass()));
                 }
                 else {
-                    fieldView.drawMark(col, row, dayTime ? EMPTY_COLOR_DAY : EMPTY_COLOR_NIGHT);
+
+                    if (Simulator.getWeather() != null && Simulator.getWeather() != WeatherType.ACIDIFIED) {
+                        fieldView.drawMark(col, row, dayTime ? EMPTY_COLOR_DAY : EMPTY_COLOR_NIGHT);
+                    }
+                    else{
+                        fieldView.drawMark(col, row, dayTime ? EMPTY_COLOR_DAY_ACIDIC : EMPTY_COLOR_NIGHT_ACIDIC);
+
+                    }
+
                 }
             }
         }

@@ -22,6 +22,7 @@ public class Simulator
     private static final double SHARK_CREATION_PROBABILITY = 0.03;
     private static final double ORCA_CREATION_PROBABILITY = 0.014;
     private static final double WHALE_CREATION_PROBABILITY = 0.012;
+    private static Weather weather = new Weather();
 
     // The current state of the field.
     private Field field;
@@ -30,12 +31,15 @@ public class Simulator
     // A graphical view of the simulation.
     private final SimulatorView view;
 
+
+
     /**
      * Construct a simulation field with default size.
      */
     public Simulator()
     {
         this(DEFAULT_DEPTH, DEFAULT_WIDTH);
+        reset();
     }
     
     /**
@@ -69,7 +73,7 @@ public class Simulator
      */
     public void runLongSimulation()
     {
-        simulate(720);
+        simulate(240);
     }
     
     /**
@@ -95,6 +99,10 @@ public class Simulator
     public void simulateOneStep()
     {
         step++;
+        if (step % 6 == 0)
+        {
+            weather.update();
+        }
         // Use a separate Field to store the starting state of
         // the next step.
         Field nextFieldState = new Field(field.getDepth(), field.getWidth());
@@ -206,6 +214,9 @@ public class Simulator
         catch(InterruptedException e) {
             // ignore
         }
+    }
+    public static WeatherType getWeather() {
+        return weather.getCurrentWeather();
     }
 
     public static void main (String[] arg)

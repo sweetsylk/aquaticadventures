@@ -101,9 +101,26 @@ public abstract class Animal extends Organism {
     public int breed(Field field)
     {
         int births;
-        if(canBreed() && (rand.nextDouble() <= BREEDING_PROBABILITY) && canMate(field)) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
+        if(canBreed() && (rand.nextDouble() <= BREEDING_PROBABILITY) && canMate(field))
+        {
+            if (Simulator.getWeather() == WeatherType.WARM)
+            {
+                births = rand.nextInt(MAX_LITTER_SIZE) + 5;
+            }
+            else if (Simulator.getWeather() == WeatherType.NORMAL)
+            {
+                births = rand.nextInt(MAX_LITTER_SIZE) + 1;
+            }
+            else if (Simulator.getWeather() == WeatherType.FROZEN)
+            {
+                births = 0;
+            }
+            else
+            {
+                births = 1;
+            }
         }
+
         else {
             births = 0;
         }

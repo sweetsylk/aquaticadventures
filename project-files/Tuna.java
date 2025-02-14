@@ -34,8 +34,8 @@ public class Tuna extends Animal
      */
     public Tuna(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 120, isMale, 10, 0.7, 10);
-        foodLevel = rand.nextInt(COD_FOOD_VALUE);
+        super(randomAge, location, 120, isMale, 10, 0.8, 11);
+        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24;
     }
     
     /**
@@ -55,7 +55,7 @@ public class Tuna extends Animal
             incrementHunger();
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            if ((step % 24) >= 9 && (step % 24) <= 17)
+            if ((step % 24) >= 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN)
             {
             if(! freeLocations.isEmpty()) {
                 giveBirth(nextFieldState, freeLocations);
@@ -141,10 +141,6 @@ public class Tuna extends Animal
         // New Tunas are born into adjacent locations.
         // Get a list of adjacent free locations.
         int births = breed(nextFieldState);
-        if (Field.tunaCount() <= 100)
-        {
-            births += 5;
-        }
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
@@ -158,7 +154,7 @@ public class Tuna extends Animal
 
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 15);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 25);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 
