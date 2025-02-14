@@ -21,7 +21,7 @@ public class Algae extends Plant
      */
     public Algae(boolean randomAge, Location location)
     {
-        super(randomAge, location, 30, 0.35, 3);
+        super(randomAge, location, 36, 0.45, 5);
     }
 
     /**
@@ -32,15 +32,16 @@ public class Algae extends Plant
      */
     public void act(int step, Field currentField, Field nextFieldState)
     {
-        incrementAge();
         if(isAlive()) {
+            incrementAge();
+
             List<Location> freeLocations = nextFieldState.getFreeAdjacentLocations(getLocation());
 
-            if (!freeLocations.isEmpty() && rand.nextDouble() <= BREEDING_PROBABILITY) {
+            if (!freeLocations.isEmpty() && (rand.nextDouble() <= BREEDING_PROBABILITY) && ((step % 24) >= 9 && (step % 24) <= 17) && Simulator.getWeather() != WeatherType.ACIDIFIED) {
                 giveBirth(nextFieldState, freeLocations);
             }
 
-            // Ensure it remains at its location
+
             nextFieldState.placeOrganism(this, getLocation());
         }
     }

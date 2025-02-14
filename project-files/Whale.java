@@ -16,7 +16,7 @@ public class Whale extends Animal
     // The food value of a single prey. In effect, this is the
     // number of steps a Whale can go before it has to eat again.
     private static final int TUNA_FOOD_VALUE = 120;
-    private static final int ANGLERFISH_FOOD_VALUE = 120;
+    private static final int ALGAE_FOOD_VALUE = 75;
     private static final int COD_FOOD_VALUE = 95;
     // A shared random number generator to control breeding.
 
@@ -37,7 +37,7 @@ public class Whale extends Animal
      */
     public Whale(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 200, isMale, 20, 0.55, 4);
+        super(randomAge, location, 200, isMale, 12, 0.78, 8);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
     }
 
@@ -54,7 +54,7 @@ public class Whale extends Animal
     {
         if(isAlive())
         {
-            if ((step % 24) > 9 && (step % 24) <= 17)
+            if ((step % 24) > 5 && ((step % 24) <= 20) && Simulator.getWeather() != WeatherType.FROZEN)
             {
                 incrementAge();
                 incrementHunger();
@@ -107,7 +107,7 @@ public class Whale extends Animal
      * @return Where food was found, or null if it wasn't.
      */
     public Location findFood(Field field) {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 8);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while (foodLocation == null && it.hasNext()) {
@@ -128,13 +128,14 @@ public class Whale extends Animal
                         foodLocation = loc;
                     }
                 }
-                else if (Organism instanceof Anglerfish anglerfish) {
-                    if (anglerfish.isAlive()) {
-                        anglerfish.setDead();
-                        anglerfish.incrementConsumeDeath();
-                        foodLevel += ANGLERFISH_FOOD_VALUE;
+                else if(Organism instanceof Algae algae) {
+                    if(algae.isAlive()) {
+                        algae.setDead();
+                        Algae.incrementConsumeDeath();
+                        foodLevel += ALGAE_FOOD_VALUE;
                         foodLocation = loc;
                     }
+
                 }
             }
 
@@ -169,7 +170,7 @@ public class Whale extends Animal
      */
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 30);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 35);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

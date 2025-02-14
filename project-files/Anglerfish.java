@@ -33,7 +33,7 @@ public class Anglerfish extends Animal
      */
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 60, isMale, 12, 0.6, 7);
+        super(randomAge, location, 96, isMale, 12, 0.7, 8);
         foodLevel = rand.nextInt(COD_FOOD_VALUE);
 
     }
@@ -54,7 +54,7 @@ public class Anglerfish extends Animal
         {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            if (((step % 24) >= 20) || ((step % 24) <= 5))
+            if (((step % 24) >= 18) || ((step % 24) <= 6))
             {
                 incrementAge();
                 incrementHunger();

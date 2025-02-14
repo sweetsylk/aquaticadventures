@@ -14,7 +14,7 @@ public class Cod extends Animal
     // Characteristics shared by all cod (class variables).
 
     // The food value of a single algae (as food for cod).
-    private static final int ALGAE_FOOD_VALUE = 20;
+    private static final int ALGAE_FOOD_VALUE = 24;
 
     private static int starvation;
     private static int consumed;
@@ -30,7 +30,7 @@ public class Cod extends Animal
      */
     public Cod(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 20, isMale, 10, 0.75, 12);
+        super(randomAge, location, 48, isMale, 4, 0.84, 12);
     }
 
 
@@ -46,8 +46,9 @@ public class Cod extends Animal
         if(isAlive()) {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            if ((step % 24) > 9 && (step % 24) <= 17) {
+            if ((step % 24) > 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN) {
                 incrementAge();
+                incrementHunger();
                 if (!freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
                 }
@@ -131,7 +132,7 @@ public class Cod extends Animal
      */
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 4);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

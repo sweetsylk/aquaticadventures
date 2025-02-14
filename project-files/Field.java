@@ -15,7 +15,7 @@ public class Field
     // The dimensions of the field.
     private final int depth, width;
     // Organisms mapped by location.
-    private static final Map<Location, Organism> field = new HashMap<>();
+    private final Map<Location, Organism> field = new HashMap<>();
     // The Organisms.
     private final List<Organism> Organisms = new ArrayList<>();
 
@@ -53,7 +53,7 @@ public class Field
      * @param location Where in the field.
      * @return The Organism at the given location, or null if there is none.
      */
-    public static Organism getOrganismAt(Location location)
+    public Organism getOrganismAt(Location location)
     {
         return field.get(location);
     }
@@ -162,7 +162,7 @@ public class Field
 
     }
 
-    public static int codCount()
+    public int codCount()
     {
         int numCods = 0;
 
@@ -177,7 +177,7 @@ public class Field
 
     }
 
-    public static int tunaCount()
+    public int tunaCount()
     {
         int numTunas = 0;
 
@@ -192,7 +192,7 @@ public class Field
 
     }
 
-    public static int sharkCount()
+    public int sharkCount()
     {
         int numSharks = 0;
 
@@ -205,7 +205,7 @@ public class Field
         }
         return numSharks;
     }
-    public static int orcaCount()
+    public int orcaCount()
     {
         int numOrcas = 0;
 
@@ -218,7 +218,7 @@ public class Field
         }
         return numOrcas;
     }
-    public static int whaleCount()
+    public int whaleCount()
     {
         int numWhales = 0;
 
@@ -232,7 +232,7 @@ public class Field
         return numWhales;
     }
 
-    public static int anglerfishCount()
+    public int anglerfishCount()
     {
         int numAnglerfish = 0;
 
@@ -245,7 +245,7 @@ public class Field
         }
         return numAnglerfish;
     }
-    public static int algaeCount()
+    public int algaeCount()
     {
         int numAlgaes = 0;
 
