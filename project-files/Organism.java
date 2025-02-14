@@ -1,7 +1,9 @@
 import java.util.Random;
 
 /**
- * Common elements of plants (algae) and animals (orca, shark, whale, tuna, cod, anglefish).
+ * A simple model of an organism of abstract type so can't be instantiated:
+ * Organisms can grow, breed, sleep, and die naturally.
+ * Organisms include algae, cod, anglefish, tuna, sharks, whales and orca.
  *
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 8.0
@@ -25,7 +27,9 @@ public abstract class Organism
 
     
     /**
-     * Constructor for objects of class Organism.
+     * Constructor for objects of class Organism:
+     * They can be created as a new born (age zero) or with a random age.
+     * 
      * @param randomAge If true, the Organism will have a random age.
      * @param location The Organism's location.
      * @param MAX_AGE The maximum age the Organism can reach.
@@ -54,7 +58,7 @@ public abstract class Organism
 
     
     /**
-     * Act.
+     * abstract method to be overriden by subclasses.
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
      * @param step The current step (hour) the simulation is at

@@ -2,23 +2,23 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A Whale!!!
- * Whale's age, move, eat cod and Tuna, and die.
+ * A simple model of whales:
+ * Whales are a subclass of Animals so can do all the things animals can do.
+ * Can eat tuna, cod and algae.
+ * Can get eaten by orca.
  *
- * @author David J. Barnes and Michael Kölling (made the original fox and rabbit)
- * @author Ridwan Adam - made the whale!
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Whale extends Animal
 {
-    // Characteristics shared by all Whales (class variables).
 
-    // The food value of a single prey. In effect, this is the
-    // number of steps a Whale can go before it has to eat again.
+    // The food values of a single algae, cod and tuna (as food for whales).
+    // Characteristics shared by all Whales (class variables).
     private static final int TUNA_FOOD_VALUE = 120;
     private static final int ALGAE_FOOD_VALUE = 75;
     private static final int COD_FOOD_VALUE = 95;
-    // A shared random number generator to control breeding.
+    
 
     private static int starvation;
     private static int consumed;
@@ -28,16 +28,17 @@ public class Whale extends Animal
   
 
     /**
-     * Create a Whale. A Whale can be created as a new born (age zero
-     * and not hungry) or with a random age and food level.
+     * Constructor for objects of class whale: 
+     * They are given a random initial food level up to a maximum of biggest food source.
      *
-     * @param randomAge If true, the Whale will have random age and hunger level.
-     * @param location The location within the field.
-     * @param isMale whether the whale is male or not
+     * @param randomAge If true, the fish will have random age.
+     * @param location The initial location of the anglerFish within the field.
+     * @param isMale Whether the anglerFish is male or not (female).
      */
     public Whale(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 200, isMale, 12, 0.78, 8);
+        // sets a random intial food level for whale up to a maximum of biggest food source
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
     }
 
@@ -50,6 +51,7 @@ public class Whale extends Animal
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
+    @Override
     public void act(int step, Field currentField, Field nextFieldState)
     {
         if(isAlive())
@@ -87,7 +89,12 @@ public class Whale extends Animal
     }
 
 
-
+    
+    /**
+     * Overrides toString method so it returns inforrmation about the whale:
+     * Including its age, location, whether it is alive and its food level.
+     * @return Information about the whale.
+     */
     @Override
     public String toString() {
         return "Whale{" +

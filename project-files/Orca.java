@@ -3,16 +3,17 @@ import java.util.List;
 
 /**
  * A simple model of orcas:
- * orcas can move, grow, breed, sleep, eats (shark and whale) and die of starvation.
- * orcas are also the apex predator so don't get eaten by any other organism.
- * @author David J. Barnes and Michael Kölling
+ * Orcas are a subclass of Animals so can do all the things animals can do.
+ * Orcas can eat sharks and whales.
+ * Orcas can get eaten by no other organism (apex predator).
+ * 
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Orca extends Animal
 {
-    // Characteristics shared by all tuba (class variables)
-    // The food value of a single prey. In effect, this is the
-    // number of steps a Orca can go before it has to eat again.
+    // The food values of a single shark and whale (as food for orca).
+    // characteristics shared by all orcas (class variables).
     private static final int SHARK_FOOD_VALUE = 30;
     private static final int WHALE_FOOD_VALUE = 50;
 
@@ -22,16 +23,18 @@ public class Orca extends Animal
 
    
     /**
-     * Create an orca. an orca can be created as a new born (age zero
-     * and not hungry) or with a random age and food level.
-     *
-     * @param randomAge If true, the orca will have random age and hunger level.
-     * @param location The location within the field.
+     * Constructor for objects of class orca: 
+     * They are given a random initial food level up to a maximum of biggest food source.
+     * 
+     * @param randomAge If true, the fish will have random age.
+     * @param location The initial location of the anglerFish within the field.
+     * @param isMale Whether the anglerFish is male or not (female).
      */
     public Orca(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 180, isMale, 20, 0.42, 2);
-        foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
+        // sets a random intial food level for orca up to a maximum of biggest food source
+        foodLevel = rand.nextInt(SHARK_FOOD_VALUE); 
     }
 
     /**
@@ -81,7 +84,11 @@ public class Orca extends Animal
     }
 
 
-
+    /**
+     * Overrides toString method so it returns inforrmation about the orca:
+     * Including its age, location, whether it is alive and its food level.
+     * @return Information about the orca.
+     */
     @Override
     public String toString() {
         return "Orca{" +
@@ -153,7 +160,12 @@ public class Orca extends Animal
     }
 
 
-
+    /**
+     * Check whether or not this Orca is to give birth at this step.
+     * New births will be made into free adjacent locations.
+     * @param field The field currently occupied.
+     * @return true if the Orca is to give birth, false otherwise.
+     */
     public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 27);

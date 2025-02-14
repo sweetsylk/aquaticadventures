@@ -3,8 +3,10 @@ import java.util.List;
 
 /**
  * A simple model of Anglerfishes:
- * AnglerFishes move, grow, breed, sleep, eats (algae and cod), gets eaten (by shark and whale) and die of starvation.
- * Anglerfishes are also nocturnal.
+ * Anglerfishes are a subclass of Animals so can do all the things animals can do.
+ * Can eat cod and algae.
+ * Can get eaten by shark.
+ * Are also nocturnal.
  *
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
@@ -13,6 +15,7 @@ public class Anglerfish extends Animal
 {
     
     // The food values of a single cod and algae (as food for anglerfish).
+    // Characteristics shared by all anglerfish (class variables).
     private static final int COD_FOOD_VALUE = 40;
     private static final int ALGAE_FOOD_VALUE = 20;
 
@@ -24,8 +27,7 @@ public class Anglerfish extends Animal
 
     /**
      * Constructor for objects of class Anglerfish: 
-     * They can be created as a new born (age zero) or with a random age
-     * and are given random initial food level.
+     * They are given a random initial food level up to a maximum of biggest food source.
      *
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
@@ -34,7 +36,8 @@ public class Anglerfish extends Animal
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 96, isMale, 12, 0.7, 8);
-        foodLevel = rand.nextInt(COD_FOOD_VALUE);
+        // sets a random intial food level for anglerfish up to a maximum of biggest food source
+        foodLevel = rand.nextInt(COD_FOOD_VALUE); 
 
     }
 
@@ -48,6 +51,7 @@ public class Anglerfish extends Animal
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
+    @Override
     public void act(int step, Field currentField, Field nextFieldState)
     {
         if(isAlive())
@@ -140,13 +144,21 @@ public class Anglerfish extends Animal
      * Check whether this fish should give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
+     * @param nextFieldState The updated field.
      */
     @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New Anglerfish are born into adjacent locations.
         // Get a list of adjacent free locations.
-        int births = breed(nextFieldState);
+        int births = 
+        
+        
+        
+        
+        
+        
+        breed(nextFieldState);
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);

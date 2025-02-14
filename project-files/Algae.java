@@ -2,7 +2,9 @@ import java.util.List;
 
 /**
  * A simple model of Algae:
- * Algae grow, breed, gets eaten (by cod, anglerFish and tuna) and die naturally.
+ * Algae are a subclass of Plant so can do all the things plants can do.
+ * Get eaten by cod, tuna, anglerfish and whale.
+ * Eat no one (as they are a producer)
  * 
  * @author Ridwan Adam and Areeb Rafiq
  * @version 1.1

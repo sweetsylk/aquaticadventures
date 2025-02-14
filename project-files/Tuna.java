@@ -2,19 +2,20 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A simple model of a tuna.
- * Tunas age, move, eat cod and salmon, bread and die.
- * 
+ * A simple model of tuna:
+ * Tunas are a subclass of Animals so can do all the things animals can do.
+ * Can eat cod and algae.
+ * Can get eaten by shark and whale.
+ *
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Tuna extends Animal
 {
-    // Characteristics shared by all tuna (class variables).
 
-    // The food value of a single cod (as food for tuna).
+    // The food values of a single algae and cod (as food for tuna).
+    // Characteristics shared by all tuna (class variables)
     private static final int COD_FOOD_VALUE = 50;
-    // The food value of a single algae (as food for tuna).
     private static final int ALGAE_FOOD_VALUE = 20;
 
     private static int starvation;
@@ -26,16 +27,18 @@ public class Tuna extends Animal
     
 
     /**
-     * Create a tuna. A tuna can be created as a new born (age zero
-     * and not hungry) or with a random age and food level.
+     * Constructor for objects of class tuna: 
+     * They are given a random initial food level up to a maximum of biggest food source.
      * 
-     * @param randomAge If true, the tuna will have random age and hunger level.
-     * @param location The location within the field.
+     * @param randomAge If true, the fish will have random age.
+     * @param location The initial location of the anglerFish within the field.
+     * @param isMale Whether the anglerFish is male or not (female).
      */
     public Tuna(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 120, isMale, 10, 0.8, 11);
-        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24;
+        // They are given a random initial food level up to a maximum of biggest food source.
+        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24; 
     }
     
     /**
@@ -47,6 +50,7 @@ public class Tuna extends Animal
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
+    @Override
     public void act(int step, Field currentField, Field nextFieldState)
     {
         if(isAlive())
@@ -83,7 +87,11 @@ public class Tuna extends Animal
     }
 
 
-
+    /**
+     * Overrides toString method so it returns inforrmation about the tuna:
+     * Including its age, location, whether it is alive and its food level.
+     * @return Information about the tuna.
+     */
     @Override
     public String toString() {
         return "Tuna{" +
@@ -101,6 +109,7 @@ public class Tuna extends Animal
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
+    @Override
     public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
@@ -136,6 +145,7 @@ public class Tuna extends Animal
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
+    @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New Tunas are born into adjacent locations.
@@ -151,7 +161,13 @@ public class Tuna extends Animal
         }
     }
         
-
+     /**
+     * Check whether or not this shark is to give birth at this step.
+     * New births will be made into free adjacent locations.
+     * @param field The field currently occupied.
+     * @return true if the shark is to give birth, false otherwise.
+     */
+    @Override
     public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 25);

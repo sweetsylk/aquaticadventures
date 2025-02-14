@@ -3,7 +3,9 @@ import java.util.List;
 
 /**
  * A simple model of cod:
- * cod move, grow, breed, sleep, eats (algae), gets eaten (by anglerfish, tuna and whale) and die of starvation.
+ * cod are a subclass of Animals so can do all the things animals can do.
+ * Can eat algae.
+ * Can get eaten by anglerfish, tuna and whale.
  * 
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
@@ -12,6 +14,7 @@ public class Cod extends Animal
 {
     
     // The food value of a single algae (as food for cod).
+    // Characteristics shared by all cod (class variables).
     private static final int ALGAE_FOOD_VALUE = 24;
 
     // Characteristics shared by all cod (class variables).
@@ -21,8 +24,7 @@ public class Cod extends Animal
     
     /**
      * Constructor for objects of class cod: 
-     * They can be created as a new born (age zero) or with a random age
-     * and given random initial food level.
+     * They are given a random initial food level up to a maximum of biggest food source.
      * 
      * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
@@ -31,7 +33,8 @@ public class Cod extends Animal
     public Cod(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 48, isMale, 4, 0.84, 12);
-        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE); // sets intial random food level for anglerfish
+        // sets a random intial food level for cod up to a maximum of biggest food source
+        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE); 
 
     }
 

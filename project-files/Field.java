@@ -4,8 +4,8 @@ import java.util.*;
  * Represent a rectangular grid of field positions.
  * Each position is able to store a single Organism/object.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 7.0
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
+ * @version 7.1
  */
 public class Field
 {
@@ -115,7 +115,7 @@ public class Field
     }
 
     /**
-     * Print out the number of tunas, cods, orcas, sharks, and whales in the field.
+     * Print out the number of algaes, cods, angleFishes, tunas, sharks, whales and orcas in the field.
      */
     public void fieldStats()
     {
@@ -162,111 +162,18 @@ public class Field
 
     }
 
-    public int codCount()
-    {
-        int numCods = 0;
 
-        for(Organism anOrganism : field.values()) {
-            if (anOrganism instanceof Cod cod) {
-                if (cod.isAlive()) {
-                    numCods++;
-                }
-            }
-        }
-        return numCods;
-
-    }
-
-    public int tunaCount()
-    {
-        int numTunas = 0;
-
-        for(Organism anOrganism : field.values()) {
-            if (anOrganism instanceof Tuna tuna) {
-                if (tuna.isAlive()) {
-                    numTunas++;
-                }
-            }
-        }
-        return numTunas;
-
-    }
-
-    public int sharkCount()
-    {
-        int numSharks = 0;
-
-        for(Organism anOrganism : field.values()) {
-            if (anOrganism instanceof Shark shark) {
-                if (shark.isAlive()) {
-                    numSharks++;
-                }
-            }
-        }
-        return numSharks;
-    }
-    public int orcaCount()
-    {
-        int numOrcas = 0;
-
-        for(Organism anOrganism : field.values()) {
-            if (anOrganism instanceof Orca orca) {
-                if (orca.isAlive()) {
-                    numOrcas++;
-                }
-            }
-        }
-        return numOrcas;
-    }
-    public int whaleCount()
-    {
-        int numWhales = 0;
-
-        for(Organism anOrganism : field.values()) {
-            if (anOrganism instanceof Whale whale) {
-                if (whale.isAlive()) {
-                    numWhales++;
-                }
-            }
-        }
-        return numWhales;
-    }
-
-    public int anglerfishCount()
-    {
-        int numAnglerfish = 0;
-
-        for(Organism anOrganism : field.values()) {
-            if (anOrganism instanceof Anglerfish anglerfish) {
-                if (anglerfish.isAlive()) {
-                    numAnglerfish++;
-                }
-            }
-        }
-        return numAnglerfish;
-    }
-    public int algaeCount()
-    {
-        int numAlgaes = 0;
-
-        for(Organism anOrganism : field.values()) {
-            if (anOrganism instanceof Algae algae) {
-                if (algae.isAlive()) {
-                    numAlgaes++;
-                }
-            }
-        }
-        return numAlgaes;
-    }
-
+    /**
+     * Clear the field of all Organisms.
+     */
     public void clear()
     {
         field.clear();
     }
 
     /**
-     * Return whether there is at least one cod and one tuna in the field.
-     * @return true if there is at least one cod and one tuna in the field.
+     * Return whether there is at least one of every organism in the field.
+     * @return true if there is at least one of every organism in the field.
      */
     public boolean isViable()
     {
@@ -321,6 +228,7 @@ public class Field
     
     /**
      * Get the list of Organisms.
+     * @return The list of Organisms.
      */
     public List<Organism> getOrganisms()
     {

@@ -1,8 +1,10 @@
 import java.util.List;
 
 /**
- * A simple model of an Animal:
- * Animals move, grow, eat, breed, sleep and die.
+ * A simple model of an Animal of abstract type so can't be instantiated:
+ * Animals are a subclass of Organisms so can do all the things organisms can do.
+ * Animals can also all move, eat and or get eaten, die of overcrowing and starvation.
+ * Animals include cod, anglefish, tuna, sharks, whales and orca.
  * 
  * @author Ridwan Adam and Areeb Rafiq
  * @version 1.0
@@ -94,7 +96,8 @@ public abstract class Animal extends Organism {
     public abstract void giveBirth(Field nextFieldState, List<Location> freeLocations);
 
     /**
-     * randomise how many births will happen 
+     * Randomise how many births will happen for an animal.
+     * Also based on the weather, the animal will give birth to a different number of offspring.
      * @param field The current field to breed in.
      * @return the number of births to happen 
      */

@@ -2,36 +2,39 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A SHARK!!!
- * Shark's age, move, eat cod and salmon, and die.
+ * A simple model of sharks:
+ * Sharks are a subclass of Animals so can do all the things animals can do.
+ * Sharks can eat tuna and anglerfish.
+ * Sharks can get eaten by orca.
  *
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
 public class Shark extends Animal
 {
-    // Characteristics shared by all tuba (class variables).
-    // The age at which a Shark can start to breed.
-    // The food value of a single prey. In effect, this is the
-    // number of steps a Shark can go before it has to eat again.
+    // The food values of a single tuna and anglerfish (as food for shark).
+    // Characteristics shared by all sharks (class variables).
     private static final int TUNA_FOOD_VALUE = 60;
     private static final int ANGLERFISH_FOOD_VALUE = 75;
     
-
+    // Characteristics shared by all sharks (class variables).
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
     
 
     /**
-     * Create a shark. A shark can be created as a new born (age zero
-     * and not hungry) or with a random age and food level.
-     *
-     * @param location The location within the field.
+     * Constructor for objects of class shark: 
+     * They are given a random initial food level up to a maximum of biggest food source.
+     * 
+     * @param randomAge If true, the fish will have random age.
+     * @param location The initial location of the anglerFish within the field.
+     * @param isMale Whether the anglerFish is male or not (female).
      */
     public Shark(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 120, isMale, 12, 0.78, 7);
+        // sets a random intial food level for shark up to a maximum of biggest food source
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
     }
 
@@ -44,6 +47,7 @@ public class Shark extends Animal
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
+    @Override
     public void act(int step, Field currentField, Field nextFieldState)
     {
         if(isAlive())
@@ -82,7 +86,11 @@ public class Shark extends Animal
     }
 
 
-
+    /**
+     * Overrides toString method so it returns information about the shark:
+     * Including its age, location, whether it is alive and its food level.
+     * @return Information about the shark.
+     */
     @Override
     public String toString() {
         return "Shark{" +
@@ -132,7 +140,9 @@ public class Shark extends Animal
      * Check whether this Shark is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
+     * @param nextFieldState The updated field.
      */
+    @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New animals are born into adjacent locations.
@@ -153,6 +163,7 @@ public class Shark extends Animal
      * @param field The field currently occupied.
      * @return true if there is a male and female shark nearby.
      */
+    @Override
     public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 30);
