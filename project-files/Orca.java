@@ -2,9 +2,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A KILLER SHARKKKK!!!
- * Orca's age, move, eat SHARKS, and die.
- *
+ * A simple model of orcas:
+ * orcas can move, grow, breed, sleep, eats (shark and whale) and die of starvation.
+ * orcas are also the apex predator so don't get eaten by any other organism.
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */

@@ -1,5 +1,13 @@
 import java.util.List;
 
+/**
+ * A simple model of an Animal:
+ * Animals move, grow, eat, breed, sleep and die.
+ * 
+ * @author Ridwan Adam and Areeb Rafiq
+ * @version 1.0
+ */
+
 public abstract class Animal extends Organism {
 
 
@@ -9,8 +17,9 @@ public abstract class Animal extends Organism {
     protected int foodLevel;
     // The age at which the animal can start to breed
     protected final int BREEDING_AGE;
+
     /**
-     * Constructor for objects of class Animal.
+     * Constructor for objects of class Animal
      * @param randomAge If true, the Organism will have a random age.
      * @param location The Organism's location.
      * @param MAX_AGE The maximum age the Organism can reach.
@@ -19,13 +28,12 @@ public abstract class Animal extends Organism {
      * @param isMale Whether the Animal is male or not
      * @param breedingAge The age at which the animal can start to breed
      */
-    public Animal(boolean randomAge, Location location, int maxAge, boolean isMale,
-                  int breedingAge, double breedingProbability, int maxLitterSize) {
-
+    public Animal(boolean randomAge, Location location, int maxAge, boolean isMale, int breedingAge, double breedingProbability, int maxLitterSize)
+    {
         super(randomAge, location, maxAge, breedingProbability, maxLitterSize);
         this.isMale = isMale;
         this.BREEDING_AGE = breedingAge;
-        this.foodLevel = rand.nextInt(10) + 5; // Initialize food level randomly
+        
     }
 
     /**
@@ -34,6 +42,7 @@ public abstract class Animal extends Organism {
      * @param nextFieldState The new state being built.
      * @param step The current step (hour) the simulation is at
      */
+    @Override
     public abstract void act(int step, Field currentField, Field nextFieldState);
 
     /**
@@ -48,7 +57,8 @@ public abstract class Animal extends Organism {
     /**
      * increment the foodlevel of the animal
      */
-    public void incrementHunger() {
+    public void incrementHunger()
+    {
         foodLevel--;
         if (foodLevel <= 0) {
             setDead();
@@ -65,7 +75,8 @@ public abstract class Animal extends Organism {
      * check if the animal can breed
      * @param true if the organism can breed
      */
-    public boolean canBreed() {
+    public boolean canBreed() 
+    {
         return age >= BREEDING_AGE;
     }
 

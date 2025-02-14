@@ -1,28 +1,28 @@
-
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * A simple model of a cod.
- * Cods age, move, eat algae, breed and die.
+ * A simple model of cod:
+ * cod move, grow, breed, sleep, eats (algae), gets eaten (by anglerfish, tuna and whale) and die of starvation.
  * 
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Cod extends Animal
 {
-    // Characteristics shared by all cod (class variables).
-
+    
     // The food value of a single algae (as food for cod).
     private static final int ALGAE_FOOD_VALUE = 20;
 
+    // Characteristics shared by all cod (class variables).
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
     
     /**
-     * Create a new cod. A cod may be created with age
-     * zero (a new born) or with a random age.
+     * Constructor for objects of class cod: 
+     * They can be created as a new born (age zero) or with a random age
+     * and given random initial food level.
      * 
      * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
@@ -31,8 +31,9 @@ public class Cod extends Animal
     public Cod(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 20, isMale, 10, 0.75, 12);
-    }
+        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE); // sets intial random food level for anglerfish
 
+    }
 
     /**
      * This is what the cod does most of the time - it runs
@@ -41,6 +42,7 @@ public class Cod extends Animal
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
      */
+    @Override
     public void act(int step, Field currentField, Field nextFieldState)
     {
         if(isAlive()) {
@@ -68,6 +70,11 @@ public class Cod extends Animal
         }
     }
 
+    /**
+     * Overrides toString method so it returns inforrmation about the cod:
+     * Including its age, location, whether it is alive and its food level.
+     * @return Information about the cod.
+     */
     @Override
     public String toString() {
         return "Cod{" +
@@ -82,6 +89,7 @@ public class Cod extends Animal
      * @param field The field currently occupied.
      * @return the location of next food to be eaten
      */
+    @Override
     public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
@@ -108,6 +116,7 @@ public class Cod extends Animal
      * @param freeLocations The locations that are free in the current field.
      * @param nextFieldState The updated field.
      */
+    @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New rabbits are born into adjacent locations.
@@ -129,6 +138,7 @@ public class Cod extends Animal
      * @param field The field currently occupied.
      * @return true if there is a male and female cod nearby.
      */
+    @Override
     public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 4);

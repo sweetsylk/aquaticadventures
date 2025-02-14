@@ -3,7 +3,7 @@ import java.util.List;
 
 /**
  * A simple model of Anglerfishes:
- * AnglerFishes grow, breed, eats (algae and cod), gets eaten (by shark and whale) and die of starvation.
+ * AnglerFishes move, grow, breed, sleep, eats (algae and cod), gets eaten (by shark and whale) and die of starvation.
  * Anglerfishes are also nocturnal.
  *
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
@@ -24,8 +24,8 @@ public class Anglerfish extends Animal
 
     /**
      * Constructor for objects of class Anglerfish: 
-     * They can be created as a new born (age zero and not hungry) 
-     * or with a random age and food level.
+     * They can be created as a new born (age zero) or with a random age
+     * and are given random initial food level.
      *
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
@@ -34,7 +34,7 @@ public class Anglerfish extends Animal
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 60, isMale, 12, 0.6, 7);
-        foodLevel = rand.nextInt(COD_FOOD_VALUE);
+        foodLevel = rand.nextInt(COD_FOOD_VALUE); // sets intial random food level for anglerfish
 
     }
 
@@ -44,7 +44,7 @@ public class Anglerfish extends Animal
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
      * Anglerfish are awake from 8pm to 5am 
-     * @param step the current step in the simulation
+     * @param step The current step in the simulation.
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
@@ -85,8 +85,9 @@ public class Anglerfish extends Animal
 
 
     /**
-     * Returns inforrmation about the anglerFish
+     * Overrides toString method so it returns inforrmation about the anglerFish:
      * Including its age, location, whether it is alive and its food level.
+     * @return Information about the anglerFish.
      */
     @Override
     public String toString() {
@@ -105,6 +106,7 @@ public class Anglerfish extends Animal
      * @param field The field currently occupied.
      * @return Last loction of food that was eaten, or null if none were eaten.
      */
+    @Override
     public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 3);
@@ -139,6 +141,7 @@ public class Anglerfish extends Animal
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
+    @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New Anglerfish are born into adjacent locations.
@@ -155,7 +158,12 @@ public class Anglerfish extends Animal
     }
 
 
-
+    /**
+     * Check whether or not the anglerfish can mate in this step. 
+     * @param field The field currently occupied.
+     * @return True if the anglerfish can mate in this step.
+     */
+    @Override
     public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);

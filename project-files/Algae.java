@@ -1,4 +1,3 @@
-
 import java.util.List;
 
 /**
@@ -6,7 +5,7 @@ import java.util.List;
  * Algae grow, breed, gets eaten (by cod, anglerFish and tuna) and die naturally.
  * 
  * @author Ridwan Adam and Areeb Rafiq
- * @version 1.0
+ * @version 1.1
  */
 public class Algae extends Plant
 {
@@ -30,6 +29,7 @@ public class Algae extends Plant
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
      */
+    @Override
     public void act(int step, Field currentField, Field nextFieldState)
     {
         incrementAge();
@@ -46,8 +46,9 @@ public class Algae extends Plant
     }
 
     /**
-     * Returns inforrmation about the algae
+     * Returns information about the algae:
      * Including its age, location and whether it is alive.
+     * @return Information about the algae.
      */
     @Override
     public String toString() {
@@ -76,28 +77,38 @@ public class Algae extends Plant
         }
     }
 
-
-
-
-
+    /**
+     * Increment the number of consumed algae
+     */
     public static void incrementConsumeDeath()
     {
         consumed += 1;
 
     }
 
+    /**
+     * Increment the number of algae natural deaths
+     */
     public static void incrementNaturalDeath()
     {
         naturalDeath += 1;
 
     }
 
+    /**
+     * Accessor method of attribute consumed
+     * @return The number of consumed algae
+     */
     public static int getConsumed()
     {
         return consumed;
 
     }
 
+    /**
+     * Accessor method of attribute naturalDeath
+     * @return The number of algae natural deaths
+     */
     public static int getNaturalDeath()
     {
         return naturalDeath;

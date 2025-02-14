@@ -1,4 +1,5 @@
 import java.util.Random;
+
 /**
  * Common elements of plants (algae) and animals (orca, shark, whale, tuna, cod, anglefish).
  *
