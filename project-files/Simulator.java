@@ -22,6 +22,8 @@ public class Simulator
     private static final double SHARK_CREATION_PROBABILITY = 0.03;
     private static final double ORCA_CREATION_PROBABILITY = 0.014;
     private static final double WHALE_CREATION_PROBABILITY = 0.012;
+    // The probability that an organism will be created infected when simulation starts.
+    private static final double INITIAL_INFECTED_PROBABILITY = 0.1;
 
     // Create weather object to be used for simulation
     private static Weather weather = new Weather();
@@ -147,37 +149,37 @@ public class Simulator
                 if(rand.nextDouble() <= WHALE_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     boolean isMale = rand.nextBoolean();
-                    Whale whale = new Whale(true, location, isMale);
+                    Whale whale = new Whale(true, location, isMale, INITIAL_INFECTED_PROBABILITY);
                     field.placeOrganism(whale, location);
                 }
                 else if(rand.nextDouble() <= ORCA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     boolean isMale = rand.nextBoolean();
-                    Orca orca = new Orca(true, location, isMale);
+                    Orca orca = new Orca(true, location, isMale, INITIAL_INFECTED_PROBABILITY);
                     field.placeOrganism(orca, location);
                 }
                 else if(rand.nextDouble() <= SHARK_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     boolean isMale = rand.nextBoolean();
-                    Shark shark = new Shark(true, location, isMale);
+                    Shark shark = new Shark(true, location, isMale, INITIAL_INFECTED_PROBABILITY);
                     field.placeOrganism(shark, location);
                 }
                 else if(rand.nextDouble() <= ANGLERFISH_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     boolean isMale = rand.nextBoolean();
-                    Anglerfish anglerfish = new Anglerfish(true, location, isMale);
+                    Anglerfish anglerfish = new Anglerfish(true, location, isMale, INITIAL_INFECTED_PROBABILITY);
                     field.placeOrganism(anglerfish, location);
                 }
                 else if(rand.nextDouble() <= TUNA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     boolean isMale = rand.nextBoolean();
-                    Tuna tuna = new Tuna(true, location, isMale);
+                    Tuna tuna = new Tuna(true, location, isMale, INITIAL_INFECTED_PROBABILITY);
                     field.placeOrganism(tuna, location);
                 }
                 else if(rand.nextDouble() <= COD_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     boolean isMale = rand.nextBoolean();
-                    Cod cod = new Cod(true, location, isMale);
+                    Cod cod = new Cod(true, location, isMale, INITIAL_INFECTED_PROBABILITY);
                     field.placeOrganism(cod, location);
                 }
                 else if(rand.nextDouble() <= ALGAE_CREATION_PROBABILITY) {

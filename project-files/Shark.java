@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class Shark extends Animal
 {
-    // The food values of a single tuna and anglerfish (as food for shark).
     // Characteristics shared by all sharks (class variables).
+    // The food values of a single tuna and anglerfish (as food for shark).
     private static final int TUNA_FOOD_VALUE = 60;
     private static final int ANGLERFISH_FOOD_VALUE = 75;
     
@@ -30,17 +30,18 @@ public class Shark extends Animal
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
+     * @param infectedChance The chance of the anglerFish being infected (from 0 to 1).
      */
-    public Shark(boolean randomAge, Location location, boolean isMale)
+    public Shark(boolean randomAge, Location location, boolean isMale, double infectedChance)
     {
-        super(randomAge, location, 120, isMale, 12, 0.78, 7);
+        super(randomAge, location, 120, isMale, 12, 0.78, 7, infectedChance);
         // sets a random intial food level for shark up to a maximum of biggest food source
-        foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
+        foodLevel = rand.nextInt(TUNA_FOOD_VALUE); 
     }
 
     /**
      * This is what the Shark does most of the time: it hunts for
-     * Tuna and cod. In the process, it might breed, sleep or die of hunger,
+     * Tuna and anglerfish. In the process, it might breed, sleep or die of hunger,
      * or die of old age.
      * Sharks are awake from 9am to 5pm and 10pm to 4am
      * @param step the current step in the simulation
@@ -103,11 +104,12 @@ public class Shark extends Animal
 
 
     /**
-     * Look for Organisms adjacent to the current location.
-     * Only the first live tuna is eaten.
+     * Look for tuna and anglerfish adjacent (of radius 4) to the current location.
+     * Then eat them and increase the food level.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
+    @Override
     public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 4);
@@ -118,6 +120,10 @@ public class Shark extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Tuna tuna) {
                 if(tuna.isAlive()) {
+                    // shark has a chance of becoming infected when eating an infected tuna
+                    if (tuna.isInfected()) {
+                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    }
                     tuna.setDead();
                     Tuna.incrementConsumeDeath();
                     foodLevel += TUNA_FOOD_VALUE;
@@ -126,6 +132,10 @@ public class Shark extends Animal
             }
             else if(Organism instanceof Anglerfish anglerfish) {
                 if(anglerfish.isAlive()) {
+                    // shark has a chance of becoming infected when eating an infected anglerfish
+                    if (anglerfish.isInfected()) {
+                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    }
                     anglerfish.setDead();
                     anglerfish.incrementConsumeDeath();
                     foodLevel += ANGLERFISH_FOOD_VALUE;
@@ -152,7 +162,7 @@ public class Shark extends Animal
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Shark young = new Shark(false, loc, babyGender);
+                Shark young = new Shark(false, loc, babyGender, 0);
                 nextFieldState.placeOrganism(young, loc);
             }
         }

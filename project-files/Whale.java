@@ -13,8 +13,8 @@ import java.util.List;
 public class Whale extends Animal
 {
 
-    // The food values of a single algae, cod and tuna (as food for whales).
     // Characteristics shared by all Whales (class variables).
+    // The food values of a single algae, cod and tuna (as food for whales).
     private static final int TUNA_FOOD_VALUE = 120;
     private static final int ALGAE_FOOD_VALUE = 75;
     private static final int COD_FOOD_VALUE = 95;
@@ -34,17 +34,18 @@ public class Whale extends Animal
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
+     * @param isInfected Whether the anglerFish is infected or not (from 0 to 1).
      */
-    public Whale(boolean randomAge, Location location, boolean isMale)
+    public Whale(boolean randomAge, Location location, boolean isMale, double infectedChance)
     {
-        super(randomAge, location, 200, isMale, 12, 0.78, 8);
+        super(randomAge, location, 200, isMale, 12, 0.78, 8, infectedChance);
         // sets a random intial food level for whale up to a maximum of biggest food source
-        foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
+        foodLevel = rand.nextInt(TUNA_FOOD_VALUE); 
     }
 
     /**
      * This is what the Whale does most of the time: it hunts for
-     * Tuna and cod. In the process, it might breed, die of hunger or sleep,
+     * Tuna, cod and algae. In the process, it might breed, die of hunger or sleep,
      * or die of old age.
      * Whales are awake from 5am to 5pm
      * @param step current step in the simulation
@@ -108,11 +109,12 @@ public class Whale extends Animal
 
 
     /**
-     * Look for Organisms adjacent to the current location.
-     * Only the first live tuna is eaten.
+     * Look for algae and cod adjacent (of radius 8) to the current location.
+     * Then eat them and increase the food level..
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
+    @Override
     public Location findFood(Field field) {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 8);
         Iterator<Location> it = adjacent.iterator();
@@ -122,6 +124,10 @@ public class Whale extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if (Organism instanceof Tuna tuna) {
                 if (tuna.isAlive()) {
+                    // whale has a chance of becoming infected when eating an infected tuna
+                    if (tuna.isInfected()) {
+                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    }
                     tuna.setDead();
                     Tuna.incrementConsumeDeath();
                     foodLevel += TUNA_FOOD_VALUE;
@@ -129,6 +135,10 @@ public class Whale extends Animal
                 }
                 else if (Organism instanceof Cod cod) {
                     if (cod.isAlive()) {
+                        // whale has a chance of becoming infected when eating an infected cod
+                        if (cod.isInfected()) {
+                            becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                        }
                         cod.setDead();
                         Cod.incrementConsumeDeath();
                         foodLevel += COD_FOOD_VALUE;
@@ -154,27 +164,30 @@ public class Whale extends Animal
      * Check whether this Shark is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
+     * @param nextFieldState The updated field.
      */
+    @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
-        // New foxes are born into adjacent locations.
+        // New whales are born into adjacent locations.
         // Get a list of adjacent free locations.
         int births = breed(nextFieldState);
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Whale young = new Whale(false, loc, babyGender);
+                Whale young = new Whale(false, loc, babyGender, 0);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
     }
 
     /**
-     * Checks if there is a mating pair (male and female) of sharks nearby.
+     * Checks if there is a mating pair (male and female) of whales nearby.
      * @param field The field currently occupied.
      * @return true if there is a male and female Whale nearby.
      */
+    @Override
     public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 35);

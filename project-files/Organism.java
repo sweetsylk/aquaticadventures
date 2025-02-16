@@ -21,7 +21,7 @@ public abstract class Organism
     // The Organism's position.
     private Location location;
     // The maximum age the Organism can reach.
-    protected int MAX_AGE;
+    protected final int MAX_AGE;
     // The Organism's age.
     protected int age;
 

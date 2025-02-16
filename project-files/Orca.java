@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class Orca extends Animal
 {
-    // The food values of a single shark and whale (as food for orca).
     // characteristics shared by all orcas (class variables).
+    // The food values of a single shark and whale (as food for orca).
     private static final int SHARK_FOOD_VALUE = 30;
     private static final int WHALE_FOOD_VALUE = 50;
 
@@ -29,14 +29,14 @@ public class Orca extends Animal
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
+     * @param isInfected Whether the anglerFish is infected or not (from 0 to 1).
      */
-    public Orca(boolean randomAge, Location location, boolean isMale)
+    public Orca(boolean randomAge, Location location, boolean isMale, double infectedChance)
     {
-        super(randomAge, location, 180, isMale, 20, 0.42, 2);
+        super(randomAge, location, 180, isMale, 20, 0.42, 2, infectedChance);
         // sets a random intial food level for orca up to a maximum of biggest food source
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE); 
     }
-
     /**
      * This is what the Orca does most of the time: it hunts for
      * Sharks. In the process, it might breed, die of hunger,
@@ -46,9 +46,9 @@ public class Orca extends Animal
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
+    @Override
     public void act(int step, Field currentField, Field nextFieldState)
     {
-
         if(isAlive())
         {
             if ((step % 24) >= 9 && (step % 24) <= 17)
@@ -102,11 +102,12 @@ public class Orca extends Animal
 
 
     /**
-     * Look for Organisms adjacent to the current location.
-     * Only the first live shark is eaten.
+     * Look for sharks and whales adjacent (of radius 5) to the current location.
+     * Then eat them and increase the food level.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
+    @Override
     public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
@@ -117,6 +118,10 @@ public class Orca extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Shark shark) {
                 if(shark.isAlive()) {
+                    // orca has a chance of becoming infected when eating an infected shark
+                    if (shark.isInfected()) {
+                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    }
                     shark.setDead();
                     Shark.incrementConsumeDeath();
                     foodLevel += SHARK_FOOD_VALUE;
@@ -126,6 +131,10 @@ public class Orca extends Animal
 
             else if(Organism instanceof Whale whale) {
                 if(whale.isAlive()) {
+                    // orca has a chance of becoming infected when eating an infected whale
+                    if (whale.isInfected()) {
+                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    }
                     whale.setDead();
                     Whale.incrementConsumeDeath();
                     foodLevel += WHALE_FOOD_VALUE;
@@ -143,17 +152,19 @@ public class Orca extends Animal
      * Check whether this Orca is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
+     * @param nextFieldState The updated field.
      */
+    @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
-        // New foxes are born into adjacent locations.
+        // New orcas are born into adjacent locations.
         // Get a list of adjacent free locations.
         int births = breed(nextFieldState);
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Orca young = new Orca(false, loc, babyGender);
+                Orca young = new Orca(false, loc, babyGender,0);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -161,11 +172,11 @@ public class Orca extends Animal
 
 
     /**
-     * Check whether or not this Orca is to give birth at this step.
-     * New births will be made into free adjacent locations.
+     * Checks if there is a mating pair (male and female) of orcas nearby.
      * @param field The field currently occupied.
-     * @return true if the Orca is to give birth, false otherwise.
+     * @return true if there is a male and female orca nearby.
      */
+    @Override
     public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 27);

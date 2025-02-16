@@ -6,12 +6,12 @@ import java.util.Map;
  * of a field. It is flexible: it will create and maintain a counter 
  * for any class of object that is found within the field.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 7.0
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
+ * @version 7.1
  */
 public class FieldStats
 {
-    // Counters for each type of entity (fox, rabbit, etc.) in the simulation.
+    // Counters for each type of entity in the simulation.
     private final Map<Class<?>, Counter> counters;
     // Whether the counters are currently up to date.
     private boolean countsValid;
@@ -95,8 +95,8 @@ public class FieldStats
     }
     
     /**
-     * Generate counts of the number of foxes and rabbits.
-     * These are not kept up to date as foxes and rabbits
+     * Generate counts of the number of Organisms. 
+     * These are not kept up to date as all organisms 
      * are placed in the field, but only when a request
      * is made for the information.
      * @param field The field to generate the stats for.

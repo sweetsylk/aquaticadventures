@@ -13,8 +13,8 @@ import java.util.List;
 public class Tuna extends Animal
 {
 
+    // Characteristics shared by all tunas (class variables).
     // The food values of a single algae and cod (as food for tuna).
-    // Characteristics shared by all tuna (class variables)
     private static final int COD_FOOD_VALUE = 50;
     private static final int ALGAE_FOOD_VALUE = 20;
 
@@ -22,10 +22,6 @@ public class Tuna extends Animal
     private static int consumed;
     private static int naturalDeath;
    
-    
-    
-    
-
     /**
      * Constructor for objects of class tuna: 
      * They are given a random initial food level up to a maximum of biggest food source.
@@ -33,16 +29,17 @@ public class Tuna extends Animal
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
+     * @param infectedChance The chance of the anglerFish being infected (from 0 to 1).
      */
-    public Tuna(boolean randomAge, Location location, boolean isMale)
+    public Tuna(boolean randomAge, Location location, boolean isMale, double infectedChance)
     {
-        super(randomAge, location, 120, isMale, 10, 0.8, 11);
+        super(randomAge, location, 120, isMale, 10, 0.8, 11, infectedChance);
         // They are given a random initial food level up to a maximum of biggest food source.
         foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24; 
     }
     
     /**
-     * This is what the tuna does most of the time: it hunts for cod.
+     * This is what the tuna does most of the time: it hunts for cod and algae.
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
      * Tunas are awake from 5am to 10pm
@@ -104,8 +101,8 @@ public class Tuna extends Animal
 
 
     /**
-     * Look for rabbits adjacent to the current location.
-     * Only the first live cod is eaten.
+     * Look for algae and cod adjacent (of radius 1) to the current location.
+     * Then eat them and increase the food level.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
@@ -120,6 +117,10 @@ public class Tuna extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
+                    // tuna has a chance of becoming infected when eating an infected cod
+                    if (cod.isInfected()) {
+                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    }
                     cod.setDead();
                     Cod.incrementConsumeDeath();
                     foodLevel += COD_FOOD_VALUE;
@@ -144,6 +145,7 @@ public class Tuna extends Animal
      * Check whether this tuna is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
+     * @param nextFieldState The updated field.
      */
     @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
@@ -155,17 +157,16 @@ public class Tuna extends Animal
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Tuna young = new Tuna(false, loc, babyGender);
+                Tuna young = new Tuna(false, loc, babyGender, 0);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
     }
         
      /**
-     * Check whether or not this shark is to give birth at this step.
-     * New births will be made into free adjacent locations.
+     * Checks if there is a mating pair (male and female) of tunas nearby.
      * @param field The field currently occupied.
-     * @return true if the shark is to give birth, false otherwise.
+     * @return true if there is a male and female tuna nearby.
      */
     @Override
     public boolean canMate(Field field)

@@ -13,13 +13,13 @@ import java.util.List;
  */
 public class Anglerfish extends Animal
 {
-    
-    // The food values of a single cod and algae (as food for anglerfish).
     // Characteristics shared by all anglerfish (class variables).
+    // The food values of a single cod and algae (as food for anglerfish).
     private static final int COD_FOOD_VALUE = 40;
     private static final int ALGAE_FOOD_VALUE = 20;
 
-    // Characteristics shared by all anglerFish (class variables).
+    private boolean isLastMateInfected = false;
+    
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
@@ -32,13 +32,13 @@ public class Anglerfish extends Animal
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
+     * @param infectedChance The chance of the anglerFish being infected (from 0 to 1).
      */
-    public Anglerfish(boolean randomAge, Location location, boolean isMale)
+    public Anglerfish(boolean randomAge, Location location, boolean isMale, double infectedChance)
     {
-        super(randomAge, location, 96, isMale, 12, 0.7, 8);
+        super(randomAge, location, 96, isMale, 12, 0.7, 8, infectedChance);
         // sets a random intial food level for anglerfish up to a maximum of biggest food source
         foodLevel = rand.nextInt(COD_FOOD_VALUE); 
-
     }
 
 
@@ -121,6 +121,10 @@ public class Anglerfish extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
+                    // anglerfish has a constant chance of becoming infected if it eats an infected cod
+                    if (cod.isInfected()) {
+                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    }
                     cod.setDead();
                     Cod.incrementConsumeDeath();
                     foodLevel += COD_FOOD_VALUE;
@@ -151,19 +155,12 @@ public class Anglerfish extends Animal
     {
         // New Anglerfish are born into adjacent locations.
         // Get a list of adjacent free locations.
-        int births = 
-        
-        
-        
-        
-        
-        
-        breed(nextFieldState);
+        int births = breed(nextFieldState);
         if(births > 0) {
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Anglerfish young = new Anglerfish(false, loc, babyGender);
+                Anglerfish young = new Anglerfish(false, loc, babyGender,0);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -171,9 +168,9 @@ public class Anglerfish extends Animal
 
 
     /**
-     * Check whether or not the anglerfish can mate in this step. 
+     * Checks if there is a mating pair (male and female) of anglerfishes nearby.
      * @param field The field currently occupied.
-     * @return True if the anglerfish can mate in this step.
+     * @return true if there is a male and female anglerfish nearby.
      */
     @Override
     public boolean canMate(Field field)

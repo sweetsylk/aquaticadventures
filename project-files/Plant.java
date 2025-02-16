@@ -27,7 +27,7 @@ public abstract class Plant extends Organism {
 
 
     /**
-     * Act.
+     * abstract method to be overriden by subclasses.
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
      * @param step The current step (hour) the simulation is at

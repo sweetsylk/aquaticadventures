@@ -12,12 +12,10 @@ import java.util.List;
  */
 public class Cod extends Animal
 {
-    
-    // The food value of a single algae (as food for cod).
     // Characteristics shared by all cod (class variables).
+    // The food value of a single algae (as food for cod).
     private static final int ALGAE_FOOD_VALUE = 24;
 
-    // Characteristics shared by all cod (class variables).
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
@@ -29,21 +27,24 @@ public class Cod extends Animal
      * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
      * @param isMale whether the cod is male or not (female)
+     * @param infectedChance The chance of the cod being infected (from 0 to 1).
      */
-    public Cod(boolean randomAge, Location location, boolean isMale)
+    public Cod(boolean randomAge, Location location, boolean isMale, double infectedChance)
     {
-        super(randomAge, location, 48, isMale, 4, 0.84, 12);
+        super(randomAge, location, 48, isMale, 4, 0.84, 12, infectedChance); 
         // sets a random intial food level for cod up to a maximum of biggest food source
         foodLevel = rand.nextInt(ALGAE_FOOD_VALUE); 
 
     }
 
     /**
-     * This is what the cod does most of the time - it runs
-     * around. Sometimes it will breed or die of old age or sleep even
+     * This is what cod does most of the time: it hunts for algae.
+     * In the process, it might breed, die of hunger or sleep,
+     * or die of old age.
      * cod are awake from 4am to 11pm and can give birth while sleeping
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
+     * @param step The current step in the simulation.
      */
     @Override
     public void act(int step, Field currentField, Field nextFieldState)
@@ -89,7 +90,8 @@ public class Cod extends Animal
     }
 
     /**
-     * find location of food source from adjacent locations
+     * Look for algae adjacent (of radius 1) to the current location.
+     * Then eat them and increase the food level.
      * @param field The field currently occupied.
      * @return the location of next food to be eaten
      */
@@ -123,14 +125,14 @@ public class Cod extends Animal
     @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
-        // New rabbits are born into adjacent locations.
+        // New cod are born into adjacent locations.
         // Get a list of adjacent free locations.
         int births = breed(nextFieldState);
         if(births > 0) {
             for (int b = 0; b < births && !freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Cod young = new Cod(false, loc, babyGender);
+                Cod young = new Cod(false, loc, babyGender, 0);
                 nextFieldState.placeOrganism(young, loc);
             }
         }

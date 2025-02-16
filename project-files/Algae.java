@@ -4,14 +4,14 @@ import java.util.List;
  * A simple model of Algae:
  * Algae are a subclass of Plant so can do all the things plants can do.
  * Get eaten by cod, tuna, anglerfish and whale.
- * Eat no one (as they are a producer)
+ * Eats no one (as they are a producer)
  * 
  * @author Ridwan Adam and Areeb Rafiq
  * @version 1.1
  */
 public class Algae extends Plant
 {
-    // Characteristics shared by all algae (class variables).
+   
     private static int consumed;
     private static int naturalDeath;
 

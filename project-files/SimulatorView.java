@@ -10,7 +10,7 @@ import javax.swing.*;
  * Colors for each type of species can be defined using the
  * setColor method.
  * 
- * @author David J. Barnes and Michael Kölling
+ * @author David J. Barnes and Michael Kölling and Ridwan Adam and Areeb Rafiq
  * @version 7.0
  */
 public class SimulatorView extends JFrame
@@ -101,6 +101,7 @@ public class SimulatorView extends JFrame
     }
 
     /**
+     * @param OrganismClass The Organism's Class object.
      * @return The color to be used for a given class of Organism.
      */
     private Color getColor(Class<?> OrganismClass)
@@ -179,6 +180,7 @@ public class SimulatorView extends JFrame
 
     /**
      * Determine whether the simulation should continue to run.
+     * @param field The field whose status is to be determined.
      * @return true If there is more than one species alive.
      */
     public boolean isViable(Field field)
@@ -277,6 +279,10 @@ public class SimulatorView extends JFrame
         }
     }
 
+    /**
+     * Accessor method for the dayTime attribute
+     * @return the value of the dayTime attribute
+     */
     public static boolean getdayTime()
     {
         return dayTime;
