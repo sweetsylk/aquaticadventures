@@ -119,7 +119,7 @@ public class Simulator
         field = nextFieldState;
 
         reportStats();
-        view.showStatus(step, field);
+        view.showStatus(step, field, weather.toString());
     }
         
     /**
@@ -129,7 +129,7 @@ public class Simulator
     {
         step = 0;
         populate();
-        view.showStatus(step, field);
+        view.showStatus(step, field, weather.toString());
     }
     
     /**

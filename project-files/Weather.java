@@ -33,7 +33,7 @@ public class Weather
 
     @Override
     public String toString() {
-        return "Weather: " + currentWeather;
+        return "" + currentWeather;
     }
 }
 

@@ -12,7 +12,7 @@ public class Cod extends Animal
 {
     
     // The food value of a single algae (as food for cod).
-    private static final int ALGAE_FOOD_VALUE = 24;
+    private static final int ALGAE_FOOD_VALUE = 30;
 
     // Characteristics shared by all cod (class variables).
     private static int starvation;
@@ -30,8 +30,8 @@ public class Cod extends Animal
      */
     public Cod(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 48, isMale, 4, 0.84, 12);
-        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE); // sets intial random food level for anglerfish
+        super(randomAge, location, 48, isMale, 3, 0.675, 8);
+        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 12; // sets intial random food level for anglerfish
 
     }
 
@@ -51,6 +51,7 @@ public class Cod extends Animal
             if ((step % 24) > 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN) {
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 if (!freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
                 }
@@ -59,9 +60,13 @@ public class Cod extends Animal
                     Location nextLocation = freeLocations.get(0);
                     setLocation(nextLocation);
                     nextFieldState.placeOrganism(this, nextLocation);
-                } else {
+                }
+                else {
                     // Overcrowding.
                     setDead();
+                }
+                if (isCompromised(currentField, 3)) {
+                    setInfected();
                 }
             }
             else {

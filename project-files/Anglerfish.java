@@ -13,8 +13,8 @@ public class Anglerfish extends Animal
 {
     
     // The food values of a single cod and algae (as food for anglerfish).
-    private static final int COD_FOOD_VALUE = 40;
-    private static final int ALGAE_FOOD_VALUE = 20;
+    private static final int COD_FOOD_VALUE = 48;
+    private static final int ALGAE_FOOD_VALUE = 36;
 
     // Characteristics shared by all anglerFish (class variables).
     private static int starvation;
@@ -33,8 +33,8 @@ public class Anglerfish extends Animal
      */
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 96, isMale, 12, 0.7, 8);
-        foodLevel = rand.nextInt(COD_FOOD_VALUE);
+        super(randomAge, location, 96, isMale, 12, 0.65, 7);
+        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24;
 
     }
 
@@ -58,6 +58,7 @@ public class Anglerfish extends Animal
             {
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 if(! freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
                 }
@@ -66,6 +67,9 @@ public class Anglerfish extends Animal
                 if(nextLocation == null && ! freeLocations.isEmpty()) {
                     // No food found - try to move to a free location.
                     nextLocation = freeLocations.remove(0);
+                }
+                if (isCompromised(currentField, 3)) {
+                    setInfected();
                 }
                 // See if it was possible to move.
                 if(nextLocation != null) {
@@ -106,7 +110,6 @@ public class Anglerfish extends Animal
      * @param field The field currently occupied.
      * @return Last loction of food that was eaten, or null if none were eaten.
      */
-    @Override
     public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 3);
@@ -117,6 +120,10 @@ public class Anglerfish extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
+                    if (cod.isInfected())
+                    {
+                        setInfected();
+                    }
                     cod.setDead();
                     Cod.incrementConsumeDeath();
                     foodLevel += COD_FOOD_VALUE;
@@ -141,7 +148,6 @@ public class Anglerfish extends Animal
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
      */
-    @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New Anglerfish are born into adjacent locations.
@@ -163,7 +169,6 @@ public class Anglerfish extends Animal
      * @param field The field currently occupied.
      * @return True if the anglerfish can mate in this step.
      */
-    @Override
     public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);
@@ -185,7 +190,6 @@ public class Anglerfish extends Animal
         }
         return false;
     }
-
 
 
     private static void incrementStarvationDeath()

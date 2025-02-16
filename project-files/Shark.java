@@ -31,8 +31,8 @@ public class Shark extends Animal
      */
     public Shark(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 120, isMale, 12, 0.78, 7);
-        foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
+        super(randomAge, location, 120, isMale, 12, 0.35, 3);
+        foodLevel = rand.nextInt(TUNA_FOOD_VALUE) + 24;
     }
 
     /**
@@ -51,8 +51,10 @@ public class Shark extends Animal
             if (((step % 24) >= 9 && (step % 24) <= 19) && Simulator.getWeather() != WeatherType.FROZEN)
 
             {
+
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {
@@ -72,6 +74,9 @@ public class Shark extends Animal
                 else {
                     // Overcrowding.
                     setDead();
+                }
+                if (isCompromised(currentField, 5)) {
+                    setInfected();
                 }
             }
             else {
@@ -110,6 +115,10 @@ public class Shark extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Tuna tuna) {
                 if(tuna.isAlive()) {
+                    if (tuna.isInfected())
+                    {
+                        setInfected();
+                    }
                     tuna.setDead();
                     Tuna.incrementConsumeDeath();
                     foodLevel += TUNA_FOOD_VALUE;
@@ -118,6 +127,10 @@ public class Shark extends Animal
             }
             else if(Organism instanceof Anglerfish anglerfish) {
                 if(anglerfish.isAlive()) {
+                    if (anglerfish.isInfected())
+                    {
+                        setInfected();
+                    }
                     anglerfish.setDead();
                     anglerfish.incrementConsumeDeath();
                     foodLevel += ANGLERFISH_FOOD_VALUE;
@@ -155,7 +168,7 @@ public class Shark extends Animal
      */
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 30);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 20);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

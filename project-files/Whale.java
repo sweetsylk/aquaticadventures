@@ -16,8 +16,8 @@ public class Whale extends Animal
     // The food value of a single prey. In effect, this is the
     // number of steps a Whale can go before it has to eat again.
     private static final int TUNA_FOOD_VALUE = 120;
-    private static final int ALGAE_FOOD_VALUE = 75;
-    private static final int COD_FOOD_VALUE = 95;
+    private static final int ALGAE_FOOD_VALUE = 72;
+    private static final int COD_FOOD_VALUE = 96;
     // A shared random number generator to control breeding.
 
     private static int starvation;
@@ -37,8 +37,8 @@ public class Whale extends Animal
      */
     public Whale(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 200, isMale, 12, 0.78, 8);
-        foodLevel = rand.nextInt(TUNA_FOOD_VALUE);
+        super(randomAge, location, 200, isMale, 12, 0.5, 2);
+        foodLevel = rand.nextInt(TUNA_FOOD_VALUE) + 72;
     }
 
     /**
@@ -58,6 +58,7 @@ public class Whale extends Animal
             {
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {
@@ -77,6 +78,9 @@ public class Whale extends Animal
                 else {
                     // Overcrowding.
                     setDead();
+                }
+                if (isCompromised(currentField, 7)) {
+                    setInfected();
                 }
             }
             else {
@@ -115,6 +119,10 @@ public class Whale extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if (Organism instanceof Tuna tuna) {
                 if (tuna.isAlive()) {
+                    if (tuna.isInfected())
+                    {
+                        setInfected();
+                    }
                     tuna.setDead();
                     Tuna.incrementConsumeDeath();
                     foodLevel += TUNA_FOOD_VALUE;
@@ -122,6 +130,10 @@ public class Whale extends Animal
                 }
                 else if (Organism instanceof Cod cod) {
                     if (cod.isAlive()) {
+                        if (cod.isInfected())
+                        {
+                            setInfected();
+                        }
                         cod.setDead();
                         Cod.incrementConsumeDeath();
                         foodLevel += COD_FOOD_VALUE;
@@ -170,7 +182,7 @@ public class Whale extends Animal
      */
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 35);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 30);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

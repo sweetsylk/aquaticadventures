@@ -17,7 +17,6 @@ public class Orca extends Animal
     private static final int WHALE_FOOD_VALUE = 50;
 
     private static int starvation;
-    private static int consumed;
     private static int naturalDeath;
 
    
@@ -30,7 +29,7 @@ public class Orca extends Animal
      */
     public Orca(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 180, isMale, 20, 0.42, 2);
+        super(randomAge, location, 180, isMale, 20, 0.35, 2);
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }
 
@@ -52,6 +51,7 @@ public class Orca extends Animal
             {
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {
@@ -71,6 +71,9 @@ public class Orca extends Animal
                 else {
                     // Overcrowding.
                     setDead();
+                }
+                if (isCompromised(currentField, 6)) {
+                    setInfected();
                 }
             }
             else {
@@ -102,7 +105,7 @@ public class Orca extends Animal
      */
     public Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 4);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
@@ -110,6 +113,10 @@ public class Orca extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Shark shark) {
                 if(shark.isAlive()) {
+                    if (shark.isInfected())
+                    {
+                        setInfected();
+                    }
                     shark.setDead();
                     Shark.incrementConsumeDeath();
                     foodLevel += SHARK_FOOD_VALUE;
@@ -119,6 +126,10 @@ public class Orca extends Animal
 
             else if(Organism instanceof Whale whale) {
                 if(whale.isAlive()) {
+                    if (whale.isInfected())
+                    {
+                        setInfected();
+                    }
                     whale.setDead();
                     Whale.incrementConsumeDeath();
                     foodLevel += WHALE_FOOD_VALUE;
