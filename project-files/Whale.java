@@ -61,7 +61,7 @@ public class Whale extends Animal
             {
                 incrementAge();
                 incrementHunger();
-                 // makes whale sometimes become infected with disease
+                // deals with necessary infection operations that occur every step
                 infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
@@ -186,6 +186,10 @@ public class Whale extends Animal
                 boolean babyGender = rand.nextBoolean();
                 Whale young = new Whale(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
+                // if parent is infected the child becomes infected upon birth
+                if (infected == true){
+                    young.setInfected();
+                }
             }
         }
     }

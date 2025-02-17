@@ -60,7 +60,7 @@ public class Shark extends Animal
 
                 incrementAge();
                 incrementHunger();
-                 // makes shark sometimes become infected with disease
+                // deals with necessary infection operations that occur every step
                 infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
@@ -174,9 +174,13 @@ public class Shark extends Animal
                 boolean babyGender = rand.nextBoolean();
                 Shark young = new Shark(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
+               // if parent is infected the child becomes infected upon birth
+               if (infected == true){
+                young.setInfected();
             }
         }
     }
+}
 
     /**
      * Checks if there is a mating pair (male and female) of sharks nearby.

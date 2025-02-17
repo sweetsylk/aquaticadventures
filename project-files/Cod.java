@@ -59,7 +59,7 @@ public class Cod extends Animal
             if ((step % 24) >= 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN) {
                 incrementAge();
                 incrementHunger();
-                // makes cod sometimes become infected with disease
+                // deals with necessary infection operations that occur every step
                 infectionCheck();
                 if (!freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
@@ -144,6 +144,10 @@ public class Cod extends Animal
                 boolean babyGender = rand.nextBoolean();
                 Cod young = new Cod(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
+                // if parent is infected the child becomes infected upon birth
+                if (infected == true){
+                    young.setInfected();
+                 }
             }
         }
     }

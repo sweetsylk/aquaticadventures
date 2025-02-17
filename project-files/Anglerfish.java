@@ -57,9 +57,10 @@ public class Anglerfish extends Animal
             // Anglerfish are awake from 8pm to 6am so only do actions in that time frame
             if (((step % 24) >= 18) || ((step % 24) <= 6))
             {
+                
                 incrementAge();
                 incrementHunger();
-                // makes anglerfish sometimes become infected with disease
+                // deals with necessary infection operations that occur every step
                 infectionCheck();
                 if(! freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
@@ -150,6 +151,11 @@ public class Anglerfish extends Animal
                 boolean babyGender = rand.nextBoolean();
                 Anglerfish young = new Anglerfish(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
+                // if parent is infected the child becomes infected upon birth
+                if (infected == true){
+                    young.setInfected();
+                }
+                
             }
         }
     }

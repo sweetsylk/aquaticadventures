@@ -18,12 +18,12 @@ public abstract class Animal extends Organism
     protected int foodLevel;
     // The age at which the animal can start to breed
     private final int BREEDING_AGE;
-
-
     // the probability of the animal being infected
     protected double infectionRate = 0.01;
     // whether the animal is infected with a disease or not
     protected boolean infected = false;
+    // the number of steps the animal has been infected for
+    protected int infectedSteps = 0;
 
     /**
      * Constructor for objects of class Animal
@@ -93,13 +93,59 @@ public abstract class Animal extends Organism
     }
 
     /**
-     * set the animal to be infected given the probability of infection 
+     * does infection operations for each step:
+     * infection recovery
+     * random infection gain
      */
     public void infectionCheck()
     {
+        infectionCounter();
+        if (!infectionRecovery()){
+            infectionGain();
+        }
+        
+    }
+
+
+    /**
+     * set the animal to be infected given the probability of infection 
+     */
+    public void infectionGain() {
         if (rand.nextDouble() < getInfectionRate()) {
             setInfected();
         }
+    }
+
+    /**
+     * increment the number of steps the animal has been infected for
+     */
+    public void infectionCounter()
+    {
+        if (infected)
+        {
+            infectedSteps++;
+        }
+        else
+        {
+            infectedSteps = 0;
+        }
+    }
+
+    
+    /**
+     * animal recovers from disease if they have been infected
+     * for more than 6 steps
+     * @return true if animal has recovered from disease
+     */
+     public boolean infectionRecovery()
+    {
+        if (infectedSteps >= 7)
+        {
+            infected = false;
+            infectedSteps = 0;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -170,7 +216,7 @@ public abstract class Animal extends Organism
 
     /**
      * Randomise how many births will happen for an animal.
-     * Also based on the weather, the animal will give birth to a different number of offspring.
+     * Also based on the weather and if infected, the animal will give birth to a different number of offspring.
      * @param field The current field to breed in.
      * @return the number of births to happen 
      */
@@ -179,13 +225,23 @@ public abstract class Animal extends Organism
         int births;
         if(canBreed() && (rand.nextDouble() <= BREEDING_PROBABILITY) && canMate(field))
         {
+            // infection of disease causes less births
+            int infectedCONSTANT;
+            if (infected=true){
+                 infectedCONSTANT = -1;
+            }
+            else{
+                 infectedCONSTANT = 0;
+            }
+
+
             if (Simulator.getWeather() == WeatherType.WARM)
             {
-                births = rand.nextInt(MAX_LITTER_SIZE) + 4;
+                births = rand.nextInt(MAX_LITTER_SIZE) + 4 + infectedCONSTANT;
             }
             else if (Simulator.getWeather() == WeatherType.NORMAL)
             {
-                births = rand.nextInt(MAX_LITTER_SIZE) + 1;
+                births = rand.nextInt(MAX_LITTER_SIZE) + 1 + infectedCONSTANT;
             }
             else if (Simulator.getWeather() == WeatherType.FROZEN)
             {
@@ -193,7 +249,7 @@ public abstract class Animal extends Organism
             }
             else
             {
-                births = 1;
+                births = 1 + infectedCONSTANT;
             }
         }
 

@@ -54,7 +54,7 @@ public class Orca extends Animal
             {
                 incrementAge();
                 incrementHunger();
-                 // makes orca sometimes become infected with disease
+                // deals with necessary infection operations that occur every step
                 infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
@@ -173,6 +173,10 @@ public class Orca extends Animal
                 boolean babyGender = rand.nextBoolean();
                 Orca young = new Orca(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
+                // if parent is infected the child becomes infected upon birth
+                if (infected == true){
+                    young.setInfected();
+                }
             }
         }
     }

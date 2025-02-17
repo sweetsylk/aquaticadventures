@@ -53,7 +53,7 @@ public class Tuna extends Animal
         {
             incrementAge();
             incrementHunger();
-             // makes tuna sometimes become infected with disease
+            // deals with necessary infection operations that occur every step
             infectionCheck();
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
@@ -167,6 +167,10 @@ public class Tuna extends Animal
                 boolean babyGender = rand.nextBoolean();
                 Tuna young = new Tuna(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
+                // if parent is infected the child becomes infected upon birth
+                if (infected == true){
+                    young.setInfected();
+                }
             }
         }
     }
