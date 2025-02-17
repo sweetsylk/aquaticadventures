@@ -45,7 +45,7 @@ public class Anglerfish extends Animal
      * This is what the Anglerfish does most of the time: it hunts for cod and algae.
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
-     * Anglerfish are awake from 8pm to 5am 
+     * Anglerfish are awake from 6pm to 6am 
      * @param step The current step in the simulation.
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
