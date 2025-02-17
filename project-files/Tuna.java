@@ -24,7 +24,7 @@ public class Tuna extends Animal
    
     /**
      * Constructor for objects of class tuna: 
-     * They are given a random initial food level up to a maximum of biggest food source.
+     * They are given a random initial food level based on their biggest food source.
      * 
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
@@ -33,7 +33,7 @@ public class Tuna extends Animal
     public Tuna(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 96, isMale, 12, 0.4, 6);
-         // They are given a random initial food level up to a maximum of biggest food source.
+         // They are given a random initial food level based on their biggest food source.
         foodLevel = rand.nextInt(COD_FOOD_VALUE) + 36;
     }
     

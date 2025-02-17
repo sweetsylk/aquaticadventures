@@ -25,7 +25,7 @@ public class Shark extends Animal
 
     /**
      * Constructor for objects of class shark: 
-     * They are given a random initial food level up to a maximum of biggest food source.
+     * They are given a random initial food level based on their biggest food source.
      * 
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
@@ -34,7 +34,7 @@ public class Shark extends Animal
     public Shark(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 120, isMale, 12, 0.35, 3);
-        // They are given a random initial food level up to a maximum of biggest food source.
+        // They are given a random initial food level based on their biggest food source.
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE) + 24;
     }
 
@@ -42,7 +42,7 @@ public class Shark extends Animal
      * This is what the Shark does most of the time: it hunts for
      * Tuna and anglerfish. In the process, it might breed, sleep or die of hunger,
      * or die of old age.
-     * Sharks are awake from 9am to 5pm and 10pm to 4am
+     * Sharks are awake from 9am to 7pm
      * @param step the current step in the simulation
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.

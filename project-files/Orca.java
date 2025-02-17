@@ -23,7 +23,7 @@ public class Orca extends Animal
    
     /**
      * Constructor for objects of class orca: 
-     * They are given a random initial food level up to a maximum of biggest food source.
+     * They are given a random initial food level based on their biggest food source.
      * 
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
@@ -32,14 +32,14 @@ public class Orca extends Animal
     public Orca(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 180, isMale, 20, 0.3, 2);
-         // They are given a random initial food level up to a maximum of biggest food source.
+         // They are given a random initial food level based on their biggest food source.
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }
     /**
      * This is what the Orca does most of the time: it hunts for
      * Sharks. In the process, it might breed, die of hunger,
      * or die of old age.
-     * Orcas are awake from 5am to 6pm
+     * Orcas are awake from 9am to 5pm
      * @param step the step the simulation is at currently
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
@@ -49,7 +49,7 @@ public class Orca extends Animal
     {
         if(isAlive())
         {
-            // Orcas are awake from 5am to 6pm so only do actions in that time frame
+            // Orcas are awake from 9am to 5pm so only do actions in that time frame
             if ((step % 24) >= 9 && (step % 24) <= 17)
             {
                 incrementAge();

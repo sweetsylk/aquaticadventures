@@ -77,7 +77,8 @@ public abstract class Animal extends Organism
         this.infected = true;
     }
     /**
-     *
+     * return the probability of the animal being infected:
+     * if the weather is acidified, the probability of infection is 5 times higher
      * @return the probability of the animal being infected
      */
     public double getInfectionRate() {

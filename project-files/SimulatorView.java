@@ -137,6 +137,7 @@ public class SimulatorView extends JFrame
      * Show the current status of the field.
      * @param step Which iteration step it is.
      * @param field The field whose status is to be displayed.
+     * @param current_weather The current weather in the simulation
      */
     public void showStatus(int step, Field field, String current_weather)
     {
@@ -219,6 +220,8 @@ public class SimulatorView extends JFrame
 
         /**
          * Create a new FieldView component.
+         * @param height The height of the field to be represented.
+         * @param width  The width of the field to be represented.
          */
         public FieldView(int height, int width)
         {
@@ -229,6 +232,7 @@ public class SimulatorView extends JFrame
 
         /**
          * Tell the GUI manager how big we would like to be.
+         * @return The preferred dimension for this component.
          */
         public Dimension getPreferredSize()
         {
@@ -263,6 +267,9 @@ public class SimulatorView extends JFrame
         
         /**
          * Paint on grid location on this field in a given color.
+         * @param x The x coordinate of the grid location.
+         * @param y The y coordinate of the grid location.
+         * @param color The color to paint the location.
          */
         public void drawMark(int x, int y, Color color)
         {
@@ -274,7 +281,9 @@ public class SimulatorView extends JFrame
         /**
          * The field view component needs to be redisplayed. Copy the
          * internal image to screen.
+         * @param g The graphics context that can be used to draw on this component.
          */
+        @Override
         public void paintComponent(Graphics g)
         {
             if(fieldImage != null) {

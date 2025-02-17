@@ -63,10 +63,17 @@ public class Simulator
         reset();
     }
 
+
+    /**
+     * Get the current step of the simulation
+     * @return The current step of the simulation
+     */
     public static int getStep()
     {
         return step;
     }
+
+    
     /**
      * Run the simulation from its current state for a reasonably long 
      * period (4000 steps).

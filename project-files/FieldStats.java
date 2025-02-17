@@ -87,6 +87,7 @@ public class FieldStats
     /**
      * Determine whether the simulation is still viable.
      * I.e., should it continue to run.
+     * @param field The field of which a viability check is required.
      * @return true If there is more than one species alive.
      */
     public boolean isViable(Field field)

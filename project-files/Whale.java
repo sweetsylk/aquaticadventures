@@ -28,7 +28,7 @@ public class Whale extends Animal
 
     /**
      * Constructor for objects of class whale: 
-     * They are given a random initial food level up to a maximum of biggest food source.
+     * They are given a random initial food level based on their biggest food source.
      *
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
@@ -37,7 +37,7 @@ public class Whale extends Animal
     public Whale(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 200, isMale, 12, 0.5, 2);
-         // They are given a random initial food level up to a maximum of biggest food source.
+         // They are given a random initial food level based on their biggest food source.
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE) + 72;
     }
 
