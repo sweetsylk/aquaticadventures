@@ -30,13 +30,11 @@ public class Shark extends Animal
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
-     * @param infectedChance The chance of the anglerFish being infected (from 0 to 1).
      */
-    public Shark(boolean randomAge, Location location, boolean isMale, double infectedChance)
+    public Shark(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 120, isMale, 12, 0.78, 7, infectedChance);
-        // sets a random intial food level for shark up to a maximum of biggest food source
-        foodLevel = rand.nextInt(TUNA_FOOD_VALUE); 
+        super(randomAge, location, 120, isMale, 12, 0.35, 3);
+        foodLevel = rand.nextInt(TUNA_FOOD_VALUE) + 24;
     }
 
     /**
@@ -56,8 +54,10 @@ public class Shark extends Animal
             if (((step % 24) >= 9 && (step % 24) <= 19) && Simulator.getWeather() != WeatherType.FROZEN)
 
             {
+
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {
@@ -77,6 +77,9 @@ public class Shark extends Animal
                 else {
                     // Overcrowding.
                     setDead();
+                }
+                if (isCompromised(currentField, 5)) {
+                    setInfected();
                 }
             }
             else {
@@ -120,9 +123,9 @@ public class Shark extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Tuna tuna) {
                 if(tuna.isAlive()) {
-                    // shark has a chance of becoming infected when eating an infected tuna
-                    if (tuna.isInfected()) {
-                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    if (tuna.isInfected())
+                    {
+                        setInfected();
                     }
                     tuna.setDead();
                     Tuna.incrementConsumeDeath();
@@ -132,9 +135,9 @@ public class Shark extends Animal
             }
             else if(Organism instanceof Anglerfish anglerfish) {
                 if(anglerfish.isAlive()) {
-                    // shark has a chance of becoming infected when eating an infected anglerfish
-                    if (anglerfish.isInfected()) {
-                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    if (anglerfish.isInfected())
+                    {
+                        setInfected();
                     }
                     anglerfish.setDead();
                     anglerfish.incrementConsumeDeath();
@@ -162,7 +165,7 @@ public class Shark extends Animal
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Shark young = new Shark(false, loc, babyGender, 0);
+                Shark young = new Shark(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -176,7 +179,7 @@ public class Shark extends Animal
     @Override
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 30);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 20);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

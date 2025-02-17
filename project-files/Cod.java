@@ -14,7 +14,7 @@ public class Cod extends Animal
 {
     // Characteristics shared by all cod (class variables).
     // The food value of a single algae (as food for cod).
-    private static final int ALGAE_FOOD_VALUE = 24;
+    private static final int ALGAE_FOOD_VALUE = 30;
 
     private static int starvation;
     private static int consumed;
@@ -27,13 +27,11 @@ public class Cod extends Animal
      * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
      * @param isMale whether the cod is male or not (female)
-     * @param infectedChance The chance of the cod being infected (from 0 to 1).
      */
-    public Cod(boolean randomAge, Location location, boolean isMale, double infectedChance)
+    public Cod(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 48, isMale, 4, 0.84, 12, infectedChance); 
-        // sets a random intial food level for cod up to a maximum of biggest food source
-        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE); 
+        super(randomAge, location, 48, isMale, 3, 0.7, 8);
+        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 12; // sets intial random food level for anglerfish
 
     }
 
@@ -55,6 +53,7 @@ public class Cod extends Animal
             if ((step % 24) > 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN) {
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 if (!freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
                 }
@@ -63,9 +62,13 @@ public class Cod extends Animal
                     Location nextLocation = freeLocations.get(0);
                     setLocation(nextLocation);
                     nextFieldState.placeOrganism(this, nextLocation);
-                } else {
+                }
+                else {
                     // Overcrowding.
                     setDead();
+                }
+                if (isCompromised(currentField, 3)) {
+                    setInfected();
                 }
             }
             else {
@@ -132,7 +135,7 @@ public class Cod extends Animal
             for (int b = 0; b < births && !freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Cod young = new Cod(false, loc, babyGender, 0);
+                Cod young = new Cod(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }

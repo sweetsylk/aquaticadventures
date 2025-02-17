@@ -15,8 +15,8 @@ public class Tuna extends Animal
 
     // Characteristics shared by all tunas (class variables).
     // The food values of a single algae and cod (as food for tuna).
-    private static final int COD_FOOD_VALUE = 50;
-    private static final int ALGAE_FOOD_VALUE = 20;
+    private static final int COD_FOOD_VALUE = 72;
+    private static final int ALGAE_FOOD_VALUE = 50;
 
     private static int starvation;
     private static int consumed;
@@ -29,13 +29,12 @@ public class Tuna extends Animal
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
-     * @param infectedChance The chance of the anglerFish being infected (from 0 to 1).
      */
-    public Tuna(boolean randomAge, Location location, boolean isMale, double infectedChance)
+    public Tuna(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 120, isMale, 10, 0.8, 11, infectedChance);
-        // They are given a random initial food level up to a maximum of biggest food source.
-        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24; 
+        super(randomAge, location, 96, isMale, 12, 0.64, 7);
+         // They are given a random initial food level up to a maximum of biggest food source.
+        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 36;
     }
     
     /**
@@ -54,6 +53,7 @@ public class Tuna extends Animal
         {
             incrementAge();
             incrementHunger();
+            infectionCheck();
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
             if ((step % 24) >= 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN)
@@ -76,6 +76,9 @@ public class Tuna extends Animal
                 // Overcrowding.
                 setDead();
             }
+            if (isCompromised(currentField, 2)) {
+                    setInfected();
+                }
         }
         else {
             nextFieldState.placeOrganism(this, getLocation());
@@ -109,7 +112,7 @@ public class Tuna extends Animal
     @Override
     public Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 3);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
@@ -117,9 +120,9 @@ public class Tuna extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
-                    // tuna has a chance of becoming infected when eating an infected cod
-                    if (cod.isInfected()) {
-                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    if (cod.isInfected())
+                    {
+                        setInfected();
                     }
                     cod.setDead();
                     Cod.incrementConsumeDeath();
@@ -157,7 +160,7 @@ public class Tuna extends Animal
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Tuna young = new Tuna(false, loc, babyGender, 0);
+                Tuna young = new Tuna(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -171,7 +174,7 @@ public class Tuna extends Animal
     @Override
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 25);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 28);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

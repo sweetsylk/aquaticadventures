@@ -18,7 +18,6 @@ public class Orca extends Animal
     private static final int WHALE_FOOD_VALUE = 50;
 
     private static int starvation;
-    private static int consumed;
     private static int naturalDeath;
 
    
@@ -29,13 +28,11 @@ public class Orca extends Animal
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
-     * @param isInfected Whether the anglerFish is infected or not (from 0 to 1).
      */
-    public Orca(boolean randomAge, Location location, boolean isMale, double infectedChance)
+    public Orca(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 180, isMale, 20, 0.42, 2, infectedChance);
-        // sets a random intial food level for orca up to a maximum of biggest food source
-        foodLevel = rand.nextInt(SHARK_FOOD_VALUE); 
+        super(randomAge, location, 180, isMale, 20, 0.35, 2);
+        foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }
     /**
      * This is what the Orca does most of the time: it hunts for
@@ -55,6 +52,7 @@ public class Orca extends Animal
             {
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {
@@ -74,6 +72,9 @@ public class Orca extends Animal
                 else {
                     // Overcrowding.
                     setDead();
+                }
+                if (isCompromised(currentField, 6)) {
+                    setInfected();
                 }
             }
             else {
@@ -110,7 +111,7 @@ public class Orca extends Animal
     @Override
     public Location findFood(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 4);
         Iterator<Location> it = adjacent.iterator();
         Location foodLocation = null;
         while(foodLocation == null && it.hasNext()) {
@@ -118,9 +119,9 @@ public class Orca extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Shark shark) {
                 if(shark.isAlive()) {
-                    // orca has a chance of becoming infected when eating an infected shark
-                    if (shark.isInfected()) {
-                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    if (shark.isInfected())
+                    {
+                        setInfected();
                     }
                     shark.setDead();
                     Shark.incrementConsumeDeath();
@@ -131,9 +132,9 @@ public class Orca extends Animal
 
             else if(Organism instanceof Whale whale) {
                 if(whale.isAlive()) {
-                    // orca has a chance of becoming infected when eating an infected whale
-                    if (whale.isInfected()) {
-                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    if (whale.isInfected())
+                    {
+                        setInfected();
                     }
                     whale.setDead();
                     Whale.incrementConsumeDeath();
@@ -164,7 +165,7 @@ public class Orca extends Animal
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Orca young = new Orca(false, loc, babyGender,0);
+                Orca young = new Orca(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }

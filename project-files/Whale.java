@@ -16,9 +16,8 @@ public class Whale extends Animal
     // Characteristics shared by all Whales (class variables).
     // The food values of a single algae, cod and tuna (as food for whales).
     private static final int TUNA_FOOD_VALUE = 120;
-    private static final int ALGAE_FOOD_VALUE = 75;
-    private static final int COD_FOOD_VALUE = 95;
-    
+    private static final int ALGAE_FOOD_VALUE = 72;
+    private static final int COD_FOOD_VALUE = 96;
 
     private static int starvation;
     private static int consumed;
@@ -33,14 +32,13 @@ public class Whale extends Animal
      *
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
-     * @param isMale Whether the anglerFish is male or not (female).
-     * @param isInfected Whether the anglerFish is infected or not (from 0 to 1).
+     * @param isMale Whether the anglerFish is male or not (female)
      */
-    public Whale(boolean randomAge, Location location, boolean isMale, double infectedChance)
+    public Whale(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 200, isMale, 12, 0.78, 8, infectedChance);
-        // sets a random intial food level for whale up to a maximum of biggest food source
-        foodLevel = rand.nextInt(TUNA_FOOD_VALUE); 
+        super(randomAge, location, 200, isMale, 12, 0.5, 2);
+         // They are given a random initial food level up to a maximum of biggest food source.
+        foodLevel = rand.nextInt(TUNA_FOOD_VALUE) + 72;
     }
 
     /**
@@ -61,6 +59,7 @@ public class Whale extends Animal
             {
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
                 if(! freeLocations.isEmpty()) {
@@ -80,6 +79,9 @@ public class Whale extends Animal
                 else {
                     // Overcrowding.
                     setDead();
+                }
+                if (isCompromised(currentField, 7)) {
+                    setInfected();
                 }
             }
             else {
@@ -124,9 +126,9 @@ public class Whale extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if (Organism instanceof Tuna tuna) {
                 if (tuna.isAlive()) {
-                    // whale has a chance of becoming infected when eating an infected tuna
-                    if (tuna.isInfected()) {
-                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    if (tuna.isInfected())
+                    {
+                        setInfected();
                     }
                     tuna.setDead();
                     Tuna.incrementConsumeDeath();
@@ -135,9 +137,9 @@ public class Whale extends Animal
                 }
                 else if (Organism instanceof Cod cod) {
                     if (cod.isAlive()) {
-                        // whale has a chance of becoming infected when eating an infected cod
-                        if (cod.isInfected()) {
-                            becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                        if (cod.isInfected())
+                        {
+                            setInfected();
                         }
                         cod.setDead();
                         Cod.incrementConsumeDeath();
@@ -176,7 +178,7 @@ public class Whale extends Animal
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Whale young = new Whale(false, loc, babyGender, 0);
+                Whale young = new Whale(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -190,7 +192,7 @@ public class Whale extends Animal
     @Override
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 35);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 30);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

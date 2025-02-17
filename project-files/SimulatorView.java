@@ -26,10 +26,12 @@ public class SimulatorView extends JFrame
     private static final Color UNKNOWN_COLOR = Color.gray;
     private static final Color UNKNOWN_COLOR_NIGHT = new Color(0,0,0);
 
-    private final String STEP_PREFIX = "Day: ";
+    private final String DAY_PREFIX = "Day: ";
     private final String POPULATION_PREFIX = "Population: ";
-    private final JLabel stepLabel;
+    private final String WEATHER_PREFIX = "Weather: ";
+    private final JLabel dayLabel;
     private final JLabel population;
+    private final JLabel weather;
     private final FieldView fieldView;
     
     // A map for storing colors for participants in the simulation
@@ -75,19 +77,26 @@ public class SimulatorView extends JFrame
         setColor(Algae.class, algaeColor);
 
         setTitle("Aquatic Adventures");
-        stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
+        dayLabel = new JLabel(DAY_PREFIX, JLabel.CENTER);
+        weather = new JLabel(WEATHER_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
-        
         setLocation(100, 50);
-        
+
         fieldView = new FieldView(height, width);
 
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        topPanel.add(dayLabel);
+        topPanel.add(weather);
+
         Container contents = getContentPane();
-        contents.add(stepLabel, BorderLayout.NORTH);
+        contents.add(topPanel, BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
+
         pack();
         setVisible(true);
+
+
     }
     
     /**
@@ -129,7 +138,7 @@ public class SimulatorView extends JFrame
      * @param step Which iteration step it is.
      * @param field The field whose status is to be displayed.
      */
-    public void showStatus(int step, Field field)
+    public void showStatus(int step, Field field, String current_weather)
     {
         if(!isVisible()) {
             setVisible(true);
@@ -142,7 +151,9 @@ public class SimulatorView extends JFrame
         time.append("00");
 
 
-        stepLabel.setText(STEP_PREFIX + (time));
+        dayLabel.setText(DAY_PREFIX + (time));
+        weather.setText(WEATHER_PREFIX + (current_weather));
+
         stats.reset();
         if ((step % 24) >= 6 && (step % 24) <= 19) {
             dayTime = true;

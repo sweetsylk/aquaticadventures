@@ -39,6 +39,8 @@ public class Field
      */
     public void placeOrganism(Organism anOrganism, Location location)
     {
+        if (location != null)
+        {
         assert location != null;
         Object other = field.get(location);
         if(other != null) {
@@ -46,6 +48,7 @@ public class Field
         }
         field.put(location, anOrganism);
         Organisms.add(anOrganism);
+    }
     }
     
     /**

@@ -15,10 +15,9 @@ public class Anglerfish extends Animal
 {
     // Characteristics shared by all anglerfish (class variables).
     // The food values of a single cod and algae (as food for anglerfish).
-    private static final int COD_FOOD_VALUE = 40;
-    private static final int ALGAE_FOOD_VALUE = 20;
+    private static final int COD_FOOD_VALUE = 48;
+    private static final int ALGAE_FOOD_VALUE = 36;
 
-    private boolean isLastMateInfected = false;
     
     private static int starvation;
     private static int consumed;
@@ -32,13 +31,12 @@ public class Anglerfish extends Animal
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
-     * @param infectedChance The chance of the anglerFish being infected (from 0 to 1).
      */
-    public Anglerfish(boolean randomAge, Location location, boolean isMale, double infectedChance)
+    public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 96, isMale, 12, 0.7, 8, infectedChance);
-        // sets a random intial food level for anglerfish up to a maximum of biggest food source
-        foodLevel = rand.nextInt(COD_FOOD_VALUE); 
+        super(randomAge, location, 96, isMale, 12, 0.65, 7);
+        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24;
+
     }
 
 
@@ -62,6 +60,7 @@ public class Anglerfish extends Animal
             {
                 incrementAge();
                 incrementHunger();
+                infectionCheck();
                 if(! freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
                 }
@@ -70,6 +69,9 @@ public class Anglerfish extends Animal
                 if(nextLocation == null && ! freeLocations.isEmpty()) {
                     // No food found - try to move to a free location.
                     nextLocation = freeLocations.remove(0);
+                }
+                if (isCompromised(currentField, 3)) {
+                    setInfected();
                 }
                 // See if it was possible to move.
                 if(nextLocation != null) {
@@ -121,9 +123,9 @@ public class Anglerfish extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
-                    // anglerfish has a constant chance of becoming infected if it eats an infected cod
-                    if (cod.isInfected()) {
-                        becomeInfectedChance(EATING_INFECTION_PROBABILITY);
+                    if (cod.isInfected())
+                    {
+                        setInfected();
                     }
                     cod.setDead();
                     Cod.incrementConsumeDeath();
@@ -160,7 +162,7 @@ public class Anglerfish extends Animal
             for (int b = 0; b < births && ! freeLocations.isEmpty(); b++) {
                 Location loc = freeLocations.remove(0);
                 boolean babyGender = rand.nextBoolean();
-                Anglerfish young = new Anglerfish(false, loc, babyGender,0);
+                Anglerfish young = new Anglerfish(false, loc, babyGender);
                 nextFieldState.placeOrganism(young, loc);
             }
         }
@@ -194,7 +196,6 @@ public class Anglerfish extends Animal
         }
         return false;
     }
-
 
 
     private static void incrementStarvationDeath()

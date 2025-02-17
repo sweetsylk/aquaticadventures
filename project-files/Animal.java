@@ -19,10 +19,13 @@ public abstract class Animal extends Organism {
     protected int foodLevel;
     // The age at which the animal can start to breed
     private final int BREEDING_AGE;
-    // Whether the animal is infected or not 
-    private boolean isInfected;
-    // The probability of an animal being infected by eating an infected animal
-    protected static final double EATING_INFECTION_PROBABILITY = 0.9;
+
+
+
+
+    // whether the animal is infected with a disease or not
+    protected double infectionRate = 0.01;
+    protected boolean infected = false;
 
     /**
      * Constructor for objects of class Animal:
@@ -30,20 +33,17 @@ public abstract class Animal extends Organism {
      * 
      * @param randomAge If true, the Organism will have a random age.
      * @param location The Organism's location.
-     * @param MAX_AGE The maximum age the Organism can reach.
-     * @param BREEDING_PROBABILITY The Organism's probability of breeding.
-     * @param MAX_LITTER_SIZE The maximum number of offspring.
+     * @param maxAge The maximum age the Organism can reach.
+     * @param breedingProbability The Organism's probability of breeding.
+     * @param maxLitterSize The maximum number of offspring.
      * @param isMale Whether the Animal is male or not
      * @param breedingAge The age at which the animal can start to breed
-     * @param infectedChance The chance of the animal being infected (from 0 to 1).
      */
-    public Animal(boolean randomAge, Location location, int maxAge, boolean isMale, int breedingAge, double breedingProbability, int maxLitterSize, double infectedChance)
+    public Animal(boolean randomAge, Location location, int maxAge, boolean isMale, int breedingAge, double breedingProbability, int maxLitterSize)
     {
         super(randomAge, location, maxAge, breedingProbability, maxLitterSize);
         this.isMale = isMale;
         this.BREEDING_AGE = breedingAge;
-        // sets if the animal is infected or not based on the infected chance paramater
-        this.isInfected = rand.nextDouble() <= infectedChance;
         
     }
 
@@ -65,22 +65,34 @@ public abstract class Animal extends Organism {
         return isMale; 
     }
 
-    /**
-     * return if the animal is infected or not
-     * @return true if the animal is infected
-     */
-    public boolean isInfected()
-    {
-        return isInfected;
+    public boolean isInfected() {
+        return infected;
     }
 
-    /**
-     * set the animal to be infected or not based on the infected chance paramater.
-     * @param infectedChance The chance of the animal being infected (from 0 to 1).
-     */
-    public void becomeInfectedChance(double infectedChance)
+    public void setInfected() {
+        this.infected = true;
+    }
+    public void infectionCheck()
     {
-        isInfected = rand.nextDouble() <= infectedChance;
+        if (rand.nextDouble() < infectionRate) {
+            setInfected();
+        }
+    }
+
+    public boolean isCompromised(Field field, int radius) {
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), radius);
+        for (Location loc : adjacent) {
+            Organism organism = field.getOrganismAt(loc);
+            // Check that the organism is of the same class and is an Animal
+            if (organism != null && organism.getClass().equals(this.getClass()) && organism instanceof Animal) {
+                Animal other = (Animal) organism;
+                if (other.isInfected())
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -89,7 +101,8 @@ public abstract class Animal extends Organism {
     public void incrementHunger()
     {
         foodLevel--;
-        if (foodLevel <= 0) {
+        // animals with disease end up starving earlier
+        if (foodLevel <= 0 || (isInfected() && foodLevel <= 10)) {
             setDead();
         }
     }
@@ -137,7 +150,7 @@ public abstract class Animal extends Organism {
         {
             if (Simulator.getWeather() == WeatherType.WARM)
             {
-                births = rand.nextInt(MAX_LITTER_SIZE) + 5;
+                births = rand.nextInt(MAX_LITTER_SIZE) + 4;
             }
             else if (Simulator.getWeather() == WeatherType.NORMAL)
             {
@@ -158,6 +171,7 @@ public abstract class Animal extends Organism {
         }
         return births;
     }
+
 
     
     
