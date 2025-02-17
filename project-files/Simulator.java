@@ -100,6 +100,7 @@ public class Simulator
     public void simulateOneStep()
     {
         step++;
+        // every 6 hrs the weather changes
         if (step % 6 == 0)
         {
             weather.update();

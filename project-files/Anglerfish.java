@@ -4,7 +4,7 @@ import java.util.List;
 /**
  * A simple model of Anglerfishes:
  * Anglerfishes are a subclass of Animals so can do all the things animals can do.
- * Can eat cod and algae.
+ * Can eat algae.
  * Can get eaten by shark.
  * Are also nocturnal.
  *
@@ -25,7 +25,7 @@ public class Anglerfish extends Animal
 
     /**
      * Constructor for objects of class Anglerfish: 
-     * They are given a random initial food level up to a maximum of biggest food source.
+     * They are given a random initial food level based on their biggest food source.
      *
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
@@ -34,14 +34,12 @@ public class Anglerfish extends Animal
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 96, isMale, 12, 0.65, 7);
-         // They are given a random initial food level up to a maximum of biggest food source.
-        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24;
-
+         // They are given a random initial food level based on their biggest food source.
+        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 24;
     }
 
-
     /**
-     * This is what the Anglerfish does most of the time: it hunts for cod and algae.
+     * This is what the Anglerfish does most of the time: it hunts for algae.
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
      * Anglerfish are awake from 6pm to 6am 
@@ -56,7 +54,7 @@ public class Anglerfish extends Animal
         {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            // Anglerfish are awake from 8pm to 5am so only do actions in that time frame
+            // Anglerfish are awake from 6pm to 6am so only do actions in that time frame
             if (((step % 24) >= 18) || ((step % 24) <= 6))
             {
                 incrementAge();
@@ -92,7 +90,6 @@ public class Anglerfish extends Animal
         }
     }
 
-
     /**
      * Overrides toString method so it returns inforrmation about the anglerFish:
      * Including its age, location, whether it is alive and its food level.
@@ -107,7 +104,6 @@ public class Anglerfish extends Animal
                 ", foodLevel=" + foodLevel +
                 '}';
     }
-
 
     /**
      * Look for algae adjacent (of radius 3) to the current location.
