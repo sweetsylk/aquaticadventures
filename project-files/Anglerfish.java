@@ -14,8 +14,7 @@ import java.util.List;
 public class Anglerfish extends Animal
 {
     // Characteristics shared by all anglerfish (class variables).
-    // The food values of a single cod and algae (as food for anglerfish).
-    private static final int COD_FOOD_VALUE = 48;
+    // The food values of a single algae (as food for anglerfish).
     private static final int ALGAE_FOOD_VALUE = 36;
 
     
@@ -111,7 +110,7 @@ public class Anglerfish extends Animal
 
 
     /**
-     * Look for algae and cod adjacent (of radius 3) to the current location.
+     * Look for algae adjacent (of radius 3) to the current location.
      * Then eat them and increase the food level.
      * @param field The field currently occupied.
      * @return Last loction of food that was eaten, or null if none were eaten.
@@ -125,20 +124,8 @@ public class Anglerfish extends Animal
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
             Organism Organism = field.getOrganismAt(loc);
-            if(Organism instanceof Cod cod) {
-                if(cod.isAlive()) {
-                    // if the anglerfish eats an infected cod, it becomes infected
-                    if (cod.isInfected())
-                    {
-                        setInfected();
-                    }
-                    cod.setDead();
-                    Cod.incrementConsumeDeath();
-                    foodLevel += COD_FOOD_VALUE;
-                    foodLocation = loc;
-                }
-            }
-            else if(Organism instanceof Algae algae) {
+            
+            if(Organism instanceof Algae algae) {
                 if(algae.isAlive()) {
                     algae.setDead();
                     Algae.incrementConsumeDeath();
