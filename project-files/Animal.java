@@ -9,9 +9,8 @@ import java.util.Random;
  * @version 1.0
  */
 
-public abstract class Animal extends Organism {
-
-
+public abstract class Animal extends Organism
+{
     // Whether the Animal is male or not (female)
     private final boolean isMale;
     // The food level of the animal

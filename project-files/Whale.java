@@ -18,7 +18,7 @@ public class Whale extends Animal
     private static final int TUNA_FOOD_VALUE = 120;
     private static final int ALGAE_FOOD_VALUE = 72;
     private static final int COD_FOOD_VALUE = 96;
-    // A shared random number generator to control breeding.
+
 
     private static int starvation;
     private static int consumed;
@@ -37,7 +37,7 @@ public class Whale extends Animal
      */
     public Whale(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 200, isMale, 12, 0.5, 2);
+        super(randomAge, location, 200, isMale, 12, 0.3, 2);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE) + 72;
     }
 

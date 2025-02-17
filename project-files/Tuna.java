@@ -34,7 +34,7 @@ public class Tuna extends Animal
      */
     public Tuna(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 96, isMale, 12, 0.64, 7);
+        super(randomAge, location, 96, isMale, 12, 0.4, 5);
         foodLevel = rand.nextInt(COD_FOOD_VALUE) + 36;
     }
     

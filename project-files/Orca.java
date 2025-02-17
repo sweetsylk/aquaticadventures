@@ -29,7 +29,7 @@ public class Orca extends Animal
      */
     public Orca(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 180, isMale, 20, 0.35, 2);
+        super(randomAge, location, 180, isMale, 20, 0.4, 2);
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }
 

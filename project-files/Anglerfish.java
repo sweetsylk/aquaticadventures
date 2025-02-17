@@ -12,8 +12,7 @@ import java.util.List;
 public class Anglerfish extends Animal
 {
     
-    // The food values of a single cod and algae (as food for anglerfish).
-    private static final int COD_FOOD_VALUE = 48;
+    // The food values of a single algae (as food for anglerfish).
     private static final int ALGAE_FOOD_VALUE = 36;
 
     // Characteristics shared by all anglerFish (class variables).
@@ -33,8 +32,8 @@ public class Anglerfish extends Animal
      */
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 96, isMale, 12, 0.65, 7);
-        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24;
+        super(randomAge, location, 96, isMale, 12, 0.7, 6);
+        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 24;
 
     }
 
@@ -118,19 +117,7 @@ public class Anglerfish extends Animal
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
             Organism Organism = field.getOrganismAt(loc);
-            if(Organism instanceof Cod cod) {
-                if(cod.isAlive()) {
-                    if (cod.isInfected())
-                    {
-                        setInfected();
-                    }
-                    cod.setDead();
-                    Cod.incrementConsumeDeath();
-                    foodLevel += COD_FOOD_VALUE;
-                    foodLocation = loc;
-                }
-            }
-            else if(Organism instanceof Algae algae) {
+            if(Organism instanceof Algae algae) {
                 if(algae.isAlive()) {
                     algae.setDead();
                     Algae.incrementConsumeDeath();

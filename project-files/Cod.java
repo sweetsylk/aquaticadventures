@@ -30,7 +30,7 @@ public class Cod extends Animal
      */
     public Cod(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 48, isMale, 3, 0.7, 8);
+        super(randomAge, location, 48, isMale, 4, 0.45, 6);
         foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 12; // sets intial random food level for anglerfish
 
     }

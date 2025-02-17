@@ -31,7 +31,7 @@ public class Shark extends Animal
      */
     public Shark(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 120, isMale, 12, 0.35, 3);
+        super(randomAge, location, 120, isMale, 12, 0.32, 3);
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE) + 24;
     }
 
