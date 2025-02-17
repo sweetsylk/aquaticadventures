@@ -13,19 +13,20 @@ import java.util.List;
  */
 public class Anglerfish extends Animal
 {
-    // Characteristics shared by all anglerfish (class variables).
-    // The food values of a single algae (as food for anglerfish).
+
+    // The food values of a single cod and algae (as food for anglerfish).
+    private static final int COD_FOOD_VALUE = 48;
     private static final int ALGAE_FOOD_VALUE = 36;
 
-    
+    // Characteristics shared by all anglerFish (class variables).
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
-   
+
 
     /**
      * Constructor for objects of class Anglerfish: 
-     * They are given a random initial food level based on their biggest food source.
+     * They are given a random initial food level up to a maximum of biggest food source.
      *
      * @param randomAge If true, the fish will have random age.
      * @param location The initial location of the anglerFish within the field.
@@ -34,32 +35,31 @@ public class Anglerfish extends Animal
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 96, isMale, 12, 0.65, 7);
-         // They are given a random initial food level based on their biggest food source.
-        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 24;
+         // They are given a random initial food level up to a maximum of biggest food source.
+        foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24;
+
     }
 
     /**
      * This is what the Anglerfish does most of the time: it hunts for algae.
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
-     * Anglerfish are awake from 6pm to 6am 
+     * Anglerfish are awake from 8pm to 5am
      * @param step The current step in the simulation.
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
-    @Override
     public void act(int step, Field currentField, Field nextFieldState)
     {
         if(isAlive())
         {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            // Anglerfish are awake from 6pm to 6am so only do actions in that time frame
+            // Anglerfish are awake from 8pm to 5am so only do actions in that time frame
             if (((step % 24) >= 18) || ((step % 24) <= 6))
             {
                 incrementAge();
                 incrementHunger();
-                // makes anglerfish sometimes become infected with disease
                 infectionCheck();
                 if(! freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
@@ -70,7 +70,6 @@ public class Anglerfish extends Animal
                     // No food found - try to move to a free location.
                     nextLocation = freeLocations.remove(0);
                 }
-                // if the anglerfish is near an infected angerfish it will become infected
                 if (isCompromised(currentField, 3)) {
                     setInfected();
                 }
@@ -106,12 +105,11 @@ public class Anglerfish extends Animal
     }
 
     /**
-     * Look for algae adjacent (of radius 3) to the current location.
+     * Look for algae and cod adjacent (of radius 3) to the current location.
      * Then eat them and increase the food level.
      * @param field The field currently occupied.
      * @return Last loction of food that was eaten, or null if none were eaten.
      */
-    @Override
     public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 3);
@@ -120,7 +118,6 @@ public class Anglerfish extends Animal
         while(foodLocation == null && it.hasNext()) {
             Location loc = it.next();
             Organism Organism = field.getOrganismAt(loc);
-            
             if(Organism instanceof Algae algae) {
                 if(algae.isAlive()) {
                     algae.setDead();
@@ -138,9 +135,7 @@ public class Anglerfish extends Animal
      * Check whether this fish should give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
-     * @param nextFieldState The updated field.
      */
-    @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New Anglerfish are born into adjacent locations.
@@ -158,11 +153,10 @@ public class Anglerfish extends Animal
 
 
     /**
-     * Checks if there is a mating pair (male and female) of anglerfishes nearby.
+     * Check whether or not the anglerfish can mate in this step.
      * @param field The field currently occupied.
-     * @return true if there is a male and female anglerfish nearby.
+     * @return True if the anglerfish can mate in this step.
      */
-    @Override
     public boolean canMate(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 7);

@@ -32,7 +32,7 @@ public class Tuna extends Animal
      */
     public Tuna(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 96, isMale, 12, 0.64, 7);
+        super(randomAge, location, 96, isMale, 12, 0.4, 6);
          // They are given a random initial food level up to a maximum of biggest food source.
         foodLevel = rand.nextInt(COD_FOOD_VALUE) + 36;
     }
@@ -179,7 +179,7 @@ public class Tuna extends Animal
     @Override
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 28);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 25);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

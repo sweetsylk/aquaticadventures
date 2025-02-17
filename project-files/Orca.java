@@ -31,7 +31,7 @@ public class Orca extends Animal
      */
     public Orca(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 180, isMale, 20, 0.35, 2);
+        super(randomAge, location, 180, isMale, 20, 0.3, 2);
          // They are given a random initial food level up to a maximum of biggest food source.
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }

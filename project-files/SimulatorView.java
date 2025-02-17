@@ -17,9 +17,9 @@ public class SimulatorView extends JFrame
 {
     // Colors used for empty locations.
     private static Color EMPTY_COLOR_DAY = new Color(32, 230, 230);
-    private static Color EMPTY_COLOR_NIGHT_ACIDIC = new Color(32, 230, 60);
+    private static Color EMPTY_COLOR_DAY_ACIDIC = new Color(32, 230, 60);
     private static Color EMPTY_COLOR_NIGHT = new Color(8, 60, 100);
-    private static Color EMPTY_COLOR_DAY_ACIDIC = new Color(32/2, 230/2, 60);
+    private static Color EMPTY_COLOR_NIGHT_ACIDIC = new Color(32/2, 230/2, 60);
 
 
     // Color used for objects that have no defined color.

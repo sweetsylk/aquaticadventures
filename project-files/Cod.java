@@ -3,26 +3,26 @@ import java.util.List;
 
 /**
  * A simple model of cod:
- * cod are a subclass of Animals so can do all the things animals can do.
- * Can eat algae.
- * Can get eaten by anglerfish, tuna and whale.
+ * cod move, grow, breed, sleep, eats (algae), gets eaten (by anglerfish, tuna and whale) and die of starvation.
  * 
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Cod extends Animal
 {
-    // Characteristics shared by all cod (class variables).
+    
     // The food value of a single algae (as food for cod).
     private static final int ALGAE_FOOD_VALUE = 30;
 
+    // Characteristics shared by all cod (class variables).
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
     
     /**
      * Constructor for objects of class cod: 
-     * They are given a random initial food level up to a maximum of biggest food source.
+     * They can be created as a new born (age zero) or with a random age
+     * and given random initial food level.
      * 
      * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
@@ -30,19 +30,17 @@ public class Cod extends Animal
      */
     public Cod(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 48, isMale, 3, 0.7, 8);
-         // They are given a random initial food level up to a maximum of biggest food source.
-        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 12; 
+        super(randomAge, location, 48, isMale, 3, 0.375, 7);
+        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 12; // sets intial random food level for anglerfish
+
     }
 
     /**
-     * This is what cod does most of the time: it hunts for algae.
-     * In the process, it might breed, die of hunger or sleep,
-     * or die of old age.
+     * This is what the cod does most of the time - it runs
+     * around. Sometimes it will breed or die of old age or sleep even
      * cod are awake from 4am to 11pm and can give birth while sleeping
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
-     * @param step The current step in the simulation.
      */
     @Override
     public void act(int step, Field currentField, Field nextFieldState)
@@ -50,12 +48,9 @@ public class Cod extends Animal
         if(isAlive()) {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            // cod are awake from 4am to 11pm so only do actions in that time frame
-            // and only if the weather is not frozen
-            if ((step % 24) > 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN) {
+            if ((step % 24) >= 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN) {
                 incrementAge();
                 incrementHunger();
-                 // makes cod sometimes become infected with disease
                 infectionCheck();
                 if (!freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
@@ -70,7 +65,6 @@ public class Cod extends Animal
                     // Overcrowding.
                     setDead();
                 }
-                 // if the cod is near an infected cod it will become infected
                 if (isCompromised(currentField, 3)) {
                     setInfected();
                 }
@@ -97,8 +91,7 @@ public class Cod extends Animal
     }
 
     /**
-     * Look for algae adjacent (of radius 1) to the current location.
-     * Then eat them and increase the food level.
+     * find location of food source from adjacent locations
      * @param field The field currently occupied.
      * @return the location of next food to be eaten
      */
@@ -132,7 +125,7 @@ public class Cod extends Animal
     @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
-        // New cod are born into adjacent locations.
+        // New rabbits are born into adjacent locations.
         // Get a list of adjacent free locations.
         int births = breed(nextFieldState);
         if(births > 0) {
@@ -154,7 +147,7 @@ public class Cod extends Animal
     @Override
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 
