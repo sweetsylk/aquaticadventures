@@ -11,18 +11,19 @@ import java.util.List;
  */
 public class Anglerfish extends Animal
 {
-    
-    // The food values of a single algae (as food for anglerfish).
+
+    // The food values of a single cod and algae (as food for anglerfish).
+    private static final int COD_FOOD_VALUE = 48;
     private static final int ALGAE_FOOD_VALUE = 36;
 
     // Characteristics shared by all anglerFish (class variables).
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
-   
+
 
     /**
-     * Constructor for objects of class Anglerfish: 
+     * Constructor for objects of class Anglerfish:
      * They can be created as a new born (age zero) or with a random age
      * and are given random initial food level.
      *
@@ -32,7 +33,7 @@ public class Anglerfish extends Animal
      */
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 96, isMale, 12, 0.7, 6);
+        super(randomAge, location, 96, isMale, 12, 0.65, 7);
         foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 24;
 
     }
@@ -42,7 +43,7 @@ public class Anglerfish extends Animal
      * This is what the Anglerfish does most of the time: it hunts for cod and algae.
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
-     * Anglerfish are awake from 8pm to 5am 
+     * Anglerfish are awake from 8pm to 5am
      * @param step The current step in the simulation.
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
@@ -152,7 +153,7 @@ public class Anglerfish extends Animal
 
 
     /**
-     * Check whether or not the anglerfish can mate in this step. 
+     * Check whether or not the anglerfish can mate in this step.
      * @param field The field currently occupied.
      * @return True if the anglerfish can mate in this step.
      */

@@ -1,6 +1,8 @@
 public abstract class Plant extends Organism {
 /**
- * commom elements of all plants (algae)
+ * A simple model of a plant of abstract type so can't be instantiated:
+ * Plants are a subclass of Organisms so can do all the things organisms can do.
+ * Plants include algae.
  *
  * @author Areeb Rafiq and Ridwan Adam
  * @version 1.0
@@ -19,17 +21,16 @@ public abstract class Plant extends Organism {
     public Plant(boolean randomAge, Location location, int maxAge, double breedingProbability, int maxLitterSize) {
 
         super(randomAge, location, maxAge, breedingProbability, maxLitterSize);
-
-
     }
 
 
     /**
-     * Act.
+     * abstract method to be overriden by subclasses.
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
      * @param step The current step (hour) the simulation is at
      */
+    @Override
     public abstract void act(int step, Field currentField, Field nextFieldState);
 
     /**

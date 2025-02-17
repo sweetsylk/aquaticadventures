@@ -2,44 +2,43 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A simple model of a tuna.
- * Tunas age, move, eat cod and salmon, bread and die.
- * 
+ * A simple model of tuna:
+ * Tunas are a subclass of Animals so can do all the things animals can do.
+ * Can eat cod and algae.
+ * Can get eaten by shark and whale.
+ *
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Tuna extends Animal
 {
-    // Characteristics shared by all tuna (class variables).
 
-    // The food value of a single cod (as food for tuna).
+    // Characteristics shared by all tunas (class variables).
+    // The food values of a single algae and cod (as food for tuna).
     private static final int COD_FOOD_VALUE = 72;
-    // The food value of a single algae (as food for tuna).
     private static final int ALGAE_FOOD_VALUE = 50;
 
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
    
-    
-    
-    
-
     /**
-     * Create a tuna. A tuna can be created as a new born (age zero
-     * and not hungry) or with a random age and food level.
+     * Constructor for objects of class tuna: 
+     * They are given a random initial food level up to a maximum of biggest food source.
      * 
-     * @param randomAge If true, the tuna will have random age and hunger level.
-     * @param location The location within the field.
+     * @param randomAge If true, the fish will have random age.
+     * @param location The initial location of the anglerFish within the field.
+     * @param isMale Whether the anglerFish is male or not (female).
      */
     public Tuna(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 96, isMale, 12, 0.4, 5);
+        super(randomAge, location, 96, isMale, 12, 0.4, 6);
+         // They are given a random initial food level up to a maximum of biggest food source.
         foodLevel = rand.nextInt(COD_FOOD_VALUE) + 36;
     }
     
     /**
-     * This is what the tuna does most of the time: it hunts for cod.
+     * This is what the tuna does most of the time: it hunts for cod and algae.
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
      * Tunas are awake from 5am to 10pm
@@ -47,15 +46,19 @@ public class Tuna extends Animal
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
      */
+    @Override
     public void act(int step, Field currentField, Field nextFieldState)
     {
         if(isAlive())
         {
             incrementAge();
             incrementHunger();
+             // makes tuna sometimes become infected with disease
             infectionCheck();
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
+            // Tunas are awake from 5am to 10pm so only do actions in that time frame
+            // and only if the weather is not frozen
             if ((step % 24) >= 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN)
             {
             if(! freeLocations.isEmpty()) {
@@ -76,6 +79,7 @@ public class Tuna extends Animal
                 // Overcrowding.
                 setDead();
             }
+             // if the tuna is near an infected tuna it will become infected
             if (isCompromised(currentField, 2)) {
                     setInfected();
                 }
@@ -87,7 +91,11 @@ public class Tuna extends Animal
     }
 
 
-
+    /**
+     * Overrides toString method so it returns inforrmation about the tuna:
+     * Including its age, location, whether it is alive and its food level.
+     * @return Information about the tuna.
+     */
     @Override
     public String toString() {
         return "Tuna{" +
@@ -100,11 +108,12 @@ public class Tuna extends Animal
 
 
     /**
-     * Look for rabbits adjacent to the current location.
-     * Only the first live cod is eaten.
+     * Look for algae and cod adjacent (of radius 1) to the current location.
+     * Then eat them and increase the food level.
      * @param field The field currently occupied.
      * @return Where food was found, or null if it wasn't.
      */
+    @Override
     public Location findFood(Field field)
     {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), 3);
@@ -115,6 +124,7 @@ public class Tuna extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
+                    // if the tuna eats an infected cod, it becomes infected
                     if (cod.isInfected())
                     {
                         setInfected();
@@ -143,7 +153,9 @@ public class Tuna extends Animal
      * Check whether this tuna is to give birth at this step.
      * New births will be made into free adjacent locations.
      * @param freeLocations The locations that are free in the current field.
+     * @param nextFieldState The updated field.
      */
+    @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
         // New Tunas are born into adjacent locations.
@@ -159,10 +171,15 @@ public class Tuna extends Animal
         }
     }
         
-
+     /**
+     * Checks if there is a mating pair (male and female) of tunas nearby.
+     * @param field The field currently occupied.
+     * @return true if there is a male and female tuna nearby.
+     */
+    @Override
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 28);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 25);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

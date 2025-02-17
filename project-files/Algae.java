@@ -2,14 +2,16 @@ import java.util.List;
 
 /**
  * A simple model of Algae:
- * Algae grow, breed, gets eaten (by cod, anglerFish and tuna) and die naturally.
+ * Algae are a subclass of Plant so can do all the things plants can do.
+ * Get eaten by cod, tuna, anglerfish and whale.
+ * Eats no one (as they are a producer)
  * 
  * @author Ridwan Adam and Areeb Rafiq
  * @version 1.1
  */
 public class Algae extends Plant
 {
-    // Characteristics shared by all algae (class variables).
+   
     private static int consumed;
     private static int naturalDeath;
 
@@ -26,6 +28,9 @@ public class Algae extends Plant
     /**
      * This is what the algae does most of the time - it grows
      * Sometimes it will breed or die of old age
+     * algae are awake from 9am to 5pm
+     * algae can't give birth while in acidic weather. 
+     * @param step The current step in the simulation.
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
      */

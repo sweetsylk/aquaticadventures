@@ -30,7 +30,7 @@ public class Cod extends Animal
      */
     public Cod(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 48, isMale, 4, 0.45, 6);
+        super(randomAge, location, 48, isMale, 3, 0.375, 7);
         foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 12; // sets intial random food level for anglerfish
 
     }
@@ -147,7 +147,7 @@ public class Cod extends Animal
     @Override
     public boolean canMate(Field field)
     {
-        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 5);
+        List<Location> adjacent = field.getAdjacentLocations(getLocation(), 1);
         boolean foundMale = this.isMale();
         boolean foundFemale = !this.isMale();
 

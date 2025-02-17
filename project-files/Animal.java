@@ -1,9 +1,10 @@
 import java.util.List;
-import java.util.Random;
 
 /**
- * A simple model of an Animal:
- * Animals move, grow, eat, breed, sleep and die.
+ * A simple model of an Animal of abstract type so can't be instantiated:
+ * Animals are a subclass of Organisms so can do all the things organisms can do.
+ * Animals can also all move, eat and or get eaten, die of overcrowing and starvation.
+ * Animals include cod, anglefish, tuna, sharks, whales and orca.
  * 
  * @author Ridwan Adam and Areeb Rafiq
  * @version 1.0
@@ -16,17 +17,15 @@ public abstract class Animal extends Organism
     // The food level of the animal
     protected int foodLevel;
     // The age at which the animal can start to breed
-    protected final int BREEDING_AGE;
-
-    protected static final Random rand = new Random();
-
-
-    // whether the animal is infected with a disease or not
+    private final int BREEDING_AGE;
+    // the probability of the animal being infected
     protected double infectionRate = 0.01;
+    // whether the animal is infected with a disease or not
     protected boolean infected = false;
 
     /**
      * Constructor for objects of class Animal
+     * 
      * @param randomAge If true, the Organism will have a random age.
      * @param location The Organism's location.
      * @param maxAge The maximum age the Organism can reach.
@@ -44,11 +43,12 @@ public abstract class Animal extends Organism
     }
 
     /**
-     * Act.
+     * abtract method to be overriden by subclasses.
      * @param currentField The current state of the field.
      * @param nextFieldState The new state being built.
      * @param step The current step (hour) the simulation is at
      */
+    @Override
     public abstract void act(int step, Field currentField, Field nextFieldState);
 
     /**
@@ -60,13 +60,25 @@ public abstract class Animal extends Organism
         return isMale; 
     }
 
+    /**
+     * returns if the animal is infected or not
+     * @return true if the animal is infected
+     */
     public boolean isInfected() {
         return infected;
     }
 
+    /**
+     * set the animal to be infected
+     */
     public void setInfected() {
         this.infected = true;
     }
+
+
+    /**
+     * set the animal to be infected given the probability of infection 
+     */
     public void infectionCheck()
     {
         if (rand.nextDouble() < infectionRate) {
@@ -74,6 +86,12 @@ public abstract class Animal extends Organism
         }
     }
 
+    /**
+     * checks if an animal adjacent (of given radius) of the same species is infected
+     * @param field The field to check for other animals in.
+     * @param radius The radius to check for other animals in.
+     * @return true if the the nearby animal is infected
+     */
     public boolean isCompromised(Field field, int radius) {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), radius);
         for (Location loc : adjacent) {
@@ -92,6 +110,8 @@ public abstract class Animal extends Organism
 
     /**
      * increment the foodlevel of the animal
+     * if the animal is starving, it will die
+     * if the animal is infected, it will die of starvation earlier
      */
     public void incrementHunger()
     {
@@ -118,12 +138,14 @@ public abstract class Animal extends Organism
     }
 
     /**
+     * abstract method to be overriden by subclasses.
      * @param field The field to look for a mate in.
      * Force each animal species to implement their own mating behavior.
      */
     public abstract boolean canMate(Field field);
 
     /**
+     * abstract method to be overriden by subclasses.
      * @param nextFieldState The updated field.
      * @param freeLocations The locations that are free in the current field.
      * give birth to a new animal
@@ -131,7 +153,8 @@ public abstract class Animal extends Organism
     public abstract void giveBirth(Field nextFieldState, List<Location> freeLocations);
 
     /**
-     * randomise how many births will happen 
+     * Randomise how many births will happen for an animal.
+     * Also based on the weather, the animal will give birth to a different number of offspring.
      * @param field The current field to breed in.
      * @return the number of births to happen 
      */

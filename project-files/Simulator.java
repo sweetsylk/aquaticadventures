@@ -2,9 +2,9 @@ import java.util.*;
 
 /**
  * A predator-prey simulator, based on a rectangular field containing 
- * tuna, cod, sharks, orcas, and whales.
+ * algae, cod, anglefish, tuna, sharks, whales and orcas
  * 
- * @author David J. Barnes and Michael Kölling and Areeb Rafiq
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Simulator
@@ -22,8 +22,9 @@ public class Simulator
     private static final double SHARK_CREATION_PROBABILITY = 0.03;
     private static final double ORCA_CREATION_PROBABILITY = 0.014;
     private static final double WHALE_CREATION_PROBABILITY = 0.012;
-    private static Weather weather = new Weather();
 
+    // Create weather object to be used for simulation
+    private static Weather weather = new Weather();
     // The current state of the field.
     private Field field;
     // The current step of the simulation (each step is equivilant to an hour).
@@ -133,7 +134,8 @@ public class Simulator
     }
     
     /**
-     * Randomly populate the field with foxes and rabbits.
+     * Randomly populate the field all the organisms:
+     * algae, cod, anglefish, tuna, sharks, whales and orcas.
      */
     private void populate()
     {
@@ -147,23 +149,18 @@ public class Simulator
                     boolean isMale = rand.nextBoolean();
                     Whale whale = new Whale(true, location, isMale);
                     field.placeOrganism(whale, location);
-
                 }
-
                 else if(rand.nextDouble() <= ORCA_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     boolean isMale = rand.nextBoolean();
                     Orca orca = new Orca(true, location, isMale);
                     field.placeOrganism(orca, location);
-
                 }
-
                 else if(rand.nextDouble() <= SHARK_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
                     boolean isMale = rand.nextBoolean();
                     Shark shark = new Shark(true, location, isMale);
                     field.placeOrganism(shark, location);
-
                 }
                 else if(rand.nextDouble() <= ANGLERFISH_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
@@ -215,15 +212,18 @@ public class Simulator
             // ignore
         }
     }
+
+    /**
+     * Get the current weather
+     * @return The current weather
+     */
     public static WeatherType getWeather() {
         return weather.getCurrentWeather();
     }
 
-    public static void main (String[] arg)
-    {
-        Simulator simulation = new Simulator();
-        simulation.runLongSimulation();
-    }
+    /**
+     * Report on the number of each type of Organism that died via consumption.
+     */
     private void finalReport()
     {
         System.out.println("Cods dead via Consumption: " + Cod.getConsumed()
@@ -232,4 +232,11 @@ public class Simulator
                 + "\nWhales dead via Consumption: " + Whale.getConsumed()
                 + "\nAnglerfishes dead via Consumption: " + Anglerfish.getConsumed());
     }
-}
+
+    public static void main (String[] arg)
+    {
+        Simulator simulation = new Simulator();
+        simulation.runLongSimulation();
+    }
+
+}  
