@@ -35,6 +35,7 @@ public class Anglerfish extends Animal
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 96, isMale, 12, 0.65, 7);
+         // They are given a random initial food level up to a maximum of biggest food source.
         foodLevel = rand.nextInt(COD_FOOD_VALUE) + 24;
 
     }
@@ -56,10 +57,12 @@ public class Anglerfish extends Animal
         {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
+            // Anglerfish are awake from 8pm to 5am so only do actions in that time frame
             if (((step % 24) >= 18) || ((step % 24) <= 6))
             {
                 incrementAge();
                 incrementHunger();
+                // makes anglerfish sometimes become infected with disease
                 infectionCheck();
                 if(! freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
@@ -70,6 +73,7 @@ public class Anglerfish extends Animal
                     // No food found - try to move to a free location.
                     nextLocation = freeLocations.remove(0);
                 }
+                // if the anglerfish is near an infected angerfish it will become infected
                 if (isCompromised(currentField, 3)) {
                     setInfected();
                 }
@@ -123,6 +127,7 @@ public class Anglerfish extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
+                    // if the anglerfish eats an infected cod, it becomes infected
                     if (cod.isInfected())
                     {
                         setInfected();

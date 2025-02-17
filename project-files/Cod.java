@@ -31,8 +31,8 @@ public class Cod extends Animal
     public Cod(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 48, isMale, 3, 0.7, 8);
-        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 12; // sets intial random food level for anglerfish
-
+         // They are given a random initial food level up to a maximum of biggest food source.
+        foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 12; 
     }
 
     /**
@@ -50,9 +50,12 @@ public class Cod extends Animal
         if(isAlive()) {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
+            // cod are awake from 4am to 11pm so only do actions in that time frame
+            // and only if the weather is not frozen
             if ((step % 24) > 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN) {
                 incrementAge();
                 incrementHunger();
+                 // makes cod sometimes become infected with disease
                 infectionCheck();
                 if (!freeLocations.isEmpty()) {
                     giveBirth(nextFieldState, freeLocations);
@@ -67,6 +70,7 @@ public class Cod extends Animal
                     // Overcrowding.
                     setDead();
                 }
+                 // if the cod is near an infected cod it will become infected
                 if (isCompromised(currentField, 3)) {
                     setInfected();
                 }

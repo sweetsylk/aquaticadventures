@@ -3,8 +3,10 @@ import java.util.Random;
 /**
  * A simple model of Weather:
  * Weather can be normal, frozen, acidic or warm.
- * Weather can change randomly.
- * 
+ * acidic weather stops algae from breeding.
+ * normal, frozen and warm weather affect number of animal offspring
+ * frozen weather stops shark, tuna and cod from doing any actions
+ * Weather can change randomly. 
  * @author Ridwan Adam and Areeb Rafiq
  * @version 1.0
  */

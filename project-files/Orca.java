@@ -32,6 +32,7 @@ public class Orca extends Animal
     public Orca(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 180, isMale, 20, 0.35, 2);
+         // They are given a random initial food level up to a maximum of biggest food source.
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }
     /**
@@ -48,10 +49,12 @@ public class Orca extends Animal
     {
         if(isAlive())
         {
+            // Orcas are awake from 5am to 6pm so only do actions in that time frame
             if ((step % 24) >= 9 && (step % 24) <= 17)
             {
                 incrementAge();
                 incrementHunger();
+                 // makes orca sometimes become infected with disease
                 infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
@@ -73,6 +76,7 @@ public class Orca extends Animal
                     // Overcrowding.
                     setDead();
                 }
+                 // if the orca is near an infected orca it will become infected
                 if (isCompromised(currentField, 6)) {
                     setInfected();
                 }
@@ -119,6 +123,7 @@ public class Orca extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Shark shark) {
                 if(shark.isAlive()) {
+                    // if the orca eats an infected shark, it becomes infected
                     if (shark.isInfected())
                     {
                         setInfected();
@@ -132,6 +137,7 @@ public class Orca extends Animal
 
             else if(Organism instanceof Whale whale) {
                 if(whale.isAlive()) {
+                    // if the orca eats an infected whale, it becomes infected
                     if (whale.isInfected())
                     {
                         setInfected();

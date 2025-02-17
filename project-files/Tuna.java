@@ -53,9 +53,12 @@ public class Tuna extends Animal
         {
             incrementAge();
             incrementHunger();
+             // makes tuna sometimes become infected with disease
             infectionCheck();
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
+            // Tunas are awake from 5am to 10pm so only do actions in that time frame
+            // and only if the weather is not frozen
             if ((step % 24) >= 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN)
             {
             if(! freeLocations.isEmpty()) {
@@ -76,6 +79,7 @@ public class Tuna extends Animal
                 // Overcrowding.
                 setDead();
             }
+             // if the tuna is near an infected tuna it will become infected
             if (isCompromised(currentField, 2)) {
                     setInfected();
                 }
@@ -120,6 +124,7 @@ public class Tuna extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Cod cod) {
                 if(cod.isAlive()) {
+                    // if the tuna eats an infected cod, it becomes infected
                     if (cod.isInfected())
                     {
                         setInfected();

@@ -19,17 +19,13 @@ public abstract class Animal extends Organism {
     protected int foodLevel;
     // The age at which the animal can start to breed
     private final int BREEDING_AGE;
-
-
-
-
-    // whether the animal is infected with a disease or not
+    // the probability of the animal being infected
     protected double infectionRate = 0.01;
+    // whether the animal is infected with a disease or not
     protected boolean infected = false;
 
     /**
-     * Constructor for objects of class Animal:
-     * They assigned to be infected or not depedning on the infected chance paramater
+     * Constructor for objects of class Animal
      * 
      * @param randomAge If true, the Organism will have a random age.
      * @param location The Organism's location.
@@ -65,13 +61,25 @@ public abstract class Animal extends Organism {
         return isMale; 
     }
 
+    /**
+     * returns if the animal is infected or not
+     * @return true if the animal is infected
+     */
     public boolean isInfected() {
         return infected;
     }
 
+    /**
+     * set the animal to be infected
+     */
     public void setInfected() {
         this.infected = true;
     }
+
+
+    /**
+     * set the animal to be infected given the probability of infection 
+     */
     public void infectionCheck()
     {
         if (rand.nextDouble() < infectionRate) {
@@ -79,6 +87,12 @@ public abstract class Animal extends Organism {
         }
     }
 
+    /**
+     * checks if an animal adjacent (of given radius) of the same species is infected
+     * @param field The field to check for other animals in.
+     * @param radius The radius to check for other animals in.
+     * @return true if the the nearby animal is infected
+     */
     public boolean isCompromised(Field field, int radius) {
         List<Location> adjacent = field.getAdjacentLocations(getLocation(), radius);
         for (Location loc : adjacent) {
@@ -97,6 +111,8 @@ public abstract class Animal extends Organism {
 
     /**
      * increment the foodlevel of the animal
+     * if the animal is starving, it will die
+     * if the animal is infected, it will die of starvation earlier
      */
     public void incrementHunger()
     {

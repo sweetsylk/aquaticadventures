@@ -55,10 +55,13 @@ public class Whale extends Animal
     {
         if(isAlive())
         {
+            // Whales are awake from 5am to 5pm so only do actions in that time frame
+            // and only if the weather is not frozen
             if ((step % 24) > 5 && ((step % 24) <= 20) && Simulator.getWeather() != WeatherType.FROZEN)
             {
                 incrementAge();
                 incrementHunger();
+                 // makes whale sometimes become infected with disease
                 infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
@@ -80,6 +83,7 @@ public class Whale extends Animal
                     // Overcrowding.
                     setDead();
                 }
+                 // if the whale is near an infected whale it will become infected
                 if (isCompromised(currentField, 7)) {
                     setInfected();
                 }
@@ -126,6 +130,7 @@ public class Whale extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if (Organism instanceof Tuna tuna) {
                 if (tuna.isAlive()) {
+                    // if the whale eats an infected tuna, it becomes infected
                     if (tuna.isInfected())
                     {
                         setInfected();
@@ -137,6 +142,7 @@ public class Whale extends Animal
                 }
                 else if (Organism instanceof Cod cod) {
                     if (cod.isAlive()) {
+                        // if the whale eats an infected cod, it becomes infected
                         if (cod.isInfected())
                         {
                             setInfected();

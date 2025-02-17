@@ -28,6 +28,9 @@ public class Algae extends Plant
     /**
      * This is what the algae does most of the time - it grows
      * Sometimes it will breed or die of old age
+     * algae are awake from 9am to 5pm
+     * algae can't give birth while in acidic weather. 
+     * @param step The current step in the simulation.
      * @param currentField The field occupied.
      * @param nextFieldState The updated field.
      */

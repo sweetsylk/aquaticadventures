@@ -21,8 +21,6 @@ public abstract class Plant extends Organism {
     public Plant(boolean randomAge, Location location, int maxAge, double breedingProbability, int maxLitterSize) {
 
         super(randomAge, location, maxAge, breedingProbability, maxLitterSize);
-
-
     }
 
 

@@ -34,6 +34,7 @@ public class Shark extends Animal
     public Shark(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 120, isMale, 12, 0.35, 3);
+        // They are given a random initial food level up to a maximum of biggest food source.
         foodLevel = rand.nextInt(TUNA_FOOD_VALUE) + 24;
     }
 
@@ -51,12 +52,15 @@ public class Shark extends Animal
     {
         if(isAlive())
         {
+            // shark are awake from 9am to 5pm and 10pm to 4am so only do actions in that time frame
+            // and only if the weather is not frozen
             if (((step % 24) >= 9 && (step % 24) <= 19) && Simulator.getWeather() != WeatherType.FROZEN)
 
             {
 
                 incrementAge();
                 incrementHunger();
+                 // makes shark sometimes become infected with disease
                 infectionCheck();
                 List<Location> freeLocations =
                         nextFieldState.getFreeAdjacentLocations(getLocation());
@@ -78,6 +82,7 @@ public class Shark extends Animal
                     // Overcrowding.
                     setDead();
                 }
+                 // if the shark is near an infected shark it will become infected
                 if (isCompromised(currentField, 5)) {
                     setInfected();
                 }
@@ -123,6 +128,7 @@ public class Shark extends Animal
             Organism Organism = field.getOrganismAt(loc);
             if(Organism instanceof Tuna tuna) {
                 if(tuna.isAlive()) {
+                    // if the shark eats an infected tuna, it becomes infected
                     if (tuna.isInfected())
                     {
                         setInfected();
@@ -135,6 +141,7 @@ public class Shark extends Animal
             }
             else if(Organism instanceof Anglerfish anglerfish) {
                 if(anglerfish.isAlive()) {
+                    // if the shark eats an infected anglerfish, it becomes infected
                     if (anglerfish.isInfected())
                     {
                         setInfected();
