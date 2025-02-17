@@ -87,7 +87,7 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps; n++) {
             simulateOneStep();
-            delay(15);         // adjust this to change execution speed
+            delay(250);         // adjust this to change execution speed
         }
         finalReport();
 

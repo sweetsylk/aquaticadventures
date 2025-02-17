@@ -18,6 +18,8 @@ public abstract class Animal extends Organism
     protected int foodLevel;
     // The age at which the animal can start to breed
     private final int BREEDING_AGE;
+
+
     // the probability of the animal being infected
     protected double infectionRate = 0.01;
     // whether the animal is infected with a disease or not
@@ -74,14 +76,27 @@ public abstract class Animal extends Organism
     public void setInfected() {
         this.infected = true;
     }
-
+    /**
+     *
+     * @return the probability of the animal being infected
+     */
+    public double getInfectionRate() {
+        if (Simulator.getWeather() == WeatherType.ACIDIFIED)
+        {
+            return infectionRate * 5;
+        }
+        else
+        {
+            return infectionRate;
+        }
+    }
 
     /**
      * set the animal to be infected given the probability of infection 
      */
     public void infectionCheck()
     {
-        if (rand.nextDouble() < infectionRate) {
+        if (rand.nextDouble() < getInfectionRate()) {
             setInfected();
         }
     }
