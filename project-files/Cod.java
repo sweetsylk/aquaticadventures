@@ -16,11 +16,6 @@ public class Cod extends Animal
     // Characteristics shared by all cod (class variables).
     // The food value of a single algae (as food for cod).
     private static final int ALGAE_FOOD_VALUE = 30;
-
-    
-    private static int starvation;
-    private static int consumed;
-    private static int naturalDeath;
     
     /**
      * Constructor for objects of class cod: 
@@ -31,7 +26,7 @@ public class Cod extends Animal
      */
     public Cod(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 48, isMale, 3, 0.375, 7);
+        super(randomAge, location, 48, isMale, 3, 0.395, 7);
         // They are given a random initial food level based on their biggest food source.
         foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 12;
 
@@ -115,7 +110,6 @@ public class Cod extends Animal
             if(Organism instanceof Algae algae) {
                 if(algae.isAlive()) {
                     algae.setDead();
-                    Algae.incrementConsumeDeath();
                     foodLevel += ALGAE_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -177,30 +171,5 @@ public class Cod extends Animal
             }
         }
         return false;
-    }
-
-
-    public static void incrementConsumeDeath()
-    {
-        consumed += 1;
-
-    }
-
-    public static void incrementNaturalDeath()
-    {
-        naturalDeath += 1;
-
-    }
-
-    public static int getConsumed()
-    {
-        return consumed;
-
-    }
-
-    public static int getNaturalDeath()
-    {
-        return naturalDeath;
-  
     }
 }

@@ -16,10 +16,6 @@ public class Anglerfish extends Animal
     // The food values of a single algae (as food for anglerfish).
     private static final int ALGAE_FOOD_VALUE = 36;
 
-    private static int starvation;
-    private static int consumed;
-    private static int naturalDeath;
-
 
     /**
      * Constructor for objects of class Anglerfish: 
@@ -121,7 +117,6 @@ public class Anglerfish extends Animal
             if(Organism instanceof Algae algae) {
                 if(algae.isAlive()) {
                     algae.setDead();
-                    Algae.incrementConsumeDeath();
                     foodLevel += ALGAE_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -187,38 +182,5 @@ public class Anglerfish extends Animal
         return false;
     }
 
-
-    private static void incrementStarvationDeath()
-    {
-        starvation += 1;
-
-    }
-    public static void incrementConsumeDeath()
-    {
-        consumed += 1;
-
-    }
-
-    private static void incrementNaturalDeath()
-    {
-        naturalDeath += 1;
-
-    }
-
-    public static int getStarvation()
-    {
-        return starvation;
-
-    }
-    public static int getConsumed()
-    {
-        return consumed;
-
-    }
-    public static int getNaturalDeath()
-    {
-        return naturalDeath;
-
-    }
 }
 

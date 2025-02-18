@@ -18,13 +18,6 @@ public class Whale extends Animal
     private static final int ALGAE_FOOD_VALUE = 72;
     private static final int COD_FOOD_VALUE = 96;
 
-    private static int starvation;
-    private static int consumed;
-    private static int naturalDeath;
-    
-
-  
-
     /**
      * Constructor for objects of class whale: 
      * They are given a random initial food level based on their biggest food source.
@@ -43,7 +36,7 @@ public class Whale extends Animal
      * This is what the Whale does most of the time: it hunts for
      * Tuna, cod and algae. In the process, it might breed, die of hunger or sleep,
      * or die of old age.
-     * Whales are awake from 5am to 5pm
+     * Whales are awake from 5am to 8pm
      * @param step current step in the simulation
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
@@ -53,7 +46,7 @@ public class Whale extends Animal
     {
         if(isAlive())
         {
-            // Whales are awake from 5am to 5pm so only do actions in that time frame
+            // Whales are awake from 5am to 8pm so only do actions in that time frame
             // and only if the weather is not frozen
             if ((step % 24) > 5 && ((step % 24) <= 20) && Simulator.getWeather() != WeatherType.FROZEN)
             {
@@ -134,7 +127,6 @@ public class Whale extends Animal
                         setInfected();
                     }
                     tuna.setDead();
-                    Tuna.incrementConsumeDeath();
                     foodLevel += TUNA_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -146,7 +138,6 @@ public class Whale extends Animal
                             setInfected();
                         }
                         cod.setDead();
-                        Cod.incrementConsumeDeath();
                         foodLevel += COD_FOOD_VALUE;
                         foodLocation = loc;
                     }
@@ -154,7 +145,6 @@ public class Whale extends Animal
                 else if(Organism instanceof Algae algae) {
                     if(algae.isAlive()) {
                         algae.setDead();
-                        Algae.incrementConsumeDeath();
                         foodLevel += ALGAE_FOOD_VALUE;
                         foodLocation = loc;
                     }
@@ -220,37 +210,4 @@ public class Whale extends Animal
         return false; // No valid pair
     }
 
-
-
-    public static void incrementStarvationDeath()
-    {
-        starvation += 1;
-
-    }
-    public static void incrementConsumeDeath()
-    {
-        consumed += 1;
-
-    }
-
-    public static void incrementNaturalDeath()
-    {
-        naturalDeath += 1;
-
-    }
-    public static int getStarvation()
-    {
-        return starvation;
-
-    }
-    public static int getConsumed()
-    {
-        return consumed;
-
-    }
-    public static int getNaturalDeath()
-    {
-        return naturalDeath;
-
-    }
 }

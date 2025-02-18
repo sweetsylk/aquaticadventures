@@ -11,12 +11,10 @@ import java.util.List;
  */
 public class Shark extends Animal
 {
-    
-    
-    
-    private static int starvation;
-    private static int consumed;
-    private static int naturalDeath;
+    // Characteristics shared by all sharks (class variables).
+    // The food values of a single tuna and anglerfish (as food for shark).
+    private static final int TUNA_FOOD_VALUE = 60;
+    private static final int ANGLERFISH_FOOD_VALUE = 75;
     
 
     /**
@@ -129,7 +127,6 @@ public class Shark extends Animal
                         setInfected();
                     }
                     tuna.setDead();
-                    Tuna.incrementConsumeDeath();
                     foodLevel += TUNA_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -142,7 +139,6 @@ public class Shark extends Animal
                         setInfected();
                     }
                     anglerfish.setDead();
-                    anglerfish.incrementConsumeDeath();
                     foodLevel += ANGLERFISH_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -205,35 +201,4 @@ public class Shark extends Animal
         return false; // No valid pair
     }
 
-
-    public static void incrementStarvationDeath()
-    {
-        starvation += 1;
-
-    }
-    public static void incrementConsumeDeath()
-    {
-        consumed += 1;
-
-    }
-    public static void incrementNaturalDeath()
-    {
-        naturalDeath += 1;
-
-    }
-    public static int getStarvation()
-    {
-        return starvation;
-
-    }
-    public static int getConsumed()
-    {
-        return consumed;
-
-    }
-    public static int getNaturalDeath()
-    {
-        return naturalDeath;
-
-    }
 }

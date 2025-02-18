@@ -81,7 +81,7 @@ public class Simulator
      */
     public void runLongSimulation()
     {
-        simulate(240);
+        simulate(480);
     }
     
     /**
@@ -94,9 +94,8 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps; n++) {
             simulateOneStep();
-            delay(250);         // adjust this to change execution speed
+            delay(100);         // adjust this to change execution speed
         }
-        finalReport();
 
     }
     
@@ -203,7 +202,6 @@ public class Simulator
      */
     public void reportStats()
     {
-        //System.out.print("Step: " + step + " ");
         field.fieldStats();
     }
     
@@ -227,18 +225,6 @@ public class Simulator
      */
     public static WeatherType getWeather() {
         return weather.getCurrentWeather();
-    }
-
-    /**
-     * Report on the number of each type of Organism that died via consumption.
-     */
-    private void finalReport()
-    {
-        System.out.println("Cods dead via Consumption: " + Cod.getConsumed()
-                + "\nTunas dead via Consumption: " + Tuna.getConsumed()
-                + "\nSharks dead via Consumption: " + Shark.getConsumed()
-                + "\nWhales dead via Consumption: " + Whale.getConsumed()
-                + "\nAnglerfishes dead via Consumption: " + Anglerfish.getConsumed());
     }
 
     public static void main (String[] arg)

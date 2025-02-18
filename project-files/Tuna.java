@@ -16,10 +16,6 @@ public class Tuna extends Animal
     // The food values of a single algae and cod (as food for tuna).
     private static final int COD_FOOD_VALUE = 72;
     private static final int ALGAE_FOOD_VALUE = 50;
-
-    private static int starvation;
-    private static int consumed;
-    private static int naturalDeath;
    
     /**
      * Constructor for objects of class tuna: 
@@ -128,7 +124,6 @@ public class Tuna extends Animal
                         setInfected();
                     }
                     cod.setDead();
-                    Cod.incrementConsumeDeath();
                     foodLevel += COD_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -137,7 +132,6 @@ public class Tuna extends Animal
             else if(Organism instanceof Algae algae) {
                 if(algae.isAlive()) {
                     algae.setDead();
-                    Algae.incrementConsumeDeath();
                     foodLevel += ALGAE_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -200,41 +194,4 @@ public class Tuna extends Animal
         }
         return false;
     }
-
-
-
-    private static void incrementStarvationDeath()
-    {
-        starvation += 1;
-
-    }
-    public static void incrementConsumeDeath()
-    {
-        consumed += 1;
-
-    }
-    public static void incrementNaturalDeath()
-    {
-        naturalDeath += 1;
-
-    }
-
-    public static int getStarvation()
-    {
-        return starvation;
-
-    }
-    public static int getConsumed()
-    {
-        return consumed;
-
-    }
-
-    public static int getNaturalDeath()
-    {
-        return naturalDeath;
-
-    }
-
-
 }

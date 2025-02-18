@@ -11,9 +11,6 @@ import java.util.List;
 public class Algae extends Plant
 {
    
-    private static int consumed;
-    private static int naturalDeath;
-
     /**
      * Constructor for objects of class Algae
      * @param randomAge If true, the algae will have a random age.
@@ -38,7 +35,6 @@ public class Algae extends Plant
     {
         if(isAlive()) {
             incrementAge();
-
             List<Location> freeLocations = nextFieldState.getFreeAdjacentLocations(getLocation());
             // conditions to give birth: awake hours, empty space and not acidic weather
             if (!freeLocations.isEmpty() && (rand.nextDouble() <= BREEDING_PROBABILITY) && ((step % 24) >= 9 && (step % 24) <= 17) && Simulator.getWeather() != WeatherType.ACIDIFIED) {
@@ -80,43 +76,5 @@ public class Algae extends Plant
                 nextFieldState.placeOrganism(young, loc);
             }
         }
-    }
-
-    /**
-     * Increment the number of consumed algae
-     */
-    public static void incrementConsumeDeath()
-    {
-        consumed += 1;
-
-    }
-
-    /**
-     * Increment the number of algae natural deaths
-     */
-    public static void incrementNaturalDeath()
-    {
-        naturalDeath += 1;
-
-    }
-
-    /**
-     * Accessor method of attribute consumed
-     * @return The number of consumed algae
-     */
-    public static int getConsumed()
-    {
-        return consumed;
-
-    }
-
-    /**
-     * Accessor method of attribute naturalDeath
-     * @return The number of algae natural deaths
-     */
-    public static int getNaturalDeath()
-    {
-        return naturalDeath;
-
     }
 }

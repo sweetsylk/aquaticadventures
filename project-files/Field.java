@@ -160,8 +160,6 @@ public class Field
                 }
             }
         }
-        System.out.println("Step: " + Simulator.step + " Cods: " + numCods +
-                           " Tunas: " + numTunas + " Sharks: " + numSharks + " Orcas: " + numOrcas + " Whales: " + numWhales + " Anglerfish: " + numAnglerfish + " Algaes: " + numAlgae);
 
     }
 

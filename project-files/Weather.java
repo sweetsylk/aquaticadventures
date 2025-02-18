@@ -28,22 +28,18 @@ public class Weather
     }
 
     /**
-     * Update the weather.
+     * Update the weather depending on probabilities
      */
     public void update() {
         double chance = rand.nextDouble();
         if (chance < 0.01) {
-            currentWeather = WeatherType.FROZEN;
-            System.out.println("It's icy and cold today!");
-        } else if (chance < 0.05) {
             currentWeather = WeatherType.ACIDIFIED;
-            System.out.println("It's acidic today!");
+        } else if (chance < 0.05) {
+            currentWeather = WeatherType.FROZEN;
         } else if (chance < 0.35) {
             currentWeather = WeatherType.WARM;
-            System.out.println("It's warm today!");
         } else {
             currentWeather = WeatherType.NORMAL;
-            System.out.println("It's a normal day today!");
         }
     }
 

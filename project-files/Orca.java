@@ -16,9 +16,6 @@ public class Orca extends Animal
     private static final int SHARK_FOOD_VALUE = 30;
     private static final int WHALE_FOOD_VALUE = 50;
 
-    private static int starvation;
-    private static int naturalDeath;
-
    
     /**
      * Constructor for objects of class orca: 
@@ -29,7 +26,7 @@ public class Orca extends Animal
      */
     public Orca(boolean randomAge, Location location, boolean isMale)
     {
-        super(randomAge, location, 180, isMale, 20, 0.3, 2);
+        super(randomAge, location, 180, isMale, 20, 0.45, 2);
          // They are given a random initial food level based on their biggest food source.
         foodLevel = rand.nextInt(SHARK_FOOD_VALUE);
     }
@@ -127,7 +124,6 @@ public class Orca extends Animal
                         setInfected();
                     }
                     shark.setDead();
-                    Shark.incrementConsumeDeath();
                     foodLevel += SHARK_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -141,7 +137,6 @@ public class Orca extends Animal
                         setInfected();
                     }
                     whale.setDead();
-                    Whale.incrementConsumeDeath();
                     foodLevel += WHALE_FOOD_VALUE;
                     foodLocation = loc;
                 }
@@ -206,31 +201,6 @@ public class Orca extends Animal
             }
         }
         return false;
-    }
-
-
-
-    private static void incrementStarvationDeath()
-    {
-        starvation += 1;
-
-    }
-
-    private static void incrementNaturalDeath()
-    {
-        naturalDeath += 1;
-
-    }
-    public static int getStarvation()
-    {
-        return starvation;
-
-    }
-
-    public static int getNaturalDeath()
-    {
-        return naturalDeath;
-
     }
   
 }

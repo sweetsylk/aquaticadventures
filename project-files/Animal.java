@@ -131,12 +131,12 @@ public abstract class Animal extends Organism
     
     /**
      * animal recovers from disease if they have been infected
-     * for more than 6 steps
+     * for more than or equal to 10 steps
      * @return true if animal has recovered from disease
      */
      public boolean infectionRecovery()
     {
-        if (infectedSteps >= 7)
+        if (infectedSteps >= 10)
         {
             infected = false;
             infectedSteps = 0;
