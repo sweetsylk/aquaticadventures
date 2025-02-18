@@ -81,7 +81,7 @@ public class Simulator
      */
     public void runLongSimulation()
     {
-        simulate(480);
+        simulate(240);
     }
     
     /**
@@ -94,7 +94,7 @@ public class Simulator
         reportStats();
         for(int n = 1; n <= numSteps; n++) {
             simulateOneStep();
-            delay(100);         // adjust this to change execution speed
+            delay(250);         // adjust this to change execution speed
         }
 
     }
