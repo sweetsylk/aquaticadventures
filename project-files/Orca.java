@@ -6,7 +6,6 @@ import java.util.List;
  * Orcas are a subclass of Animals so can do all the things animals can do.
  * Orcas can eat sharks and whales.
  * Orcas can get eaten by no other organism (apex predator).
- * 
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
@@ -24,10 +23,9 @@ public class Orca extends Animal
     /**
      * Constructor for objects of class orca: 
      * They are given a random initial food level based on their biggest food source.
-     * 
-     * @param randomAge If true, the fish will have random age.
-     * @param location The initial location of the anglerFish within the field.
-     * @param isMale Whether the anglerFish is male or not (female).
+     * @param randomAge If true, the orca will have random age.
+     * @param location The initial location of the orca within the field.
+     * @param isMale Whether the orca is male or not (female).
      */
     public Orca(boolean randomAge, Location location, boolean isMale)
     {
@@ -158,7 +156,7 @@ public class Orca extends Animal
     /**
      * Check whether this Orca is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param freeLocations The locations that are free in the current field.
+     * @param freeLocations a list of free adjacent locations.
      * @param nextFieldState The updated field.
      */
     @Override

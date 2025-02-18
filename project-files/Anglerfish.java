@@ -7,7 +7,6 @@ import java.util.List;
  * Can eat algae.
  * Can get eaten by shark.
  * Are also nocturnal.
- *
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
@@ -25,24 +24,22 @@ public class Anglerfish extends Animal
     /**
      * Constructor for objects of class Anglerfish: 
      * They are given a random initial food level based on their biggest food source.
-     *
-     * @param randomAge If true, the fish will have random age.
+     * @param randomAge If true, the anglerfish will have random age.
      * @param location The initial location of the anglerFish within the field.
      * @param isMale Whether the anglerFish is male or not (female).
      */
     public Anglerfish(boolean randomAge, Location location, boolean isMale)
     {
         super(randomAge, location, 96, isMale, 12, 0.65, 7);
-         // They are given a random initial food level based on their biggest food source.
+        // They are given a random initial food level based on their biggest food source.
         foodLevel = rand.nextInt(ALGAE_FOOD_VALUE) + 24;
-
     }
 
     /**
      * This is what the Anglerfish does most of the time: it hunts for algae.
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
-     * Anglerfish are awake from 8pm to 6am
+     * Anglerfish are awake from 6pm to 6am
      * @param step The current step in the simulation.
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
@@ -54,7 +51,7 @@ public class Anglerfish extends Animal
         {
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            // Anglerfish are awake from 8pm to 6am so only do actions in that time frame
+            // Anglerfish are awake from 6pm to 6am so only do actions in that time frame
             if (((step % 24) >= 18) || ((step % 24) <= 6))
             {
                 
@@ -107,7 +104,7 @@ public class Anglerfish extends Animal
     }
 
     /**
-     * Look for algae adjacent (of radius 3) to the current location.
+     * Look for algae near (of radius 3) to the current location.
      * Then eat them and increase the food level.
      * @param field The field currently occupied.
      * @return Last loction of food that was eaten, or null if none were eaten.
@@ -135,9 +132,10 @@ public class Anglerfish extends Animal
     }
 
     /**
-     * Check whether this fish should give birth at this step.
+     * Check whether this anglerfish should give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param freeLocations The locations that are free in the current field.
+     * @param freeLocations a list of free adjacent locations.
+     * @param newFieldState The updated field.
      */
     @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)

@@ -3,9 +3,8 @@ import java.util.List;
 /**
  * A simple model of Algae:
  * Algae are a subclass of Plant so can do all the things plants can do.
- * Get eaten by cod, tuna, anglerfish and whale.
- * Eats no one (as they are a producer)
- * 
+ * can get eaten by cod, tuna, anglerfish and whale.
+ * can eat no one (as they are a producer)
  * @author Ridwan Adam and Areeb Rafiq
  * @version 1.1
  */
@@ -17,7 +16,7 @@ public class Algae extends Plant
 
     /**
      * Constructor for objects of class Algae
-     * @param randomAge If true, the cod will have a random age.
+     * @param randomAge If true, the algae will have a random age.
      * @param location The location of the algae within the field.
      */
     public Algae(boolean randomAge, Location location)
@@ -41,7 +40,7 @@ public class Algae extends Plant
             incrementAge();
 
             List<Location> freeLocations = nextFieldState.getFreeAdjacentLocations(getLocation());
-
+            // conditions to give birth: awake hours, empty space and not acidic weather
             if (!freeLocations.isEmpty() && (rand.nextDouble() <= BREEDING_PROBABILITY) && ((step % 24) >= 9 && (step % 24) <= 17) && Simulator.getWeather() != WeatherType.ACIDIFIED) {
                 giveBirth(nextFieldState, freeLocations);
             }
@@ -68,7 +67,7 @@ public class Algae extends Plant
     /**
      * Check whether or not this algae is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param freeLocations The locations that are free in the current field.
+     * @param freeLocations a list of free adjacent locations
      * @param nextFieldState The updated field.
      */
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)

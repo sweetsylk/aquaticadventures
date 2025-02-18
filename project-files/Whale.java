@@ -6,7 +6,6 @@ import java.util.List;
  * Whales are a subclass of Animals so can do all the things animals can do.
  * Can eat tuna, cod and algae.
  * Can get eaten by orca.
- *
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
@@ -29,10 +28,9 @@ public class Whale extends Animal
     /**
      * Constructor for objects of class whale: 
      * They are given a random initial food level based on their biggest food source.
-     *
-     * @param randomAge If true, the fish will have random age.
-     * @param location The initial location of the anglerFish within the field.
-     * @param isMale Whether the anglerFish is male or not (female)
+     * @param randomAge If true, the whale will have random age.
+     * @param location The initial location of the whale within the field.
+     * @param isMale Whether the whale is male or not (female)
      */
     public Whale(boolean randomAge, Location location, boolean isMale)
     {
@@ -171,7 +169,7 @@ public class Whale extends Animal
     /**
      * Check whether this Shark is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param freeLocations The locations that are free in the current field.
+     * @param freeLocations a list of free adjacent locations.
      * @param nextFieldState The updated field.
      */
     @Override

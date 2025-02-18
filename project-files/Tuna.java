@@ -6,7 +6,6 @@ import java.util.List;
  * Tunas are a subclass of Animals so can do all the things animals can do.
  * Can eat cod and algae.
  * Can get eaten by shark and whale.
- *
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
@@ -25,10 +24,9 @@ public class Tuna extends Animal
     /**
      * Constructor for objects of class tuna: 
      * They are given a random initial food level based on their biggest food source.
-     * 
-     * @param randomAge If true, the fish will have random age.
-     * @param location The initial location of the anglerFish within the field.
-     * @param isMale Whether the anglerFish is male or not (female).
+     * @param randomAge If true, the tuna will have random age.
+     * @param location The initial location of the tuna within the field.
+     * @param isMale Whether the tuna is male or not (female).
      */
     public Tuna(boolean randomAge, Location location, boolean isMale)
     {
@@ -41,7 +39,7 @@ public class Tuna extends Animal
      * This is what the tuna does most of the time: it hunts for cod and algae.
      * In the process, it might breed, die of hunger or sleep,
      * or die of old age.
-     * Tunas are awake from 5am to 10pm
+     * Tunas are awake from 9am to 5pm
      * @param step the current step in the simulation
      * @param currentField The field currently occupied.
      * @param nextFieldState The updated field.
@@ -57,7 +55,7 @@ public class Tuna extends Animal
             infectionCheck();
             List<Location> freeLocations =
                     nextFieldState.getFreeAdjacentLocations(getLocation());
-            // Tunas are awake from 5am to 10pm so only do actions in that time frame
+            // Tunas are awake from 9am to 5pm so only do actions in that time frame
             // and only if the weather is not frozen
             if ((step % 24) >= 9 && (step % 24) <= 17 && Simulator.getWeather() != WeatherType.FROZEN)
             {
@@ -152,7 +150,7 @@ public class Tuna extends Animal
     /**
      * Check whether this tuna is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param freeLocations The locations that are free in the current field.
+     * @param freeLocations a list of free adjacent locations.
      * @param nextFieldState The updated field.
      */
     @Override

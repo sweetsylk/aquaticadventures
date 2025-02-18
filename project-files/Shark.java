@@ -6,18 +6,14 @@ import java.util.List;
  * Sharks are a subclass of Animals so can do all the things animals can do.
  * Sharks can eat tuna and anglerfish.
  * Sharks can get eaten by orca.
- *
  * @author David J. Barnes and Michael Kölling
  * @version 7.1
  */
 public class Shark extends Animal
 {
-    // Characteristics shared by all sharks (class variables).
-    // The food values of a single tuna and anglerfish (as food for shark).
-    private static final int TUNA_FOOD_VALUE = 60;
-    private static final int ANGLERFISH_FOOD_VALUE = 75;
     
-    // Characteristics shared by all sharks (class variables).
+    
+    
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
@@ -26,10 +22,9 @@ public class Shark extends Animal
     /**
      * Constructor for objects of class shark: 
      * They are given a random initial food level based on their biggest food source.
-     * 
-     * @param randomAge If true, the fish will have random age.
-     * @param location The initial location of the anglerFish within the field.
-     * @param isMale Whether the anglerFish is male or not (female).
+     * @param randomAge If true, the shark will have random age.
+     * @param location The initial location of the shark within the field.
+     * @param isMale Whether the shark is male or not (female).
      */
     public Shark(boolean randomAge, Location location, boolean isMale)
     {
@@ -159,7 +154,7 @@ public class Shark extends Animal
     /**
      * Check whether this Shark is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param freeLocations The locations that are free in the current field.
+     * @param freeLocations a list of free adjacent locations.
      * @param nextFieldState The updated field.
      */
     @Override

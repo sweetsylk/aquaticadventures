@@ -6,19 +6,18 @@ import java.util.List;
  * cod are a subclass of Animals so can do all the things animals can do.
  * Can eat algae.
  * Can get eaten by tuna and whale.
- * .
  * Are also nocturnal.
- * 
  * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Cod extends Animal
 {
     
+    // Characteristics shared by all cod (class variables).
     // The food value of a single algae (as food for cod).
     private static final int ALGAE_FOOD_VALUE = 30;
 
-    // Characteristics shared by all cod (class variables).
+    
     private static int starvation;
     private static int consumed;
     private static int naturalDeath;
@@ -26,7 +25,6 @@ public class Cod extends Animal
     /**
      * Constructor for objects of class cod: 
      * They are given a random initial food level based on their biggest food source.
-     * 
      * @param randomAge If true, the cod will have a random age.
      * @param location The location within the field.
      * @param isMale whether the cod is male or not (female)
@@ -135,7 +133,7 @@ public class Cod extends Animal
     @Override
     public void giveBirth(Field nextFieldState, List<Location> freeLocations)
     {
-        // New rabbits are born into adjacent locations.
+        // New cods are born into adjacent locations.
         // Get a list of adjacent free locations.
         int births = breed(nextFieldState);
         if(births > 0) {

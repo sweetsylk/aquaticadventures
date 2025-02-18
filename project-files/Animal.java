@@ -5,9 +5,8 @@ import java.util.List;
  * Animals are a subclass of Organisms so can do all the things organisms can do.
  * Animals can also all move, eat and or get eaten, die of overcrowing and starvation.
  * Animals include cod, anglefish, tuna, sharks, whales and orca.
- * 
  * @author Ridwan Adam and Areeb Rafiq
- * @version 1.0
+ * @version 1.1
  */
 
 public abstract class Animal extends Organism
@@ -27,7 +26,6 @@ public abstract class Animal extends Organism
 
     /**
      * Constructor for objects of class Animal
-     * 
      * @param randomAge If true, the Organism will have a random age.
      * @param location The Organism's location.
      * @param maxAge The maximum age the Organism can reach.
@@ -40,8 +38,7 @@ public abstract class Animal extends Organism
     {
         super(randomAge, location, maxAge, breedingProbability, maxLitterSize);
         this.isMale = isMale;
-        this.BREEDING_AGE = breedingAge;
-        
+        this.BREEDING_AGE = breedingAge;  
     }
 
     /**
@@ -257,10 +254,7 @@ public abstract class Animal extends Organism
             births = 0;
         }
         return births;
-    }
-
-
-    
+    }  
     
 }
 
