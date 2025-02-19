@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class Anglerfish extends Animal
 {
+    
     // characteristics shared by all anglerfish (class variables).
     // The food values of a single algae (as food for anglerfish).
     private static final int ALGAE_FOOD_VALUE = 36;
-
 
     /**
      * Constructor for objects of class Anglerfish: 

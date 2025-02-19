@@ -26,10 +26,10 @@ public abstract class Animal extends Organism
 
     /**
      * Constructor for objects of class Animal
-     * @param randomAge If true, the Organism will have a random age.
-     * @param location The Organism's location.
-     * @param maxAge The maximum age the Organism can reach.
-     * @param breedingProbability The Organism's probability of breeding.
+     * @param randomAge If true, the animal will have a random age.
+     * @param location The animal's location.
+     * @param maxAge The maximum age the animal can reach.
+     * @param breedingProbability The animal's probability of breeding.
      * @param maxLitterSize The maximum number of offspring.
      * @param isMale Whether the Animal is male or not
      * @param breedingAge The age at which the animal can start to breed
@@ -73,6 +73,7 @@ public abstract class Animal extends Organism
     public void setInfected() {
         this.infected = true;
     }
+
     /**
      * return the probability of the animal being infected:
      * if the weather is acidified, the probability of infection is 5 times higher
@@ -182,14 +183,14 @@ public abstract class Animal extends Organism
     }
 
     /**
-     * Find food in the field.
+     * Find food in the field (abstract method to be overrided by subclasses)
      * @param field The field to look for food in.
      */
     public abstract Location findFood(Field field);
 
     /**
      * check if the animal can breed
-     * @param true if the organism can breed
+     * @param true if the animal can breed
      */
     public boolean canBreed() 
     {

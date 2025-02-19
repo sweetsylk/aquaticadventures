@@ -6,7 +6,7 @@ import java.util.List;
  * Sharks are a subclass of Animals so can do all the things animals can do.
  * Sharks can eat tuna and anglerfish.
  * Sharks can get eaten by orca.
- * @author David J. Barnes and Michael Kölling
+ * @author David J. Barnes and Michael Kölling and Areeb Rafiq and Ridwan Adam
  * @version 7.1
  */
 public class Shark extends Animal

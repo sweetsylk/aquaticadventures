@@ -2,6 +2,8 @@ public abstract class Plant extends Organism {
 /**
  * A simple model of a plant of abstract type so can't be instantiated:
  * Plants are a subclass of Organisms so can do all the things organisms can do.
+ * Plants are producers so will not eat other species.
+ * Plants can not move.
  * Plants include algae.
  *
  * @author Areeb Rafiq and Ridwan Adam
@@ -11,10 +13,10 @@ public abstract class Plant extends Organism {
 
     /**
      * Constructor for objects of class plant.
-     * @param randomAge If true, the Organism will have a random age.
-     * @param location The Organism's location.
-     * @param MAX_AGE The maximum age the Organism can reach.
-     * @param BREEDING_PROBABILITY The Organism's probability of breeding.
+     * @param randomAge If true, the plant will have a random age.
+     * @param location The plant's location.
+     * @param MAX_AGE The maximum age the plant can reach.
+     * @param BREEDING_PROBABILITY The plant's probability of breeding.
      * @param MAX_LITTER_SIZE The maximum number of offspring.
      * 
      */

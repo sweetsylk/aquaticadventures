@@ -22,7 +22,6 @@ public class Simulator
     private static final double SHARK_CREATION_PROBABILITY = 0.03;
     private static final double ORCA_CREATION_PROBABILITY = 0.014;
     private static final double WHALE_CREATION_PROBABILITY = 0.012;
-
     // Create weather object to be used for simulation
     private static Weather weather = new Weather();
     // The current state of the field.
@@ -76,7 +75,7 @@ public class Simulator
     
     /**
      * Run the simulation from its current state for a reasonably long 
-     * period (4000 steps).
+     * period (240 steps).
      * read this
      */
     public void runLongSimulation()

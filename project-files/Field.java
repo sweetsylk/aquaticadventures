@@ -10,8 +10,7 @@ import java.util.*;
 public class Field
 {
     // A random number generator for providing random locations.
-    private static final Random rand = Randomizer.getRandom();
-    
+    private static final Random rand = Randomizer.getRandom(); 
     // The dimensions of the field.
     private final int depth, width;
     // Organisms mapped by location.
@@ -84,10 +83,11 @@ public class Field
 
 
     /**
-     * Return a shuffled list of locations adjacent to the given one.
+     * Return a shuffled list of locations adjacent (of given radius) to the given one.
      * The list will not include the location itself.
      * All locations will lie within the grid.
      * @param location The location from which to generate adjacencies.
+     * @param radius The radius around the given location free locations are generated from.
      * @return A list of locations adjacent to that given.
      */
     public List<Location> getAdjacentLocations(Location location, int radius)
@@ -118,7 +118,7 @@ public class Field
     }
 
     /**
-     * Print out the number of algaes, cods, angleFishes, tunas, sharks, whales and orcas in the field.
+     * Counts the number of alive Organisms every step.
      */
     public void fieldStats()
     {
